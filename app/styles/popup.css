@@ -1,0 +1,22 @@
+body {
+  width: 200px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+div {
+  padding: 10px 0;
+  border-top: solid 1px;
+  height: 40px;
+  clear: both;
+}
+img {
+  width: 50px;
+  height: 40px;
+  float: left;
+}
+li {
+  float: left;
+}
