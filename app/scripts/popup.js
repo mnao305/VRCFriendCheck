@@ -13,6 +13,14 @@ const axios = axiosBase.create({
 const online = document.getElementById("online");
 const offline = document.getElementById("offline");
 
+// ログイン状態の確認
+axios.get('/auth/user').then(() => {
+    console.log("login");
+}).catch(() => {
+    // エラーになる(未ログイン時)ログインページに飛ばす
+    console.log("未ログイン。ログインページに移動します");
+    window.location.href = '../pages/login.html';
+})
 
 // オンラインユーザの取得
 axios.get("auth/user/friends", {
