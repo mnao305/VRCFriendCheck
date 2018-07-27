@@ -32,7 +32,6 @@ axios.get("auth/user/friends", {
     }
 }).catch((err) => {
     console.log(err);
-    login();
 });
 
 // オフラインユーザの取得
@@ -50,27 +49,4 @@ axios.get("auth/user/friends", {
     }
 }).catch((err) => {
     console.log(err);
-    login();
 });
-
-function login() {
-    axios.get("/config").then((config) => {
-        const apiKey = config.data.clientApiKey;
-
-        axios.get("/auth/user", {
-            params: {
-                apiKey,
-            },
-            auth: {
-                username: "", // ログイン画面実装するまでの仮対応
-                password: "",
-            },
-        }).then((user) => {
-            console.log(user.data);
-        }).catch((err) => {
-            console.log(err);
-        });
-    }).catch((err) => {
-        console.log(err);
-    });
-}
