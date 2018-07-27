@@ -10,9 +10,6 @@ const axios = axiosBase.create({
     },
 });
 
-const online = document.getElementById("online");
-const offline = document.getElementById("offline");
-
 // ログイン状態の確認
 axios.get('/auth/user').then(() => {
     console.log("login");
@@ -31,7 +28,7 @@ axios.get("auth/user/friends", {
     console.log(frend.data);
     for (let i = 0; i < frend.data.length; i++) {
         console.log(frend.data[i].displayName);
-        $(online).append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
+        $('#online').append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
     }
 }).catch((err) => {
     console.log(err);
@@ -49,7 +46,7 @@ axios.get("auth/user/friends", {
     console.log(frend.data);
     for (let i = 0; i < frend.data.length; i++) {
         console.log(frend.data[i].displayName);
-        $(offline).append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
+        $('#offline').append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
     }
 }).catch((err) => {
     console.log(err);
