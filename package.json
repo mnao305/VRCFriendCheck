@@ -1,0 +1,12 @@
+{
+  "name": "VRCFriendCheck",
+  "version": "0.0.1",
+  "description": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です",
+  "scripts": {
+    "dev": "webextension-toolbox dev",
+    "build": "webextension-toolbox build"
+  },
+  "devDependencies": {
+    "webextension-toolbox": "latest"
+  }
+}

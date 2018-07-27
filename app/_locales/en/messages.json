@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "VRCFriendCheck",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "VRCCheck",
+    "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
+  },
+  "appDescription": {
+    "message": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です",
+    "description": "The description of the application"
+  },
+  "browserActionTitle": {
+    "message": "VRCFriendCheck",
+    "description": "The title of the browser action button"
+  }
+}
