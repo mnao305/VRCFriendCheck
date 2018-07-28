@@ -4,3 +4,6 @@ body {
 input {
     margin-bottom: 10px;
 }
+.loginErr {
+    color: red;
+}
