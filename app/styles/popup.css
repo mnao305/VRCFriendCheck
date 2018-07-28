@@ -1,22 +1,27 @@
 body {
-  width: 200px;
+  width: 250px;
+  margin: 0;
+  margin-left: 10px;
 }
-ul {
-  list-style: none;
-  padding: 0;
+.user {
   width: 100%;
-}
-div {
   padding: 10px 0;
-  border-top: solid 1px;
+  border-bottom: solid 1px;
   height: 40px;
   clear: both;
 }
 img {
-  width: 50px;
   height: 40px;
   float: left;
 }
 li {
   float: left;
+}
+.userInfo {
+  float: left;
+  margin: 0;
+  margin-left: 5px;
+}
+i {
+  margin-right: 5px;
 }

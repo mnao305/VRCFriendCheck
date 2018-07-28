@@ -28,7 +28,19 @@ axios.get("auth/user/friends", {
     console.log(frend.data);
     for (let i = 0; i < frend.data.length; i++) {
         console.log(frend.data[i].displayName);
-        $('#online').append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
+        $('#online').append(`<div class="user" id="${frend.data[i].id}"></div>`);
+        $(`#${frend.data[i].id}`).append(`<img src="${frend.data[i].currentAvatarThumbnailImageUrl}">`);
+
+        if (frend.data[i].location !== "private") {
+            let world = frend.data[i].location;
+            const index = world.indexOf(":");
+            world = world.substring(0, index);
+            axios.get(`/worlds/${world}`).then((world) => {
+                $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe"></i>${world.data.name}</p>`);
+            });
+        } else {
+            $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe">Private</p>`);
+        }
     }
 }).catch((err) => {
     console.log(err);
@@ -45,7 +57,9 @@ axios.get("auth/user/friends", {
     console.log(frend.data);
     for (let i = 0; i < frend.data.length; i++) {
         console.log(frend.data[i].displayName);
-        $('#offline').append(`<div><img src="${frend.data[i].currentAvatarThumbnailImageUrl}"><li>${frend.data[i].displayName}</li></div>`);
+        $('#offline').append(`<div class="user" id="${frend.data[i].id}"></div>`);
+        $(`#${frend.data[i].id}`).append(`<img src="${frend.data[i].currentAvatarThumbnailImageUrl}">`);
+        $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}</p>`);
     }
 }).catch((err) => {
     console.log(err);
