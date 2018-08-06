@@ -32,7 +32,7 @@ function login(username, password) {
             window.location.href = '../pages/popup.html';
         }).catch((err) => {
             console.log(err);
-            $('#loginForm').append('<p class="loginErr">ログイン失敗<br>ユーザ名またはパスワードが不正です</p>')
+            $('.loginErr').css('display', 'block');
         });
     }).catch((err) => {
         console.log(err);

@@ -5,5 +5,7 @@ input {
     margin-bottom: 10px;
 }
 .loginErr {
+    display: none;
     color: red;
+    margin-top: 8px;
 }
