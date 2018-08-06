@@ -39,7 +39,7 @@ axios.get("auth/user/friends", {
                 $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe"></i>${world.data.name}</p>`);
             });
         } else {
-            $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe">Private</p>`);
+            $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe"></i>Private</p>`);
         }
     }
 }).catch((err) => {
