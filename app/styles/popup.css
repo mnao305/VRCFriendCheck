@@ -12,6 +12,7 @@ body {
 }
 img {
   height: 40px;
+  width: 53px;
   float: left;
 }
 li {
@@ -21,6 +22,8 @@ li {
   float: left;
   margin: 0;
   margin-left: 5px;
+  width: 160px;
+  word-break: break-all;
 }
 i {
   margin-right: 5px;
