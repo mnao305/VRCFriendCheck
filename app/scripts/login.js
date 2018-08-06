@@ -38,3 +38,7 @@ function login(username, password) {
         console.log(err);
     });
 }
+
+$('#loginForm').submit(() => {
+    return false;
+});
