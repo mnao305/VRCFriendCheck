@@ -16,7 +16,7 @@ axios.get('/auth/user').then(() => {
     console.log("login");
 }).catch(() => {
     // エラーになる(未ログイン時)ログインページに飛ばす
-    chrome.browserAction.setBadgeText({text: `✓`});
+    chrome.browserAction.setBadgeText({text: `！`});
     chrome.browserAction.setBadgeBackgroundColor({color: '#F00'});
     console.log("未ログイン。ログインページに移動します");
     window.location.href = '../pages/login.html';
