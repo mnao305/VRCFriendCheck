@@ -1,5 +1,7 @@
 const axiosBase = require("axios");
 
+var badge;
+
 const axios = axiosBase.create({
     baseURL: "https://api.vrchat.cloud/api/1",
     withCredentials: true,
@@ -11,7 +13,8 @@ const axios = axiosBase.create({
 
 chrome.alarms.create('check', {periodInMinutes: 5});
 chrome.alarms.onAlarm.addListener((alarm) => {
-    if (alarm.name === "check") {
+    chrome.browserAction.getBadgeText({}, (res) => {badge = res;});
+    if (alarm.name === "check" && badge !== "✓") {
         axios.get('/auth/user').then(() => {
             chrome.browserAction.setBadgeText({text: ``});
         }).catch(() => {
