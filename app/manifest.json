@@ -27,6 +27,9 @@
     "page": "pages/options.html",
     "chrome_style": true
   },
-  "permissions": ["https://api.vrchat.cloud/*"],
+  "permissions": [
+    "https://api.vrchat.cloud/*",
+    "alarms"
+  ],
   "content_security_policy": "script-src 'self' https://api.vrchat.cloud; object-src 'self'"
 }

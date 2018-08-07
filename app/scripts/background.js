@@ -1,9 +1,22 @@
-// browser.runtime.onInstalled.addListener((details) => {
-//   console.log('previousVersion', details.previousVersion)
-// })
+const axiosBase = require("axios");
 
-// browser.browserAction.setBadgeText({
-//   text: `'Allo`
-// })
+const axios = axiosBase.create({
+    baseURL: "https://api.vrchat.cloud/api/1",
+    withCredentials: true,
+    headers: {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+    },
+});
 
-// console.log(`'Allo 'Allo! Event Page for Browser Action`)
+chrome.alarms.create('check', {periodInMinutes: 5});
+chrome.alarms.onAlarm.addListener((alarm) => {
+    if (alarm.name === "check") {
+        axios.get('/auth/user').then(() => {
+            chrome.browserAction.setBadgeText({text: ``});
+        }).catch(() => {
+            chrome.browserAction.setBadgeText({text: `✓`});
+            chrome.browserAction.setBadgeBackgroundColor({color: '#F00'});
+        });
+    }
+});
