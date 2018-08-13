@@ -39,10 +39,10 @@ axios.get("auth/user/friends", {
             const index = world.indexOf(":");
             world = world.substring(0, index);
             axios.get(`/worlds/${world}`).then((world) => {
-                $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe"></i>${world.data.name}</p>`);
+                $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${escapeHtml(frend.data[i].displayName)}<br><i class="fas fa-globe"></i>${escapeHtml(world.data.name)}</p>`);
             });
         } else {
-            $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}<br><i class="fas fa-globe"></i>Private</p>`);
+            $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${escapeHtml(frend.data[i].displayName)}<br><i class="fas fa-globe"></i>Private</p>`);
         }
     }
 }).catch((err) => {
@@ -62,8 +62,25 @@ axios.get("auth/user/friends", {
         console.log(frend.data[i].displayName);
         $('#offline').append(`<div class="user" id="${frend.data[i].id}"></div>`);
         $(`#${frend.data[i].id}`).append(`<img src="${frend.data[i].currentAvatarThumbnailImageUrl}">`);
-        $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${frend.data[i].displayName}</p>`);
+        $(`#${frend.data[i].id}`).append(`<p class="userInfo"><i class="fas fa-user"></i>${escapeHtml(frend.data[i].displayName)}</p>`);
     }
 }).catch((err) => {
     console.log(err);
 });
+
+
+function escapeHtml(string) {
+    if(typeof string !== 'string') {
+        return string;
+    }
+    return string.replace(/[&'`"<>]/g, (match) => {
+        return {
+            '&': '&amp;',
+            "'": '&#x27;',
+            '`': '&#x60;',
+            '"': '&quot;',
+            '<': '&lt;',
+            '>': '&gt;',
+        }[match]
+    });
+}
