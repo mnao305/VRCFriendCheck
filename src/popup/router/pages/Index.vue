@@ -1,7 +1,10 @@
 <template>
     <div id="main">
-        <h3>online</h3>
-        <div id="online">
+        <div id="tabs">
+            <input type="radio" v-model="switching" value="onlineTab" id="onlineTab"><label for="onlineTab">online</label>
+            <input type="radio" v-model="switching" value="offlineTab" id="offlineTab"><label for="offlineTab">offline</label>
+        </div>
+        <div id="online" v-show="switching == 'onlineTab'">
             <div class="onlineUser user" v-for="onlineUser in onlineUsers">
                 <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                 <p class="userInfo">
@@ -11,8 +14,7 @@
                 </p>
             </div>
         </div>
-        <h3>offline</h3>
-        <div id="offline">
+        <div id="offline" v-show="switching == 'offlineTab'">
             <div class="offlineUser user" v-for="offlineUser in offlineUsers">
                 <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                 <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
@@ -28,6 +30,7 @@ export default {
             onlineUsers: [],
             offlineUsers: [],
             worldName: "",
+            switching: "onlineTab",
         };
     },
     mounted() {
@@ -89,7 +92,31 @@ export default {
 #main {
     width: 250px;
     margin: 0;
-    margin-left: 10px;
+
+    #tabs {
+        width: 100%;
+        height: 40px;
+        input {
+            display: none;
+        }
+        label {
+            height: 100%;
+            width: 123px;
+            float: left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px blue solid;
+            background-color: #dce1e2;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+        input:checked + label {
+            background-color: #d9f9ff;
+            color: black;
+        }
+    }
 
     .user {
         width: 100%;
