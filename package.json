@@ -1,16 +1,51 @@
 {
-  "name": "VRCFriendCheck",
-  "version": "0.0.1",
+  "name": "vrcfriendcheck",
+  "version": "0.2.0",
   "description": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です",
+  "author": "mnao305 <naomasa305@gmail.com>",
   "scripts": {
-    "dev": "webextension-toolbox dev",
-    "build": "webextension-toolbox build"
-  },
-  "devDependencies": {
-    "webextension-toolbox": "latest"
+    "lint": "eslint --ext .js,.vue src",
+    "build": "cross-env NODE_ENV=production webpack --hide-modules",
+    "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
+    "build-zip": "node scripts/build-zip.js",
+    "watch": "npm run build -- --watch",
+    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "axios": "^0.18.0",
-    "jquery": "^3.3.1"
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@types/chrome": "^0.0.72",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^8.0.0-beta.4",
+    "copy-webpack-plugin": "^4.5.2",
+    "cross-env": "^5.2.0",
+    "css-loader": "^0.28.11",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-import-resolver-webpack": "^0.10.1",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-vue": "^4.7.1",
+    "file-loader": "^1.1.11",
+    "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
+    "vue-loader": "^15.4.0",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.16.5",
+    "webpack-chrome-extension-reloader": "^0.8.3",
+    "webpack-cli": "^3.1.0",
+    "webpack-shell-plugin": "^0.5.0",
+    "zip-folder": "^1.0.0"
   }
 }
