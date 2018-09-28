@@ -1,8 +1,8 @@
 <template>
     <div id="main">
         <div id="tabs">
-            <input type="radio" v-model="switching" value="onlineTab" id="onlineTab"><label for="onlineTab">online</label>
-            <input type="radio" v-model="switching" value="offlineTab" id="offlineTab"><label for="offlineTab">offline</label>
+            <input type="radio" v-model="switching" value="onlineTab" id="onlineTab"><label for="onlineTab">online {{ onlineUserNum }}</label>
+            <input type="radio" v-model="switching" value="offlineTab" id="offlineTab"><label for="offlineTab">offline {{ offlineUserNum }}</label>
         </div>
         <div id="online" v-show="switching == 'onlineTab'">
             <div class="onlineUser user" v-for="onlineUser in onlineUsers">
@@ -45,8 +45,8 @@ export default {
             axios.get('/auth/user').then(() => {
                 chrome.browserAction.setBadgeText({text: ``});
                 console.log("login");
-                this.getOnlineUsers();
-                this.getOfflineUsers();
+                this.getOnlineUsers(0);
+                this.getOfflineUsers(0);
             }).catch(() => {
                 // エラーになる(未ログイン時)ログインページに飛ばす
                 chrome.browserAction.setBadgeText({text: `！`});
@@ -55,29 +55,41 @@ export default {
                 location.reload();
             })
         },
-        getOnlineUsers() {
+        getOnlineUsers(cnt) {
             axios.get("auth/user/friends", {
                 params: {
                     n: 100,
+                    offset: cnt,
                 },
             }).then((frend) => {
                 console.log(frend.data);
-                this.onlineUsers = frend.data;
+                Array.prototype.push.apply(this.onlineUsers, frend.data);
                 this.onlineUserNum = this.onlineUsers.length;
+                cnt += 100;
+                console.log(cnt, this.onlineUserNum);
+                if (cnt == this.onlineUserNum) {
+                    this.getOnlineUsers(cnt);
+                }
             }).catch((err) => {
                 console.log(err);
             });
         },
-        getOfflineUsers() {
+        getOfflineUsers(cnt) {
             axios.get("auth/user/friends", {
                 params: {
                     offline: true,
                     n: 100,
+                    offset: cnt,
                 },
             }).then((frend) => {
                 console.log(frend.data);
-                this.offlineUsers = frend.data;
+                Array.prototype.push.apply(this.offlineUsers, frend.data);
                 this.offlineUserNum = this.offlineUsers.length;
+                cnt += 100;
+                console.log(cnt, this.offlineUserNum);
+                if (cnt == this.offlineUserNum) {
+                    this.getOfflineUsers(cnt);
+                }
             }).catch((err) => {
                 console.log(err);
             });
