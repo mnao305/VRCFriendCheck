@@ -13,12 +13,14 @@
                     <span v-else><font-awesome-icon class="icon" icon="globe" />Private</span>
                 </p>
             </div>
+            <div v-if="onlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
         </div>
         <div id="offline" v-show="switching == 'offlineTab'">
             <div class="offlineUser user" v-for="offlineUser in offlineUsers">
                 <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                 <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
             </div>
+            <div v-if="offlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
         </div>
     </div>
 </template>
@@ -31,6 +33,8 @@ export default {
             offlineUsers: [],
             worldName: "",
             switching: "onlineTab",
+            onlineUserNum: 0,
+            offlineUserNum: 0,
         };
     },
     mounted() {
@@ -59,6 +63,7 @@ export default {
             }).then((frend) => {
                 console.log(frend.data);
                 this.onlineUsers = frend.data;
+                this.onlineUserNum = this.onlineUsers.length;
             }).catch((err) => {
                 console.log(err);
             });
@@ -72,6 +77,7 @@ export default {
             }).then((frend) => {
                 console.log(frend.data);
                 this.offlineUsers = frend.data;
+                this.offlineUserNum = this.offlineUsers.length;
             }).catch((err) => {
                 console.log(err);
             });
@@ -142,6 +148,11 @@ export default {
         .icon {
             margin-right: 5px;
         }
+    }
+
+    .zeroUser {
+        margin-top: 10px;
+        font-size: 14px;
     }
 }
 </style>
