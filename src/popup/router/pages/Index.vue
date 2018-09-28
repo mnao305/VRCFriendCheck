@@ -5,12 +5,11 @@
             <input type="radio" v-model="switching" value="offlineTab" id="offlineTab"><label for="offlineTab">offline {{ offlineUserNum }}</label>
         </div>
         <div id="online" v-show="switching == 'onlineTab'">
-            <div class="onlineUser user" v-for="onlineUser in onlineUsers">
+            <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers">
                 <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                 <p class="userInfo">
                     <font-awesome-icon class="icon" icon="user" />{{ onlineUser.displayName }}<br>
-                    <span v-if="onlineUser.location != 'private'"><font-awesome-icon class="icon" icon="globe" />{{ getWorld(onlineUser.location) }}</span>
-                    <span v-else><font-awesome-icon class="icon" icon="globe" />Private</span>
+                    <span><font-awesome-icon class="icon" icon="globe" />{{ worldNames[i] }}</span>
                 </p>
             </div>
             <div v-if="onlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
@@ -31,7 +30,7 @@ export default {
         return {
             onlineUsers: [],
             offlineUsers: [],
-            worldName: "",
+            worldNames: [],
             switching: "onlineTab",
             onlineUserNum: 0,
             offlineUserNum: 0,
@@ -66,9 +65,17 @@ export default {
                 Array.prototype.push.apply(this.onlineUsers, frend.data);
                 this.onlineUserNum = this.onlineUsers.length;
                 cnt += 100;
-                console.log(cnt, this.onlineUserNum);
                 if (cnt == this.onlineUserNum) {
                     this.getOnlineUsers(cnt);
+                } else {
+                    for (let i = 0; i < this.onlineUserNum; i++) {
+                        if (this.onlineUsers[i].location == "private") {
+                            this.worldNames[i] = "Private";
+                        } else {
+                            this.getWorld(i, this.onlineUsers[i].location);
+                        }
+                    }
+                    console.log(this.worldNames);
                 }
             }).catch((err) => {
                 console.log(err);
@@ -86,7 +93,6 @@ export default {
                 Array.prototype.push.apply(this.offlineUsers, frend.data);
                 this.offlineUserNum = this.offlineUsers.length;
                 cnt += 100;
-                console.log(cnt, this.offlineUserNum);
                 if (cnt == this.offlineUserNum) {
                     this.getOfflineUsers(cnt);
                 }
@@ -94,13 +100,12 @@ export default {
                 console.log(err);
             });
         },
-        getWorld(location) {
+        getWorld(i, location) {
             let index = location.indexOf(":");
             let id = location.substring(0, index);
             axios.get(`/worlds/${id}`).then((world) => {
-                this.worldName = world.data.name;
+                this.worldNames[i] = world.data.name;
             });
-            return this.worldName;
         },
     },
 };
