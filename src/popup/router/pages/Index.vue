@@ -9,8 +9,17 @@
                 <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                 <p class="userInfo">
                     <font-awesome-icon class="icon" icon="user" />{{ onlineUser.displayName }}<br>
-                    <span><font-awesome-icon class="icon" icon="globe" />{{ worldNames[i] }}</span>
+                    <font-awesome-icon class="icon" icon="globe" />{{ worldInfos[i].name }}
                 </p>
+                <div class="moreWorldInfo" v-on:click="changeFlag(i)">
+                    <font-awesome-icon class="icon" icon="angle-down" />
+                </div>
+                <div v-show="flag == i" class="worldInfo">
+                    <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
+                    <div v-for="user in instancesInfos[i].users" class="userInWorld">
+                        <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
+                    </div>
+                </div>
             </div>
             <div v-if="onlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
         </div>
@@ -30,10 +39,12 @@ export default {
         return {
             onlineUsers: [],
             offlineUsers: [],
-            worldNames: [],
+            worldInfos: [],
+            instancesInfos: [],
             switching: "onlineTab",
             onlineUserNum: 0,
             offlineUserNum: 0,
+            flag: null,
         };
     },
     mounted() {
@@ -70,12 +81,15 @@ export default {
                 } else {
                     for (let i = 0; i < this.onlineUserNum; i++) {
                         if (this.onlineUsers[i].location == "private") {
-                            this.worldNames[i] = "Private";
+                            this.worldInfos[i] = "Private";
+                            this.instancesInfos[i] = "Private";
                         } else {
                             this.getWorld(i, this.onlineUsers[i].location);
+                            this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
                         }
                     }
-                    console.log(this.worldNames);
+                    console.log(this.worldInfos);
+                    console.log(this.instancesInfos);
                 }
             }).catch((err) => {
                 console.log(err);
@@ -104,8 +118,18 @@ export default {
             let index = location.indexOf(":");
             let id = location.substring(0, index);
             axios.get(`/worlds/${id}`).then((world) => {
-                this.worldNames[i] = world.data.name;
+                this.worldInfos[i] = world.data;
             });
+        },
+        getInstances(i, location) {
+            axios.get(`/worlds/${location}`).then((world) => {
+                this.instancesInfos[i] = world.data;
+                console.log(world.data);
+            });
+        },
+        changeFlag(i) {
+            console.log(i);
+            this.flag = i;
         },
     },
 };
@@ -145,25 +169,45 @@ export default {
         width: 100%;
         padding: 10px 0;
         border-bottom: solid 1px;
-        height: 40px;
+        min-height: 40px;
         clear: both;
         img {
             height: 40px;
             width: 53px;
             float: left;
+            margin-bottom: 5px;
         }
-    }
-    li {
-        float: left;
-    }
-    .userInfo {
-        float: left;
-        margin: 0;
-        margin-left: 5px;
-        width: 160px;
-        word-break: break-all;
+        .userInfo {
+            float: left;
+            margin: 0;
+            margin-left: 5px;
+            width: 160px;
+            word-break: break-all;
+        }
         .icon {
             margin-right: 5px;
+        }
+        .moreWorldInfo {
+            height: 40px;
+            float: left;
+            width: 30px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 16px;
+            transition: 0.5s;
+            -webkit-transition: 0.5s;
+        }
+        .moreWorldInfo:hover {
+            transform: scale(1.5);
+        }
+        .worldInfo {
+            clear: both;
+            padding-top: 5px;
+            min-height: 40px;
+            border-top: dashed 1px #bbb;
+            .userInWorld {
+                margin-left: 58px;
+            }
         }
     }
 
