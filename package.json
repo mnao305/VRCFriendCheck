@@ -27,6 +27,7 @@
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.0-beta.4",
     "copy-webpack-plugin": "^4.5.2",
+    "core-js": "^2.5.7",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "eslint": "^5.4.0",
