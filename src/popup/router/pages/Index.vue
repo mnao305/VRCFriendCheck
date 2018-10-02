@@ -129,7 +129,11 @@ export default {
         },
         changeFlag(i) {
             console.log(i);
-            this.flag = i;
+            if (this.flag == i) {
+                this.flag = null;
+            } else {
+                this.flag = i;
+            }
         },
     },
 };
