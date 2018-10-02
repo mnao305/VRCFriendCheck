@@ -4,31 +4,36 @@
             <input type="radio" v-model="switching" value="onlineTab" id="onlineTab"><label for="onlineTab">online {{ onlineUserNum }}</label>
             <input type="radio" v-model="switching" value="offlineTab" id="offlineTab"><label for="offlineTab">offline {{ offlineUserNum }}</label>
         </div>
-        <div id="online" v-show="switching == 'onlineTab'">
-            <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers">
-                <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
-                <p class="userInfo">
-                    <font-awesome-icon class="icon" icon="user" />{{ onlineUser.displayName }}<br>
-                    <font-awesome-icon class="icon" icon="globe" />{{ worldInfos[i].name }}
-                </p>
-                <div class="moreWorldInfo" v-on:click="changeFlag(i)">
-                    <font-awesome-icon class="icon" icon="angle-down" />
-                </div>
-                <div v-show="flag == i" class="worldInfo">
-                    <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
-                    <div v-for="user in instancesInfos[i].users" class="userInWorld">
-                        <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
+        <div v-if="switching == ''">
+            {{ msg }}
+        </div>
+        <div v-else>
+            <div id="online" v-show="switching == 'onlineTab'">
+                <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers">
+                    <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
+                    <p class="userInfo">
+                        <font-awesome-icon class="icon" icon="user" />{{ onlineUser.displayName }}<br>
+                        <font-awesome-icon class="icon" icon="globe" />{{ worldInfos[i].name }}
+                    </p>
+                    <div class="moreWorldInfo" v-on:click="changeFlag(i)">
+                        <font-awesome-icon class="icon" icon="angle-down" />
+                    </div>
+                    <div v-show="flag == i" class="worldInfo">
+                        <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
+                        <div v-for="user in instancesInfos[i].users" class="userInWorld">
+                            <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
+                        </div>
                     </div>
                 </div>
+                <div v-if="onlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
             </div>
-            <div v-if="onlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
-        </div>
-        <div id="offline" v-show="switching == 'offlineTab'">
-            <div class="offlineUser user" v-for="offlineUser in offlineUsers">
-                <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
-                <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
+            <div id="offline" v-show="switching == 'offlineTab'">
+                <div class="offlineUser user" v-for="offlineUser in offlineUsers">
+                    <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
+                    <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
+                </div>
+                <div v-if="offlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
             </div>
-            <div v-if="offlineUserNum == 0" class="zeroUser">There isn't anyone.</div>
         </div>
     </div>
 </template>
@@ -41,10 +46,11 @@ export default {
             offlineUsers: [],
             worldInfos: [],
             instancesInfos: [],
-            switching: "onlineTab",
+            switching: "",
             onlineUserNum: 0,
             offlineUserNum: 0,
             flag: null,
+            msg: "Loading...",
         };
     },
     mounted() {
@@ -63,7 +69,7 @@ export default {
                 chrome.browserAction.setBadgeBackgroundColor({color: '#F00'});
                 router.push("/login");
                 location.reload();
-            })
+            });
         },
         getOnlineUsers(cnt) {
             axios.get("auth/user/friends", {
@@ -93,6 +99,12 @@ export default {
                 }
             }).catch((err) => {
                 console.log(err);
+            }).then(() => {
+                console.log("読み込み完了！");
+                this.msg = "読み込み完了！";
+                setTimeout(() => {
+                    this.switching = "onlineTab";
+                }, 1500);
             });
         },
         getOfflineUsers(cnt) {
