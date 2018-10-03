@@ -20,6 +20,7 @@
                     </div>
                     <div v-show="flag == i" class="worldInfo">
                         <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
+                        <div>このインスタンスにいる人</div>
                         <div v-for="user in instancesInfos[i].users" class="userInWorld">
                             <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
                         </div>
@@ -221,7 +222,7 @@ export default {
             padding-top: 5px;
             min-height: 40px;
             border-top: dashed 1px #bbb;
-            .userInWorld {
+            div {
                 margin-left: 58px;
             }
         }
