@@ -79,8 +79,7 @@ export default {
                     offset: cnt,
                 },
             }).then((frend) => {
-                console.log(frend.data);
-                Array.prototype.push.apply(this.onlineUsers, frend.data);
+                this.onlineUsers.push(...frend.data);
                 this.onlineUserNum = this.onlineUsers.length;
                 cnt += 100;
                 if (cnt == this.onlineUserNum) {
@@ -95,13 +94,10 @@ export default {
                             this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
                         }
                     }
-                    console.log(this.worldInfos);
-                    console.log(this.instancesInfos);
                 }
             }).catch((err) => {
                 console.log(err);
             }).then(() => {
-                console.log("読み込み完了！");
                 this.msg = "読み込み完了！";
                 setTimeout(() => {
                     this.switching = "onlineTab";
@@ -116,8 +112,7 @@ export default {
                     offset: cnt,
                 },
             }).then((frend) => {
-                console.log(frend.data);
-                Array.prototype.push.apply(this.offlineUsers, frend.data);
+                this.offlineUsers.push(...frend.data);
                 this.offlineUserNum = this.offlineUsers.length;
                 cnt += 100;
                 if (cnt == this.offlineUserNum) {
@@ -131,13 +126,12 @@ export default {
             let index = location.indexOf(":");
             let id = location.substring(0, index);
             axios.get(`/worlds/${id}`).then((world) => {
-                this.worldInfos[i] = world.data;
+                this.$set(this.worldInfos, i, world.data);
             });
         },
         getInstances(i, location) {
             axios.get(`/worlds/${location}`).then((world) => {
-                this.instancesInfos[i] = world.data;
-                console.log(world.data);
+                this.$set(this.instancesInfos, i, world.data);
             });
         },
         changeFlag(i) {
