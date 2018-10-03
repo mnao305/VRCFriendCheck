@@ -213,6 +213,9 @@ export default {
             font-size: 16px;
             transition: 0.5s;
             -webkit-transition: 0.5s;
+            .icon {
+                margin: 0;
+            }
         }
         .moreWorldInfo:hover {
             transform: scale(1.5);
