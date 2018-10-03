@@ -15,10 +15,10 @@
                         <font-awesome-icon class="icon" icon="user" />{{ onlineUser.displayName }}<br>
                         <font-awesome-icon class="icon" icon="globe" />{{ worldInfos[i].name }}
                     </p>
-                    <div class="moreWorldInfo" v-on:click="changeFlag(i)">
+                    <div v-if="worldInfos[i].name != 'Private'" class="moreWorldInfo" v-on:click="changeFlag(i)">
                         <font-awesome-icon class="icon" icon="angle-down" />
                     </div>
-                    <div v-show="flag == i" class="worldInfo">
+                    <div v-if="flag == i" class="worldInfo">
                         <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
                         <div>このインスタンスにいる人</div>
                         <div v-for="user in instancesInfos[i].users" class="userInWorld">
@@ -88,8 +88,8 @@ export default {
                 } else {
                     for (let i = 0; i < this.onlineUserNum; i++) {
                         if (this.onlineUsers[i].location == "private") {
-                            this.worldInfos[i] = "Private";
-                            this.instancesInfos[i] = "Private";
+                            this.$set(this.worldInfos, i, {name: "Private"});
+                            this.$set(this.instancesInfos, i, "Private");
                         } else {
                             this.getWorld(i, this.onlineUsers[i].location);
                             this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
