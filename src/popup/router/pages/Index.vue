@@ -147,6 +147,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    background: #fff;
+    border-left: solid 1px #ececec;
+}
+::-webkit-scrollbar-thumb{
+    background: #ccc;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 2px #fff;
+}
 #main {
     width: 250px;
     margin: 0;
@@ -159,7 +171,8 @@ export default {
         }
         label {
             height: 100%;
-            width: 123px;
+            width: calc(100% / 2);
+            box-sizing: border-box;
             float: left;
             display: flex;
             align-items: center;
