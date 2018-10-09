@@ -2,18 +2,18 @@
     <div id="main">
         <h3>Login to your Account</h3>
         <p>VRChatアカウントでログインしてください</p>
-        <form id="loginForm">
+        <div id="loginForm">
             <label>
                 UserName/EMAIL:<br>
-                <input type="text" v-model="username" id="username"><br>
+                <input @keyup.enter="login" type="text" v-model="username" id="username"><br>
             </label>
             <label>
                 Password:<br>
-                <input type="password" v-model="passwd" id="passwd"><br>
+                <input @keyup.enter="login" type="password" v-model="passwd" id="passwd"><br>
             </label>
             <button v-on:click="login" id="loginBtn">Login!</button>
             <div v-if="loginErr" class="loginErr">ログイン失敗<br>ユーザ名またはパスワードが不正です</div>
-        </form>
+        </div>
     </div>
 </template>
 
@@ -53,8 +53,8 @@ export default {
                 this.loginErr = true;
                 console.log(err);
             });
-        }
-    }
+        },
+    },
 };
 </script>
 
