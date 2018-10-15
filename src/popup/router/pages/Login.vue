@@ -60,7 +60,8 @@ export default {
 
 <style lang="scss" scoped>
 #main {
-    width: 250px;
+    width: 270px;
+    margin: 10px;
     input {
         margin-bottom: 10px;
     }

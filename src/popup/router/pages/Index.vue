@@ -203,8 +203,10 @@ export default {
     box-shadow: inset 0 0 0 2px #fff;
 }
 #main {
-    width: 250px;
-    margin: 0;
+    width: 270px;
+    max-height: 580px;
+    margin: 10px;
+    overflow: scroll;
 
     #tabs {
         width: 100%;
