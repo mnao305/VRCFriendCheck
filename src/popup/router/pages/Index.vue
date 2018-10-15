@@ -52,18 +52,24 @@ export default {
             offlineUserNum: 0,
             flag: null,
             msg: "Loading...",
+            favFriendOnly: false,
         };
     },
     mounted() {
         this.loginCheck();
+        this.checkFriendOnly();
     },
     methods: {
         loginCheck() {
             axios.get('/auth/user').then(() => {
                 chrome.browserAction.setBadgeText({text: ``});
                 console.log("login");
-                this.getOnlineUsers(0);
-                this.getOfflineUsers(0);
+                if (!this.favFriendOnly) {
+                    this.getOnlineUsers(0);
+                    this.getOfflineUsers(0);
+                } else {
+                    this.getFavFriend();
+                }
             }).catch(() => {
                 // エラーになる(未ログイン時)ログインページに飛ばす
                 chrome.browserAction.setBadgeText({text: `！`});
@@ -122,6 +128,36 @@ export default {
                 console.log(err);
             });
         },
+        getFavFriend() {
+            axios.get("auth/user/friends/favorite").then((frend) => {
+                let tmpAry = frend.data;
+                tmpAry.forEach((element) => {
+                    if (element.location == "offline") {
+                        this.offlineUsers.push(element);
+                    } else {
+                        this.onlineUsers.push(element);
+                    }
+                });
+                this.onlineUserNum = this.onlineUsers.length;
+                this.offlineUserNum = this.offlineUsers.length;
+                for (let i = 0; i < this.onlineUserNum; i++) {
+                    if (this.onlineUsers[i].location == "private") {
+                        this.$set(this.worldInfos, i, {name: "Private"});
+                        this.$set(this.instancesInfos, i, "Private");
+                    } else {
+                        this.getWorld(i, this.onlineUsers[i].location);
+                        this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
+                    }
+                }
+            }).catch((err) => {
+                console.log(err);
+            }).then(() => {
+                this.msg = "読み込み完了！";
+                setTimeout(() => {
+                    this.switching = "onlineTab";
+                }, 1500);
+            });
+        },
         getWorld(i, location) {
             let index = location.indexOf(":");
             let id = location.substring(0, index);
@@ -141,6 +177,13 @@ export default {
             } else {
                 this.flag = i;
             }
+        },
+        checkFriendOnly() {
+            chrome.storage.sync.get({
+                favFriendOnly: "off",
+            }, ((items) => {
+                this.favFriendOnly = items.favFriendOnly == "on";
+            }));
         },
     },
 };
