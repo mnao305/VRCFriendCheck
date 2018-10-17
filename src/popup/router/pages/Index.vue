@@ -265,6 +265,7 @@ export default {
             font-size: 16px;
             transition: 0.5s;
             -webkit-transition: 0.5s;
+            cursor: pointer;
             .icon {
                 margin: 0;
             }
