@@ -108,6 +108,9 @@ export default {
                 this.msg = "Complete!";
                 setTimeout(() => {
                     this.switching = "onlineTab";
+                    setTimeout(() => {
+                        this.localizeHtmlPage();
+                    }, 100);
                 }, 1500);
             });
         },
@@ -153,7 +156,7 @@ export default {
             }).catch((err) => {
                 console.log(err);
             }).then(() => {
-                this.msg = "読み込み完了！";
+                this.msg = "Complete!";
                 setTimeout(() => {
                     this.switching = "onlineTab";
                     setTimeout(() => {
