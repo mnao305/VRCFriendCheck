@@ -76,6 +76,7 @@ const config = {
           return JSON.stringify(jsonContent, null, 2);
         },
       },
+      { from: '_locales', to: '_locales' },
     ]),
     new WebpackShellPlugin({
       onBuildEnd: ['node scripts/remove-evals.js'],
