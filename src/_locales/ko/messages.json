@@ -1,0 +1,23 @@
+{
+    "description": {
+        "message": "VRChat에서 친구의 온라인 상태를 확인할 수있는 확장 기능입니다"
+    },
+    "instanceNow": {
+        "message": "이 인스턴스에있는 사람"
+    },
+    "zeroOnlineUser": {
+        "message": "온라인 사용자가 없습니다"
+    },
+    "zeroOfflineUser": {
+        "message": "오프라인 사용자가 없습니다"
+    },
+    "loginMsg": {
+        "message": "VRChat 계정으로 로그인하세요"
+    },
+    "loginErrTitle": {
+        "message": "로그인 실패"
+    },
+    "loginErrMsg": {
+        "message": "사용자 이름 또는 암호가 잘못되었습니다"
+    }
+}

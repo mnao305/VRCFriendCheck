@@ -1,7 +1,7 @@
 <template>
     <div id="main">
         <h3>Login to your Account</h3>
-        <p>VRChatアカウントでログインしてください</p>
+        <p data-i18n-text="loginMsg"></p>
         <div id="loginForm">
             <label>
                 UserName/EMAIL:<br>
@@ -12,7 +12,7 @@
                 <input @keyup.enter="login" type="password" v-model="passwd" id="passwd"><br>
             </label>
             <button v-on:click="login" id="loginBtn">Login!</button>
-            <div v-if="loginErr" class="loginErr">ログイン失敗<br>ユーザ名またはパスワードが不正です</div>
+            <div v-if="loginErr" class="loginErr"><span data-i18n-text="loginErrTitle"></span><br><span data-i18n-text="loginErrMsg"></span></div>
         </div>
     </div>
 </template>
@@ -27,6 +27,7 @@ export default {
         };
     },
     mounted() {
+        this.localizeHtmlPage();
     },
     methods: {
         login() {
@@ -48,10 +49,24 @@ export default {
                 }).catch((err) => {
                     console.log(err);
                     this.loginErr = true;
+                    setTimeout(() => {
+                        this.localizeHtmlPage();
+                    }, 100);
                 });
             }).catch((err) => {
                 this.loginErr = true;
                 console.log(err);
+            });
+        },
+        localizeHtmlPage() {
+            document.querySelectorAll("[data-i18n-text]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-text");
+                element.textContent = chrome.i18n.getMessage(key);
+            });
+
+            document.querySelectorAll("[data-i18n-value]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-value");
+                element.value = chrome.i18n.getMessage(key);
             });
         },
     },

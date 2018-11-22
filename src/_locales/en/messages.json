@@ -1,0 +1,23 @@
+{
+    "description": {
+        "message": "It is an extended function that can check the friend's online status at VRChat."
+    },
+    "instanceNow": {
+        "message": "People in this instance."
+    },
+    "zeroOnlineUser": {
+        "message": "There are no online users."
+    },
+    "zeroOfflineUser": {
+        "message": "There are no offline users."
+    },
+    "loginMsg": {
+        "message": "Please login with VRChat account."
+    },
+    "loginErrTitle": {
+        "message": "Login failure."
+    },
+    "loginErrMsg": {
+        "message": "User name or password is invalid."
+    }
+}

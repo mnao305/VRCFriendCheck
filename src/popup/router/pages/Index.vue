@@ -18,22 +18,22 @@
                     <div v-if="worldInfos[i].name != 'Private'" class="moreWorldInfo" v-on:click="changeFlag(i)">
                         <font-awesome-icon class="icon" icon="angle-down" />
                     </div>
-                    <div v-if="flag == i" class="worldInfo">
+                    <div v-show="flag == i" class="worldInfo">
                         <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
-                        <div>このインスタンスにいる人</div>
+                        <div data-i18n-text="instanceNow"></div>
                         <div v-for="user in instancesInfos[i].users" class="userInWorld">
                             <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
                         </div>
                     </div>
                 </div>
-                <div v-if="onlineUserNum == 0" class="zeroUser">オンラインユーザーはいません</div>
+                <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
             </div>
             <div id="offline" v-show="switching == 'offlineTab'">
                 <div class="offlineUser user" v-for="offlineUser in offlineUsers">
                     <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                     <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
                 </div>
-                <div v-if="offlineUserNum == 0" class="zeroUser">オフラインユーザーいません</div>
+                <div v-if="offlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOfflineUser">hoge</div>
             </div>
         </div>
     </div>
@@ -56,8 +56,9 @@ export default {
         };
     },
     mounted() {
-        this.loginCheck();
         this.checkFriendOnly();
+        this.loginCheck();
+        this.localizeHtmlPage();
     },
     methods: {
         loginCheck() {
@@ -104,7 +105,7 @@ export default {
             }).catch((err) => {
                 console.log(err);
             }).then(() => {
-                this.msg = "読み込み完了！";
+                this.msg = "Complete!";
                 setTimeout(() => {
                     this.switching = "onlineTab";
                 }, 1500);
@@ -155,6 +156,9 @@ export default {
                 this.msg = "読み込み完了！";
                 setTimeout(() => {
                     this.switching = "onlineTab";
+                    setTimeout(() => {
+                        this.localizeHtmlPage();
+                    }, 100);
                 }, 1500);
             });
         },
@@ -171,6 +175,7 @@ export default {
             });
         },
         changeFlag(i) {
+            this.localizeHtmlPage();
             console.log(i);
             if (this.flag == i) {
                 this.flag = null;
@@ -184,6 +189,17 @@ export default {
             }, ((items) => {
                 this.favFriendOnly = items.favFriendOnly == "on";
             }));
+        },
+        localizeHtmlPage() {
+            document.querySelectorAll("[data-i18n-text]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-text");
+                element.textContent = chrome.i18n.getMessage(key);
+            });
+
+            document.querySelectorAll("[data-i18n-value]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-value");
+                element.value = chrome.i18n.getMessage(key);
+            });
         },
     },
 };

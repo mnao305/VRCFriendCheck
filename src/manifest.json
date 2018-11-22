@@ -1,8 +1,9 @@
 {
   "name": "VRCFriendCheck",
-  "description": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です",
+  "description": "__MSG_description__",
   "version": null,
   "manifest_version": 2,
+  "default_locale": "en",
   "icons": {
     "16": "icons/icon-16.png",
     "128": "icons/icon-128.png"
