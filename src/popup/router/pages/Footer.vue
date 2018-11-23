@@ -19,9 +19,9 @@ export default {
             chrome.storage.sync.get({
                 favFriendOnly: "off",
             }, ((items) => {
-                this.mode = items.favFriendOnly == "on" ? "FriendOnlyMode" : "normalMode";
+                this.mode = items.favFriendOnly === "on" ? "favoriteOnlyMode" : "normalMode";
             }));
-        }
+        },
     },
 };
 </script>
