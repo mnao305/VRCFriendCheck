@@ -21,7 +21,8 @@
                     <div v-show="flag == i" class="worldInfo">
                         <div class="instanceInfo">
                             <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
-                            <p v-if="worldInfos[i].name != 'Private'">{{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}</p>
+                            <p v-if="worldInfos[i].name != 'Private'">{{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}<br>
+                            <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank">Join!</a></p>
                         </div>
                         <div class="instanceUser">
                             <div data-i18n-text="instanceNow"></div>
@@ -265,6 +266,7 @@ export default {
         border-bottom: solid 1px;
         min-height: 60px;
         clear: both;
+        position: relative;
         img {
             height: 60px;
             float: left;
@@ -300,7 +302,7 @@ export default {
         .worldInfo {
             clear: both;
             padding-top: 5px;
-            min-height: 80px;
+            min-height: 100px;
             border-top: dashed 1px #bbb;
             .instanceInfo {
                 position: absolute;
@@ -309,7 +311,6 @@ export default {
                 }
             }
             .instanceUser {
-                width: 302px;
                 position: relative;
                 left: 84px;
             }
