@@ -19,7 +19,10 @@
                         <font-awesome-icon class="icon" icon="angle-down" />
                     </div>
                     <div v-show="flag == i" class="worldInfo">
-                        <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
+                        <div class="instanceInfo">
+                            <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
+                            <p v-if="worldInfos[i].name != 'Private'">{{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}</p>
+                        </div>
                         <div class="instanceUser">
                             <div data-i18n-text="instanceNow"></div>
                             <div v-for="user in instancesInfos[i].users" class="userInWorld">
@@ -102,8 +105,6 @@ export default {
                             this.getWorld(i, this.onlineUsers[i].location);
                             this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
                         }
-                        console.log(this.instancesInfos);
-                        console.log(this.worldInfos);
                     }
                 }
             }).catch((err) => {
@@ -301,8 +302,11 @@ export default {
             padding-top: 5px;
             min-height: 40px;
             border-top: dashed 1px #bbb;
-            img {
+            .instanceInfo {
                 position: absolute;
+                p {
+                    text-align: center;
+                }
             }
             .instanceUser {
                 width: 302px;
