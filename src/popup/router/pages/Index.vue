@@ -20,9 +20,11 @@
                     </div>
                     <div v-show="flag == i" class="worldInfo">
                         <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
-                        <div data-i18n-text="instanceNow"></div>
-                        <div v-for="user in instancesInfos[i].users" class="userInWorld">
-                            <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
+                        <div class="instanceUser">
+                            <div data-i18n-text="instanceNow"></div>
+                            <div v-for="user in instancesInfos[i].users" class="userInWorld">
+                                <font-awesome-icon class="icon" icon="user" />{{ user.displayName }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -100,6 +102,8 @@ export default {
                             this.getWorld(i, this.onlineUsers[i].location);
                             this.getInstances(i, this.onlineUsers[i].location.replace(":", "/"));
                         }
+                        console.log(this.instancesInfos);
+                        console.log(this.worldInfos);
                     }
                 }
             }).catch((err) => {
@@ -222,10 +226,11 @@ export default {
     box-shadow: inset 0 0 0 2px #fff;
 }
 #main {
-    width: 270px;
+    width: 400px;
     max-height: 580px;
     margin: 10px;
     overflow: scroll;
+    font-size: 14px;
 
     #tabs {
         width: 100%;
@@ -257,11 +262,10 @@ export default {
         width: 100%;
         padding: 10px 0;
         border-bottom: solid 1px;
-        min-height: 40px;
+        min-height: 60px;
         clear: both;
         img {
-            height: 40px;
-            width: 53px;
+            height: 60px;
             float: left;
             margin-bottom: 5px;
         }
@@ -269,21 +273,21 @@ export default {
             float: left;
             margin: 0;
             margin-left: 5px;
-            width: 160px;
             word-break: break-all;
         }
         .icon {
             margin-right: 5px;
         }
         .moreWorldInfo {
-            height: 40px;
-            float: left;
-            width: 30px;
+            height: 60px;
+            width: 40px;
             text-align: center;
-            line-height: 40px;
+            line-height: 60px;
             font-size: 16px;
             transition: 0.5s;
             -webkit-transition: 0.5s;
+            position: absolute;
+            right: 25px;
             cursor: pointer;
             .icon {
                 margin: 0;
@@ -297,8 +301,13 @@ export default {
             padding-top: 5px;
             min-height: 40px;
             border-top: dashed 1px #bbb;
-            div {
-                margin-left: 58px;
+            img {
+                position: absolute;
+            }
+            .instanceUser {
+                width: 302px;
+                position: relative;
+                left: 84px;
             }
         }
     }

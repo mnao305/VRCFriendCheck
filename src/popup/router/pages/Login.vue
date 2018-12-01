@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-        <h3>Login to your Account</h3>
+        <h2>Login to your Account</h2>
         <p data-i18n-text="loginMsg"></p>
         <div id="loginForm">
             <label>
@@ -75,8 +75,9 @@ export default {
 
 <style lang="scss" scoped>
 #main {
-    width: 270px;
+    width: 400px;
     margin: 10px;
+    font-size: 14px;
     input {
         margin-bottom: 10px;
     }
