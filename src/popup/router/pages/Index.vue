@@ -35,7 +35,7 @@
                     <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
                     <p class="userInfo"><font-awesome-icon class="icon" icon="user" />{{ offlineUser.displayName }}</p>
                 </div>
-                <div v-if="offlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOfflineUser">hoge</div>
+                <div v-if="offlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOfflineUser"></div>
             </div>
         </div>
     </div>
