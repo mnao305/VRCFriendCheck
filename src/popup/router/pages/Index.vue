@@ -313,6 +313,7 @@ export default {
             .instanceUser {
                 position: relative;
                 left: 84px;
+                width: 300px;
             }
         }
     }
