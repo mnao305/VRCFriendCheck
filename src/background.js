@@ -6,7 +6,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 var badge;
 
-chrome.alarms.create('check', {periodInMinutes: 25});
+chrome.alarms.create('check', {periodInMinutes: 20});
 chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.browserAction.getBadgeText({}, (res) => {badge = res;});
     if (alarm.name === "check" && badge !== "！") {
