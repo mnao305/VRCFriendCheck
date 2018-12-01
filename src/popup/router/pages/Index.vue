@@ -300,7 +300,7 @@ export default {
         .worldInfo {
             clear: both;
             padding-top: 5px;
-            min-height: 40px;
+            min-height: 80px;
             border-top: dashed 1px #bbb;
             .instanceInfo {
                 position: absolute;
