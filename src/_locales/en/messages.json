@@ -19,5 +19,17 @@
     },
     "loginErrMsg": {
         "message": "User name or password is invalid."
+    },
+    "optionTitle": {
+        "message": "Configuration"
+    },
+    "optionFavFriendOnly": {
+        "message": "Show only your favorite friends"
+    },
+    "optionSaveButton": {
+        "message": "Save"
+    },
+    "optionSavedMessage": {
+        "message": "Saved"
     }
 }

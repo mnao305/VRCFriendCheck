@@ -1,13 +1,13 @@
 <template>
     <div>
-        <h2>設定</h2>
+        <h2 data-i18n-text="optionTitle"></h2>
         <div id="setting">
             <ul>
-                <li>お気に入りフレンドのみ表示する(β版)：<label><input type="radio" v-model="favFriendOnly" value="on">オン</label><label><input type="radio" v-model="favFriendOnly" value="off">オフ</label></li>
+                <li><span data-i18n-text="optionFavFriendOnly"></span>(β)：<label><input type="radio" v-model="favFriendOnly" value="on">ON</label><label><input type="radio" v-model="favFriendOnly" value="off">OFF</label></li>
             </ul>
-            <button v-on:click="configSave">保存</button>
+            <button v-on:click="configSave" data-i18n-text="optionSaveButton"></button>
             <transition name="msg">
-                <span id="savedMessage" v-if="savedMessage">保存しました</span>
+                <span id="savedMessage" v-show="savedMessage" data-i18n-text="optionSavedMessage"></span>
             </transition>
         </div>
     </div>
@@ -32,6 +32,9 @@ export default {
             }, ((items) => {
                 this.favFriendOnly = items.favFriendOnly;
             }));
+            setTimeout(() => {
+                this.localizeHtmlPage();
+            }, 100);
         },
         configSave() {
             chrome.storage.sync.set({
@@ -42,6 +45,17 @@ export default {
                     this.savedMessage = false;
                 }, 1000);
             }));
+        },
+        localizeHtmlPage() {
+            document.querySelectorAll("[data-i18n-text]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-text");
+                element.textContent = chrome.i18n.getMessage(key);
+            });
+
+            document.querySelectorAll("[data-i18n-value]").forEach((element) => {
+                const key = element.getAttribute("data-i18n-value");
+                element.value = chrome.i18n.getMessage(key);
+            });
         },
     },
 };
