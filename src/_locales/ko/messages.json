@@ -19,5 +19,17 @@
     },
     "loginErrMsg": {
         "message": "사용자 이름 또는 암호가 잘못되었습니다"
+    },
+    "optionTitle": {
+        "message": "구성"
+    },
+    "optionFavFriendOnly": {
+        "message": "좋아하는 친구 만 표시"
+    },
+    "optionSaveButton": {
+        "message": "구하다"
+    },
+    "optionSavedMessage": {
+        "message": "저장 됨"
     }
 }

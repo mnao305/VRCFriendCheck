@@ -19,5 +19,17 @@
     },
     "loginErrMsg": {
         "message": "ユーザ名またはパスワードが不正です"
+    },
+    "optionTitle": {
+        "message": "設定"
+    },
+    "optionFavFriendOnly": {
+        "message": "お気に入りフレンドのみを表示する"
+    },
+    "optionSaveButton": {
+        "message": "保存"
+    },
+    "optionSavedMessage": {
+        "message": "保存しました"
     }
 }
