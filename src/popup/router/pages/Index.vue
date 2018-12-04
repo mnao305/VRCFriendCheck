@@ -59,10 +59,11 @@ export default {
             flag: null,
             msg: "Loading...",
             favFriendOnly: false,
+            instanceSort: false,
         };
     },
     mounted() {
-        this.checkFriendOnly();
+        this.setingLoad();
         this.loginCheck();
         this.localizeHtmlPage();
     },
@@ -111,6 +112,7 @@ export default {
             }).catch((err) => {
                 console.log(err);
             }).then(() => {
+                this.onlineUsersSort();
                 this.msg = "Complete!";
                 setTimeout(() => {
                     this.switching = "onlineTab";
@@ -192,11 +194,13 @@ export default {
                 this.flag = i;
             }
         },
-        checkFriendOnly() {
+        setingLoad() {
             chrome.storage.sync.get({
                 favFriendOnly: "off",
+                onlineUsersSort: "name",
             }, ((items) => {
-                this.favFriendOnly = items.favFriendOnly == "on";
+                this.favFriendOnly = items.favFriendOnly === "on";
+                this.instanceSort = items.onlineUsersSort === "instance";
             }));
         },
         localizeHtmlPage() {
@@ -209,6 +213,18 @@ export default {
                 const key = element.getAttribute("data-i18n-value");
                 element.value = chrome.i18n.getMessage(key);
             });
+        },
+        onlineUsersSort() {
+            console.log(this.instancesInfos);
+            console.log(this.worldInfos);
+            this.onlineUsers.sort((a, b) => {
+                return (a.displayName.toLowerCase() < b.displayName.toLowerCase()) ? -1 : 1;
+            });
+            if (this.instanceSort) {
+                this.onlineUsers.sort((a, b) => {
+                    return (a.location < b.location) ? -1 : 1;
+                });
+            }
         },
     },
 };
