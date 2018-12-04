@@ -176,6 +176,9 @@ export default {
             let id = location.substring(0, index);
             axios.get(`/worlds/${id}`).then((world) => {
                 this.$set(this.worldInfos, i, world.data);
+            }).catch((err) => {
+                this.$set(this.worldInfos, i, {name: "Fetch failed"});
+                console.log(err);
             });
         },
         getInstances(i, location) {
