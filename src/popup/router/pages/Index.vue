@@ -277,6 +277,7 @@ export default {
             margin: 0;
             margin-left: 5px;
             word-break: break-all;
+            max-width: 260px;
         }
         .icon {
             margin-right: 5px;
@@ -290,7 +291,7 @@ export default {
             transition: 0.5s;
             -webkit-transition: 0.5s;
             position: absolute;
-            right: 25px;
+            right: 5px;
             cursor: pointer;
             .icon {
                 margin: 0;
