@@ -26,6 +26,15 @@
     "optionFavFriendOnly": {
         "message": "お気に入りフレンドのみを表示する"
     },
+    "optionOnlineUsersSort": {
+        "message": "オンラインユーザーのソート形式"
+    },
+    "optionOnlineUsersSort_instance": {
+        "message": "インスタンス"
+    },
+    "optionOnlineUsersSort_name": {
+        "message": "名前"
+    },
     "optionSaveButton": {
         "message": "保存"
     },
