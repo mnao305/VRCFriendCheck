@@ -18,7 +18,7 @@
                     <div v-if="worldInfos[i].name != 'Private'" class="moreWorldInfo" v-on:click="changeFlag(i)">
                         <font-awesome-icon class="icon" icon="angle-down" />
                     </div>
-                    <div v-show="flag == i" class="worldInfo">
+                    <div v-show="flag[i]" class="worldInfo">
                         <div class="instanceInfo">
                             <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
                             <p v-if="worldInfos[i].name != 'Private'">{{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}<br>
@@ -56,7 +56,7 @@ export default {
             switching: "",
             onlineUserNum: 0,
             offlineUserNum: 0,
-            flag: null,
+            flag: [],
             msg: "Loading...",
             favFriendOnly: false,
             instanceSort: false,
@@ -190,11 +190,10 @@ export default {
         },
         changeFlag(i) {
             this.localizeHtmlPage();
-            console.log(i);
-            if (this.flag == i) {
-                this.flag = null;
+            if (this.flag[i]) {
+                this.$set(this.flag, i, false);
             } else {
-                this.flag = i;
+                this.$set(this.flag, i, true);
             }
         },
         setingLoad() {
