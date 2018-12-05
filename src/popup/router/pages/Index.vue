@@ -99,6 +99,7 @@ export default {
                 if (cnt == this.onlineUserNum) {
                     this.getOnlineUsers(cnt);
                 } else {
+                    this.onlineUsersSort();
                     for (let i = 0; i < this.onlineUserNum; i++) {
                         if (this.onlineUsers[i].location == "private") {
                             this.$set(this.worldInfos, i, {name: "Private"});
@@ -112,7 +113,6 @@ export default {
             }).catch((err) => {
                 console.log(err);
             }).then(() => {
-                this.onlineUsersSort();
                 this.msg = "Complete!";
                 setTimeout(() => {
                     this.switching = "onlineTab";
@@ -225,7 +225,7 @@ export default {
             });
             if (this.instanceSort) {
                 this.onlineUsers.sort((a, b) => {
-                    return (a.location < b.location) ? -1 : 1;
+                    return (a.location < b.location) ? 1 : -1;
                 });
             }
         },
