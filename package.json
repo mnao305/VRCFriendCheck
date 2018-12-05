@@ -1,6 +1,6 @@
 {
   "name": "vrcfriendcheck",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です",
   "author": "mnao305 <naomasa305@gmail.com>",
   "scripts": {
