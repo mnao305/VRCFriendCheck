@@ -270,6 +270,7 @@ export default {
         min-height: 60px;
         clear: both;
         position: relative;
+        word-break: break-all;
         img {
             height: 60px;
             float: left;
@@ -279,7 +280,6 @@ export default {
             float: left;
             margin: 0;
             margin-left: 5px;
-            word-break: break-all;
             max-width: 260px;
         }
         .icon {
