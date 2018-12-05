@@ -178,6 +178,9 @@ export default {
             let id = location.substring(0, index);
             axios.get(`/worlds/${id}`).then((world) => {
                 this.$set(this.worldInfos, i, world.data);
+            }).catch((err) => {
+                this.$set(this.worldInfos, i, {name: "Fetch failed"});
+                console.log(err);
             });
         },
         getInstances(i, location) {
@@ -276,6 +279,10 @@ export default {
         }
     }
 
+    #online {
+        overflow: hidden;
+    }
+
     .user {
         width: 100%;
         padding: 10px 0;
@@ -283,6 +290,7 @@ export default {
         min-height: 60px;
         clear: both;
         position: relative;
+        word-break: break-all;
         img {
             height: 60px;
             float: left;
@@ -292,6 +300,7 @@ export default {
             float: left;
             margin: 0;
             margin-left: 5px;
+            max-width: 260px;
             word-break: break-all;
         }
         .icon {
@@ -306,7 +315,7 @@ export default {
             transition: 0.5s;
             -webkit-transition: 0.5s;
             position: absolute;
-            right: 25px;
+            right: 5px;
             cursor: pointer;
             .icon {
                 margin: 0;
@@ -330,6 +339,7 @@ export default {
                 position: relative;
                 left: 84px;
                 width: 300px;
+                word-break: break-all;
             }
         }
     }
