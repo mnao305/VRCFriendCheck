@@ -285,6 +285,7 @@ export default {
             margin: 0;
             margin-left: 5px;
             max-width: 260px;
+            word-break: break-all;
         }
         .icon {
             margin-right: 5px;
@@ -322,6 +323,7 @@ export default {
                 position: relative;
                 left: 84px;
                 width: 300px;
+                word-break: break-all;
             }
         }
     }
