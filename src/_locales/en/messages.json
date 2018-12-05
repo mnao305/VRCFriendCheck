@@ -26,6 +26,15 @@
     "optionFavFriendOnly": {
         "message": "Show only your favorite friends"
     },
+    "optionOnlineUsersSort": {
+        "message": "Online user sort format"
+    },
+    "optionOnlineUsersSort_instance": {
+        "message": "instance"
+    },
+    "optionOnlineUsersSort_name": {
+        "message": "name"
+    },
     "optionSaveButton": {
         "message": "Save"
     },

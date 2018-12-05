@@ -26,6 +26,15 @@
     "optionFavFriendOnly": {
         "message": "좋아하는 친구 만 표시"
     },
+    "optionOnlineUsersSort": {
+        "message": "온라인 사용자 정렬 형식"
+    },
+    "optionOnlineUsersSort_instance": {
+        "message": "인스턴스"
+    },
+    "optionOnlineUsersSort_name": {
+        "message": "이름"
+    },
     "optionSaveButton": {
         "message": "구하다"
     },

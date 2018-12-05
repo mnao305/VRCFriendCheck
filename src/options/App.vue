@@ -3,7 +3,14 @@
         <h2 data-i18n-text="optionTitle"></h2>
         <div id="setting">
             <ul>
-                <li><span data-i18n-text="optionFavFriendOnly"></span>(β)：<label><input type="radio" v-model="favFriendOnly" value="on">ON</label><label><input type="radio" v-model="favFriendOnly" value="off">OFF</label></li>
+                <li><span data-i18n-text="optionFavFriendOnly"></span>(β)：
+                <label><input type="radio" v-model="favFriendOnly" value="on">ON</label>
+                <label><input type="radio" v-model="favFriendOnly" value="off">OFF</label>
+                </li>
+                <li><span data-i18n-text="optionOnlineUsersSort"></span>：
+                <label><input type="radio" v-model="onlineUsersSort" value="instance"><span data-i18n-text="optionOnlineUsersSort_instance"></span></label>
+                <label><input type="radio" v-model="onlineUsersSort" value="name"><span data-i18n-text="optionOnlineUsersSort_name"></span></label>
+                </li>
             </ul>
             <button v-on:click="configSave" data-i18n-text="optionSaveButton"></button>
             <transition name="msg">
@@ -19,6 +26,7 @@ export default {
     data() {
         return {
             favFriendOnly: "",
+            onlineUsersSort: "",
             savedMessage: false,
         };
     },
@@ -29,8 +37,10 @@ export default {
         defaultConfig() {
             chrome.storage.sync.get({
                 favFriendOnly: "off",
+                onlineUsersSort: "name",
             }, ((items) => {
                 this.favFriendOnly = items.favFriendOnly;
+                this.onlineUsersSort = items.onlineUsersSort;
             }));
             setTimeout(() => {
                 this.localizeHtmlPage();
@@ -39,6 +49,7 @@ export default {
         configSave() {
             chrome.storage.sync.set({
                 favFriendOnly: this.favFriendOnly,
+                onlineUsersSort: this.onlineUsersSort,
             }, (() => {
                 this.savedMessage = true;
                 setTimeout(() => {
