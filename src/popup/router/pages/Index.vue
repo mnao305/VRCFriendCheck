@@ -263,6 +263,10 @@ export default {
         }
     }
 
+    #online {
+        overflow-x: hidden;
+    }
+
     .user {
         width: 100%;
         padding: 10px 0;
