@@ -18,7 +18,7 @@
                     <div v-if="worldInfos[i].name != 'Private'" class="moreWorldInfo" v-on:click="changeFlag(i)">
                         <font-awesome-icon class="icon" icon="angle-down" />
                     </div>
-                    <div v-show="flag == i" class="worldInfo">
+                    <div v-show="flag[i]" class="worldInfo">
                         <div class="instanceInfo">
                             <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
                             <p v-if="worldInfos[i].name != 'Private'">{{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}<br>
@@ -56,13 +56,14 @@ export default {
             switching: "",
             onlineUserNum: 0,
             offlineUserNum: 0,
-            flag: null,
+            flag: [],
             msg: "Loading...",
             favFriendOnly: false,
+            instanceSort: false,
         };
     },
     mounted() {
-        this.checkFriendOnly();
+        this.setingLoad();
         this.loginCheck();
         this.localizeHtmlPage();
     },
@@ -98,6 +99,7 @@ export default {
                 if (cnt == this.onlineUserNum) {
                     this.getOnlineUsers(cnt);
                 } else {
+                    this.onlineUsersSort();
                     for (let i = 0; i < this.onlineUserNum; i++) {
                         if (this.onlineUsers[i].location == "private") {
                             this.$set(this.worldInfos, i, {name: "Private"});
@@ -188,18 +190,19 @@ export default {
         },
         changeFlag(i) {
             this.localizeHtmlPage();
-            console.log(i);
-            if (this.flag == i) {
-                this.flag = null;
+            if (this.flag[i]) {
+                this.$set(this.flag, i, false);
             } else {
-                this.flag = i;
+                this.$set(this.flag, i, true);
             }
         },
-        checkFriendOnly() {
+        setingLoad() {
             chrome.storage.sync.get({
                 favFriendOnly: "off",
+                onlineUsersSort: "name",
             }, ((items) => {
-                this.favFriendOnly = items.favFriendOnly == "on";
+                this.favFriendOnly = items.favFriendOnly === "on";
+                this.instanceSort = items.onlineUsersSort === "instance";
             }));
         },
         localizeHtmlPage() {
@@ -212,6 +215,18 @@ export default {
                 const key = element.getAttribute("data-i18n-value");
                 element.value = chrome.i18n.getMessage(key);
             });
+        },
+        onlineUsersSort() {
+            console.log(this.instancesInfos);
+            console.log(this.worldInfos);
+            this.onlineUsers.sort((a, b) => {
+                return (a.displayName.toLowerCase() < b.displayName.toLowerCase()) ? -1 : 1;
+            });
+            if (this.instanceSort) {
+                this.onlineUsers.sort((a, b) => {
+                    return (a.location < b.location) ? 1 : -1;
+                });
+            }
         },
     },
 };
