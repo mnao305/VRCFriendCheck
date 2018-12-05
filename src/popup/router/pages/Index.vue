@@ -264,7 +264,7 @@ export default {
     }
 
     #online {
-        overflow-x: hidden;
+        overflow: hidden;
     }
 
     .user {
