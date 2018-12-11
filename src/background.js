@@ -1,20 +1,22 @@
-import axios from 'axios';
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1';
+import axios from 'axios'
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
 axios.defaults.withCredentials = true
-axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-var badge;
+global.browser = require('webextension-polyfill')
 
-chrome.alarms.create('check', {periodInMinutes: 20});
+var badge
+
+chrome.alarms.create('check', { periodInMinutes: 20 })
 chrome.alarms.onAlarm.addListener((alarm) => {
-    chrome.browserAction.getBadgeText({}, (res) => {badge = res;});
-    if (alarm.name === "check" && badge !== "！") {
-        axios.get('/auth/user').then(() => {
-            chrome.browserAction.setBadgeText({text: ``});
-        }).catch(() => {
-            chrome.browserAction.setBadgeText({text: `！`});
-            chrome.browserAction.setBadgeBackgroundColor({color: '#F00'});
-        });
-    }
-});
+  chrome.browserAction.getBadgeText({}, (res) => { badge = res })
+  if (alarm.name === 'check' && badge !== '！') {
+    axios.get('/auth/user').then(() => {
+      chrome.browserAction.setBadgeText({ text: `` })
+    }).catch(() => {
+      chrome.browserAction.setBadgeText({ text: `！` })
+      chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+    })
+  }
+})
