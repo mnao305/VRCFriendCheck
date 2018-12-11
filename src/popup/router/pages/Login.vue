@@ -37,40 +37,46 @@ export default {
   },
   methods: {
     login () {
-      axios.get('/config').then((config) => {
-        const apiKey = config.data.clientApiKey
+      axios
+        .get('/config')
+        .then(config => {
+          const apiKey = config.data.clientApiKey
 
-        axios.get('/auth/user', {
-          params: {
-            apiKey
-          },
-          auth: {
-            username: this.username,
-            password: this.passwd
-          }
-        }).then((user) => {
-          console.log(user.data)
-          router.push('/')
-          location.reload()
-        }).catch((err) => {
-          console.log(err)
-          this.loginErr = true
-          setTimeout(() => {
-            this.localizeHtmlPage()
-          }, 100)
+          axios
+            .get('/auth/user', {
+              params: {
+                apiKey
+              },
+              auth: {
+                username: this.username,
+                password: this.passwd
+              }
+            })
+            .then(user => {
+              console.log(user.data)
+              router.push('/')
+              location.reload()
+            })
+            .catch(err => {
+              console.log(err)
+              this.loginErr = true
+              setTimeout(() => {
+                this.localizeHtmlPage()
+              }, 100)
+            })
         })
-      }).catch((err) => {
-        this.loginErr = true
-        console.log(err)
-      })
+        .catch(err => {
+          this.loginErr = true
+          console.log(err)
+        })
     },
     localizeHtmlPage () {
-      document.querySelectorAll('[data-i18n-text]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
         element.textContent = chrome.i18n.getMessage(key)
       })
 
-      document.querySelectorAll('[data-i18n-value]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
         element.value = chrome.i18n.getMessage(key)
       })

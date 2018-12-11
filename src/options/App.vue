@@ -47,30 +47,38 @@ export default {
   },
   methods: {
     defaultConfig () {
-      chrome.storage.sync.get({ favFriendOnly: 'off', onlineUsersSort: 'name' }, (items) => {
-        this.favFriendOnly = items.favFriendOnly
-        this.onlineUsersSort = items.onlineUsersSort
-      })
+      chrome.storage.sync.get(
+        { favFriendOnly: 'off', onlineUsersSort: 'name' },
+        items => {
+          this.favFriendOnly = items.favFriendOnly
+          this.onlineUsersSort = items.onlineUsersSort
+        }
+      )
       setTimeout(() => {
         this.localizeHtmlPage()
       }, 100)
     },
     configSave () {
-      chrome.storage.sync.set({ favFriendOnly: this.favFriendOnly, onlineUsersSort: this.onlineUsersSort }, () => {
-        this.savedMessage = true
-        setTimeout(() => {
-          this.savedMessage = false
-        }, 1000)
-      }
+      chrome.storage.sync.set(
+        {
+          favFriendOnly: this.favFriendOnly,
+          onlineUsersSort: this.onlineUsersSort
+        },
+        () => {
+          this.savedMessage = true
+          setTimeout(() => {
+            this.savedMessage = false
+          }, 1000)
+        }
       )
     },
     localizeHtmlPage () {
-      document.querySelectorAll('[data-i18n-text]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
         element.textContent = chrome.i18n.getMessage(key)
       })
 
-      document.querySelectorAll('[data-i18n-value]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
         element.value = chrome.i18n.getMessage(key)
       })
@@ -97,7 +105,8 @@ export default {
   }
 
   // 保存時メッセージの動き
-  .msg-enter-active, .msg-leave-active {
+  .msg-enter-active,
+  .msg-leave-active {
     transition: opacity 0.5s;
   }
   .msg-enter,

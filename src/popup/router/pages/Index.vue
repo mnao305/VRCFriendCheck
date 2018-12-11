@@ -83,122 +83,145 @@ export default {
   },
   methods: {
     loginCheck () {
-      axios.get('/auth/user').then(() => {
-        chrome.browserAction.setBadgeText({ text: `` })
-        console.log('login')
-        if (!this.favFriendOnly) {
-          this.getOnlineUsers(0)
-          this.getOfflineUsers(0)
-        } else {
-          this.getFavFriend()
-        }
-      }).catch(() => {
-        // エラーになる(未ログイン時)ログインページに飛ばす
-        chrome.browserAction.setBadgeText({ text: `！` })
-        chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
-        router.push('/login')
-        location.reload()
-      })
+      axios
+        .get('/auth/user')
+        .then(() => {
+          chrome.browserAction.setBadgeText({ text: `` })
+          console.log('login')
+          if (!this.favFriendOnly) {
+            this.getOnlineUsers(0)
+            this.getOfflineUsers(0)
+          } else {
+            this.getFavFriend()
+          }
+        })
+        .catch(() => {
+          // エラーになる(未ログイン時)ログインページに飛ばす
+          chrome.browserAction.setBadgeText({ text: `！` })
+          chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+          router.push('/login')
+          location.reload()
+        })
     },
     getOnlineUsers (cnt) {
-      axios.get('auth/user/friends', {
-        params: {
-          n: 100,
-          offset: cnt
-        }
-      }).then((frend) => {
-        this.onlineUsers.push(...frend.data)
-        this.onlineUserNum = this.onlineUsers.length
-        cnt += 100
-        if (cnt === this.onlineUserNum) {
-          this.getOnlineUsers(cnt)
-        } else {
-          this.onlineUsersSort()
+      axios
+        .get('auth/user/friends', {
+          params: {
+            n: 100,
+            offset: cnt
+          }
+        })
+        .then(frend => {
+          this.onlineUsers.push(...frend.data)
+          this.onlineUserNum = this.onlineUsers.length
+          cnt += 100
+          if (cnt === this.onlineUserNum) {
+            this.getOnlineUsers(cnt)
+          } else {
+            this.onlineUsersSort()
+            for (let i = 0; i < this.onlineUserNum; i++) {
+              if (this.onlineUsers[i].location === 'private') {
+                this.$set(this.worldInfos, i, { name: 'Private' })
+                this.$set(this.instancesInfos, i, 'Private')
+              } else {
+                this.getWorld(i, this.onlineUsers[i].location)
+                this.getInstances(
+                  i,
+                  this.onlineUsers[i].location.replace(':', '/')
+                )
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .then(() => {
+          this.msg = 'Complete!'
+          setTimeout(() => {
+            this.switching = 'onlineTab'
+            setTimeout(() => {
+              this.localizeHtmlPage()
+            }, 100)
+          }, 1500)
+        })
+    },
+    getOfflineUsers (cnt) {
+      axios
+        .get('auth/user/friends', {
+          params: {
+            offline: true,
+            n: 100,
+            offset: cnt
+          }
+        })
+        .then(frend => {
+          this.offlineUsers.push(...frend.data)
+          this.offlineUserNum = this.offlineUsers.length
+          cnt += 100
+          if (cnt === this.offlineUserNum) {
+            this.getOfflineUsers(cnt)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getFavFriend () {
+      axios
+        .get('auth/user/friends/favorite')
+        .then(frend => {
+          let tmpAry = frend.data
+          tmpAry.forEach(element => {
+            if (element.location === 'offline') {
+              this.offlineUsers.push(element)
+            } else {
+              this.onlineUsers.push(element)
+            }
+          })
+          this.onlineUserNum = this.onlineUsers.length
+          this.offlineUserNum = this.offlineUsers.length
           for (let i = 0; i < this.onlineUserNum; i++) {
             if (this.onlineUsers[i].location === 'private') {
               this.$set(this.worldInfos, i, { name: 'Private' })
               this.$set(this.instancesInfos, i, 'Private')
             } else {
               this.getWorld(i, this.onlineUsers[i].location)
-              this.getInstances(i, this.onlineUsers[i].location.replace(':', '/'))
+              this.getInstances(
+                i,
+                this.onlineUsers[i].location.replace(':', '/')
+              )
             }
           }
-        }
-      }).catch((err) => {
-        console.log(err)
-      }).then(() => {
-        this.msg = 'Complete!'
-        setTimeout(() => {
-          this.switching = 'onlineTab'
-          setTimeout(() => {
-            this.localizeHtmlPage()
-          }, 100)
-        }, 1500)
-      })
-    },
-    getOfflineUsers (cnt) {
-      axios.get('auth/user/friends', {
-        params: {
-          offline: true,
-          n: 100,
-          offset: cnt
-        }
-      }).then((frend) => {
-        this.offlineUsers.push(...frend.data)
-        this.offlineUserNum = this.offlineUsers.length
-        cnt += 100
-        if (cnt === this.offlineUserNum) {
-          this.getOfflineUsers(cnt)
-        }
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-    getFavFriend () {
-      axios.get('auth/user/friends/favorite').then((frend) => {
-        let tmpAry = frend.data
-        tmpAry.forEach(element => {
-          if (element.location === 'offline') {
-            this.offlineUsers.push(element)
-          } else {
-            this.onlineUsers.push(element)
-          }
         })
-        this.onlineUserNum = this.onlineUsers.length
-        this.offlineUserNum = this.offlineUsers.length
-        for (let i = 0; i < this.onlineUserNum; i++) {
-          if (this.onlineUsers[i].location === 'private') {
-            this.$set(this.worldInfos, i, { name: 'Private' })
-            this.$set(this.instancesInfos, i, 'Private')
-          } else {
-            this.getWorld(i, this.onlineUsers[i].location)
-            this.getInstances(i, this.onlineUsers[i].location.replace(':', '/'))
-          }
-        }
-      }).catch((err) => {
-        console.log(err)
-      }).then(() => {
-        this.msg = 'Complete!'
-        setTimeout(() => {
-          this.switching = 'onlineTab'
+        .catch(err => {
+          console.log(err)
+        })
+        .then(() => {
+          this.msg = 'Complete!'
           setTimeout(() => {
-            this.localizeHtmlPage()
-          }, 100)
-        }, 1500)
-      })
+            this.switching = 'onlineTab'
+            setTimeout(() => {
+              this.localizeHtmlPage()
+            }, 100)
+          }, 1500)
+        })
     },
     getWorld (i, location) {
       let index = location.indexOf(':')
       let id = location.substring(0, index)
-      axios.get(`/worlds/${id}`).then((world) => {
-        this.$set(this.worldInfos, i, world.data)
-      }).catch((err) => {
-        this.$set(this.worldInfos, i, { name: 'Fetch failed' })
-        console.log(err)
-      })
+      axios
+        .get(`/worlds/${id}`)
+        .then(world => {
+          this.$set(this.worldInfos, i, world.data)
+        })
+        .catch(err => {
+          this.$set(this.worldInfos, i, { name: 'Fetch failed' })
+          console.log(err)
+        })
     },
     getInstances (i, location) {
-      axios.get(`/worlds/${location}`).then((world) => {
+      axios.get(`/worlds/${location}`).then(world => {
         this.$set(this.instancesInfos, i, world.data)
       })
     },
@@ -215,19 +238,20 @@ export default {
         {
           favFriendOnly: 'off',
           onlineUsersSort: 'name'
-        }, (items) => {
+        },
+        items => {
           this.favFriendOnly = items.favFriendOnly === 'on'
           this.instanceSort = items.onlineUsersSort === 'instance'
         }
       )
     },
     localizeHtmlPage () {
-      document.querySelectorAll('[data-i18n-text]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
         element.textContent = chrome.i18n.getMessage(key)
       })
 
-      document.querySelectorAll('[data-i18n-value]').forEach((element) => {
+      document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
         element.value = chrome.i18n.getMessage(key)
       })
