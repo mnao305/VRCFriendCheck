@@ -374,6 +374,7 @@ export default {
         position: absolute;
         p {
           text-align: center;
+          word-break: normal;
         }
       }
       .instanceUser {
