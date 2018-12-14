@@ -48,7 +48,7 @@ export default {
   methods: {
     defaultConfig () {
       chrome.storage.sync.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'name' },
+        { favFriendOnly: 'off', onlineUsersSort: 'instance' },
         items => {
           this.favFriendOnly = items.favFriendOnly
           this.onlineUsersSort = items.onlineUsersSort

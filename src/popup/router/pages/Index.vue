@@ -237,7 +237,7 @@ export default {
       chrome.storage.sync.get(
         {
           favFriendOnly: 'off',
-          onlineUsersSort: 'name'
+          onlineUsersSort: 'instance'
         },
         items => {
           this.favFriendOnly = items.favFriendOnly === 'on'
