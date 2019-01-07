@@ -120,7 +120,7 @@ export default {
           } else {
             this.onlineUsersSort()
             for (let i = 0; i < this.onlineUserNum; i++) {
-              if (this.onlineUsers[i].location === 'private') {
+              if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
                 this.$set(this.worldInfos, i, { name: 'Private' })
                 this.$set(this.instancesInfos, i, 'Private')
               } else {
@@ -182,7 +182,7 @@ export default {
           this.onlineUserNum = this.onlineUsers.length
           this.offlineUserNum = this.offlineUsers.length
           for (let i = 0; i < this.onlineUserNum; i++) {
-            if (this.onlineUsers[i].location === 'private') {
+            if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
               this.$set(this.worldInfos, i, { name: 'Private' })
               this.$set(this.instancesInfos, i, 'Private')
             } else {
