@@ -234,7 +234,7 @@ export default {
       }
     },
     setingLoad () {
-      chrome.storage.sync.get(
+      chrome.storage.local.get(
         {
           favFriendOnly: 'off',
           onlineUsersSort: 'instance'
