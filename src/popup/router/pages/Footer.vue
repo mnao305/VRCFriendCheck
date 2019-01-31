@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     checkMode () {
-      chrome.storage.sync.get({ favFriendOnly: 'off' }, items => {
+      chrome.storage.local.get({ favFriendOnly: 'off' }, items => {
         this.mode =
           items.favFriendOnly === 'on' ? 'favoriteOnlyMode' : 'normalMode'
       })
