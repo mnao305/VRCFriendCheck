@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getOnlineUsers } from './onlineUserNotification'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
 axios.defaults.withCredentials = true
@@ -18,6 +19,8 @@ chrome.alarms.onAlarm.addListener((alarm) => {
       .get('/auth/user')
       .then(() => {
         chrome.browserAction.setBadgeText({ text: `` })
+
+        getOnlineUsers(0)
       })
       .catch(() => {
         chrome.browserAction.setBadgeText({ text: `！` })
