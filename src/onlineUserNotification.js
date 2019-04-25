@@ -46,7 +46,7 @@ function notification () {
     iconUrl: 'icons/icon-128.png',
     type: 'basic',
     title: 'VRCFriendCheck',
-    message: '新しくオンラインになったフレンドがいます'
+    message: chrome.i18n.getMessage('newOnlineUserNotificationMessage')
   }
   chrome.notifications.create('onlineUserNotification', options)
 }
@@ -72,7 +72,16 @@ function newOnlineFriendCheck () {
       const hoge = diff.concat(newOnlineUsers).filter((x, i, self) => self.indexOf(x) === i && i !== self.lastIndexOf(x))
 
       if (hoge.length > 0) {
-        notification()
+        chrome.storage.local.get(
+          { NewOnlineUserNotification: 'off' },
+          items => {
+            const NewOnlineUserNotification = items.NewOnlineUserNotification
+
+            if (NewOnlineUserNotification === 'on') {
+              notification()
+            }
+          }
+        )
       }
     }
   )

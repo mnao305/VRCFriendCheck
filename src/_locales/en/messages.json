@@ -40,5 +40,11 @@
     },
     "optionSavedMessage": {
         "message": "Saved"
+    },
+    "optionNewOnlineUserNotification": {
+        "message": "Notify when friend is online"
+    },
+    "newOnlineUserNotificationMessage": {
+        "message": "I have a friend who is new online"
     }
 }

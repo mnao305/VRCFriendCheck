@@ -40,5 +40,11 @@
     },
     "optionSavedMessage": {
         "message": "保存しました"
+    },
+    "optionNewOnlineUserNotification": {
+        "message": "フレンドがオンラインになった際に通知する"
+    },
+    "newOnlineUserNotificationMessage": {
+        "message": "新しくオンラインになったフレンドがいます"
     }
 }

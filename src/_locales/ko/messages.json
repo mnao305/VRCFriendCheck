@@ -40,5 +40,11 @@
     },
     "optionSavedMessage": {
         "message": "저장 됨"
+    },
+    "optionNewOnlineUserNotification": {
+        "message": "친구가 온라인 상태 일 때 통지"
+    },
+    "newOnlineUserNotificationMessage": {
+        "message": "새로 온라인 상태가 친구가 있습니다"
     }
 }
