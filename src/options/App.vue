@@ -23,6 +23,24 @@
             <span data-i18n-text="optionOnlineUsersSort_name"></span>
           </label>
         </li>
+        <li>
+          <span data-i18n-text="optionNewOnlineUserNotification"></span>：
+          <label>
+            <input type="radio" v-model="NewOnlineUserNotification" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="NewOnlineUserNotification" value="off">OFF
+          </label>
+        </li>
+        <li>
+          <span data-i18n-text="optionFavFriendOnlyNotification"></span>：
+          <label>
+            <input type="radio" v-model="favFriendOnlyNotification" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="favFriendOnlyNotification" value="off">OFF
+          </label>
+        </li>
       </ul>
       <button v-on:click="configSave" data-i18n-text="optionSaveButton"></button>
       <transition name="msg">
@@ -39,7 +57,10 @@ export default {
     return {
       favFriendOnly: '',
       onlineUsersSort: '',
-      savedMessage: false
+      savedMessage: false,
+      NewOnlineUserNotification: '',
+      favFriendOnlyNotification: ''
+
     }
   },
   mounted () {
@@ -48,10 +69,12 @@ export default {
   methods: {
     defaultConfig () {
       chrome.storage.local.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'instance' },
+        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'off', favFriendOnlyNotification: 'off' },
         items => {
           this.favFriendOnly = items.favFriendOnly
           this.onlineUsersSort = items.onlineUsersSort
+          this.NewOnlineUserNotification = items.NewOnlineUserNotification
+          this.favFriendOnlyNotification = items.favFriendOnlyNotification
         }
       )
       setTimeout(() => {
@@ -62,7 +85,9 @@ export default {
       chrome.storage.local.set(
         {
           favFriendOnly: this.favFriendOnly,
-          onlineUsersSort: this.onlineUsersSort
+          onlineUsersSort: this.onlineUsersSort,
+          NewOnlineUserNotification: this.NewOnlineUserNotification,
+          favFriendOnlyNotification: this.favFriendOnlyNotification
         },
         () => {
           this.savedMessage = true
