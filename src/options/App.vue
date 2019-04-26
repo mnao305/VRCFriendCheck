@@ -4,8 +4,8 @@
     <div id="setting">
       <ul>
         <li>
-          <span data-i18n-text="optionFavFriendOnly"></span>(β)：
-          <label>
+          <span data-i18n-text="optionFavFriendOnly"></span>(β)：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="favFriendOnly" value="on">ON
           </label>
           <label>
@@ -13,8 +13,8 @@
           </label>
         </li>
         <li>
-          <span data-i18n-text="optionOnlineUsersSort"></span>：
-          <label>
+          <span data-i18n-text="optionOnlineUsersSort"></span>：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="onlineUsersSort" value="instance">
             <span data-i18n-text="optionOnlineUsersSort_instance"></span>
           </label>
@@ -24,8 +24,8 @@
           </label>
         </li>
         <li>
-          <span data-i18n-text="optionNewOnlineUserNotification"></span>：
-          <label>
+          <span data-i18n-text="optionNewOnlineUserNotification"></span>：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="NewOnlineUserNotification" value="on">ON
           </label>
           <label>
@@ -33,8 +33,8 @@
           </label>
         </li>
         <li>
-          <span data-i18n-text="optionFavFriendOnlyNotification"></span>：
-          <label>
+          <span data-i18n-text="optionFavFriendOnlyNotification"></span>：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="favFriendOnlyNotification" value="on">ON
           </label>
           <label>
@@ -114,7 +114,7 @@ export default {
 
 <style lang="scss" scoped>
 #setting {
-  margin-left: 15px;
+  margin-left: 6px;
 
   ul {
     list-style: none;
@@ -137,6 +137,10 @@ export default {
   .msg-enter,
   .msg-leave-to {
     opacity: 0;
+  }
+
+  .optionMarginLeft {
+    margin-left: 12px;
   }
 }
 </style>
