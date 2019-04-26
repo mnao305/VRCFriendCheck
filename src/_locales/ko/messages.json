@@ -46,5 +46,8 @@
     },
     "newOnlineUserNotificationMessage": {
         "message": "새로 온라인 상태가 친구가 있습니다"
+    },
+    "optionFavFriendOnlyNotification": {
+        "message": "통지하는 것은 좋아 친구 만한다"
     }
 }

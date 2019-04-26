@@ -32,6 +32,15 @@
             <input type="radio" v-model="NewOnlineUserNotification" value="off">OFF
           </label>
         </li>
+        <li>
+          <span data-i18n-text="optionFavFriendOnlyNotification"></span>：
+          <label>
+            <input type="radio" v-model="favFriendOnlyNotification" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="favFriendOnlyNotification" value="off">OFF
+          </label>
+        </li>
       </ul>
       <button v-on:click="configSave" data-i18n-text="optionSaveButton"></button>
       <transition name="msg">
@@ -49,7 +58,8 @@ export default {
       favFriendOnly: '',
       onlineUsersSort: '',
       savedMessage: false,
-      NewOnlineUserNotification: ''
+      NewOnlineUserNotification: '',
+      favFriendOnlyNotification: ''
 
     }
   },
@@ -59,11 +69,12 @@ export default {
   methods: {
     defaultConfig () {
       chrome.storage.local.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'off' },
+        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'off', favFriendOnlyNotification: 'off' },
         items => {
           this.favFriendOnly = items.favFriendOnly
           this.onlineUsersSort = items.onlineUsersSort
           this.NewOnlineUserNotification = items.NewOnlineUserNotification
+          this.favFriendOnlyNotification = items.favFriendOnlyNotification
         }
       )
       setTimeout(() => {
@@ -75,7 +86,8 @@ export default {
         {
           favFriendOnly: this.favFriendOnly,
           onlineUsersSort: this.onlineUsersSort,
-          NewOnlineUserNotification: this.NewOnlineUserNotification
+          NewOnlineUserNotification: this.NewOnlineUserNotification,
+          favFriendOnlyNotification: this.favFriendOnlyNotification
         },
         () => {
           this.savedMessage = true

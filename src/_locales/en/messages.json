@@ -46,5 +46,8 @@
     },
     "newOnlineUserNotificationMessage": {
         "message": "I have a friend who is new online"
+    },
+    "optionFavFriendOnlyNotification": {
+        "message": "Notify only my favorite friends"
     }
 }

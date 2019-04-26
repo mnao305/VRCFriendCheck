@@ -41,6 +41,30 @@ export function getOnlineUsers (cnt) {
     })
 }
 
+export function getFavFriend () {
+  onlineUsers = []
+  axios
+    .get('auth/user/friends/favorite')
+    .then(frend => {
+      let tmpAry = frend.data
+      tmpAry.forEach(element => {
+        if (element.location !== 'offline') {
+          onlineUsers.push(element)
+        }
+      })
+      newOnlineFriendCheck()
+
+      chrome.storage.local.set(
+        {
+          onlineUsers: onlineUsers
+        }
+      )
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 function notification () {
   const options = {
     iconUrl: 'icons/icon-128.png',
