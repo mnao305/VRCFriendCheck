@@ -65,12 +65,21 @@ export function getFavFriend () {
     })
 }
 
-function notification () {
+function notification (nweOnlineUsers) {
+  const len = nweOnlineUsers.length <= 10 ? nweOnlineUsers.length : 10
+
+  let message = nweOnlineUsers[0]
+  for (let i = 1; i < len; i++) {
+    message += `, ${nweOnlineUsers[i]}${chrome.i18n.getMessage('nameSan')}`
+  }
+  if (nweOnlineUsers.length > 10) {
+    message += `, Another ${nweOnlineUsers.length - 10} users.`
+  }
   const options = {
     iconUrl: 'icons/icon-128.png',
     type: 'basic',
-    title: 'VRCFriendCheck',
-    message: chrome.i18n.getMessage('newOnlineUserNotificationMessage')
+    title: 'New online users',
+    message: message
   }
   chrome.notifications.create('onlineUserNotification', options)
 }
@@ -102,7 +111,7 @@ function newOnlineFriendCheck () {
             const NewOnlineUserNotification = items.NewOnlineUserNotification
 
             if (NewOnlineUserNotification === 'on') {
-              notification()
+              notification(hoge)
             }
           }
         )
