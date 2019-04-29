@@ -101,17 +101,21 @@ function newOnlineFriendCheck () {
       }
 
       // ２つを比較してnewOnlineUsersにいる人のみを抽出
-      const diff = newOnlineUsers.concat(oldOnlineUsers).filter(item => !newOnlineUsers.includes(item) || !oldOnlineUsers.includes(item))
-      const hoge = diff.concat(newOnlineUsers).filter((x, i, self) => self.indexOf(x) === i && i !== self.lastIndexOf(x))
+      const diff = []
+      for (let i = 0; i < newOnlineUsers.length; i++) {
+        if (oldOnlineUsers.indexOf(newOnlineUsers[i]) === -1) {
+          diff.push(newOnlineUsers[i])
+        }
+      }
 
-      if (hoge.length > 0) {
+      if (diff.length > 0) {
         chrome.storage.local.get(
           { NewOnlineUserNotification: 'off' },
           items => {
             const NewOnlineUserNotification = items.NewOnlineUserNotification
 
             if (NewOnlineUserNotification === 'on') {
-              notification(hoge)
+              notification(diff)
             }
           }
         )
