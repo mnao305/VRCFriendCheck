@@ -1,6 +1,6 @@
 {
     "description": {
-        "message": "VRChat에서 친구의 온라인 상태를 확인할 수있는 확장 기능입니다"
+        "message": "VRChat의 친구의 온라인 상태 확인, 온라인 통지 수있는 브라우저 확장 기능"
     },
     "instanceNow": {
         "message": "이 인스턴스에있는 사람"
