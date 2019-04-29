@@ -28,7 +28,8 @@
   "permissions": [
     "https://api.vrchat.cloud/*",
     "alarms",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'"
 }

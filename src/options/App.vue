@@ -4,8 +4,8 @@
     <div id="setting">
       <ul>
         <li>
-          <span data-i18n-text="optionFavFriendOnly"></span>(β)：
-          <label>
+          <span data-i18n-text="optionFavFriendOnly"></span>(β)：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="favFriendOnly" value="on">ON
           </label>
           <label>
@@ -13,14 +13,32 @@
           </label>
         </li>
         <li>
-          <span data-i18n-text="optionOnlineUsersSort"></span>：
-          <label>
+          <span data-i18n-text="optionOnlineUsersSort"></span>：<br>
+          <label class="optionMarginLeft">
             <input type="radio" v-model="onlineUsersSort" value="instance">
             <span data-i18n-text="optionOnlineUsersSort_instance"></span>
           </label>
           <label>
             <input type="radio" v-model="onlineUsersSort" value="name">
             <span data-i18n-text="optionOnlineUsersSort_name"></span>
+          </label>
+        </li>
+        <li>
+          <span data-i18n-text="optionNewOnlineUserNotification"></span>：<br>
+          <label class="optionMarginLeft">
+            <input type="radio" v-model="NewOnlineUserNotification" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="NewOnlineUserNotification" value="off">OFF
+          </label>
+        </li>
+        <li>
+          <span data-i18n-text="optionFavFriendOnlyNotification"></span>：<br>
+          <label class="optionMarginLeft">
+            <input type="radio" v-model="favFriendOnlyNotification" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="favFriendOnlyNotification" value="off">OFF
           </label>
         </li>
       </ul>
@@ -39,7 +57,10 @@ export default {
     return {
       favFriendOnly: '',
       onlineUsersSort: '',
-      savedMessage: false
+      savedMessage: false,
+      NewOnlineUserNotification: '',
+      favFriendOnlyNotification: ''
+
     }
   },
   mounted () {
@@ -48,10 +69,12 @@ export default {
   methods: {
     defaultConfig () {
       chrome.storage.local.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'instance' },
+        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'off', favFriendOnlyNotification: 'off' },
         items => {
           this.favFriendOnly = items.favFriendOnly
           this.onlineUsersSort = items.onlineUsersSort
+          this.NewOnlineUserNotification = items.NewOnlineUserNotification
+          this.favFriendOnlyNotification = items.favFriendOnlyNotification
         }
       )
       setTimeout(() => {
@@ -62,7 +85,9 @@ export default {
       chrome.storage.local.set(
         {
           favFriendOnly: this.favFriendOnly,
-          onlineUsersSort: this.onlineUsersSort
+          onlineUsersSort: this.onlineUsersSort,
+          NewOnlineUserNotification: this.NewOnlineUserNotification,
+          favFriendOnlyNotification: this.favFriendOnlyNotification
         },
         () => {
           this.savedMessage = true
@@ -89,7 +114,7 @@ export default {
 
 <style lang="scss" scoped>
 #setting {
-  margin-left: 15px;
+  margin-left: 6px;
 
   ul {
     list-style: none;
@@ -112,6 +137,10 @@ export default {
   .msg-enter,
   .msg-leave-to {
     opacity: 0;
+  }
+
+  .optionMarginLeft {
+    margin-left: 12px;
   }
 }
 </style>
