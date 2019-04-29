@@ -2,7 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueRouter from 'vue-router'
 import routes from './routes'
-import VueAnalytics from 'vue-analytics'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -10,11 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.use(VueRouter)
 
 window.router = new VueRouter({
-  routes
-})
-
-Vue.use(VueAnalytics, {
-  id: 'UA-57438486-4',
   routes
 })
 

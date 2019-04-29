@@ -17,7 +17,6 @@
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "axios": "^0.18.0",
     "vue": "^2.6.10",
-    "vue-analytics": "^5.16.4",
     "vue-router": "^3.0.6",
     "webextension-polyfill": "^0.3.1"
   },
