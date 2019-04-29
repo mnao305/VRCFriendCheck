@@ -1,5 +1,5 @@
 # VRCFriendCheck
-VRChatにてフレンドのオンライ状況が確認できる拡張機能です。
+VRChatにてフレンドのオンライ状況の確認、オンラインになった際の通知ができる拡張機能です。
 
 ## インストール方法
 [Chromeウェブストア](https://chrome.google.com/webstore/detail/vrcfriendcheck/fkhfmlkfiaafmoaobaofhldnlgapekhl)からこの拡張機能をChromeに追加してください。
@@ -8,6 +8,7 @@ VRChatにてフレンドのオンライ状況が確認できる拡張機能で�
 
 ## 主な機能
 - フレンドのオンライン・オフライン確認
+- フレンドがオンラインになった際に通知
 - オンラインフレンドの居るワールド、インスタンス確認
 - そのインスタンスに居る他のユーザの確認
 - そのインスタンスへのジョイン
