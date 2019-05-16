@@ -1,24 +1,60 @@
+[English](README.md) | [日本語](README.ja.md)
+
 # VRCFriendCheck
-VRChatにてフレンドのオンライ状況の確認、オンラインになった際の通知ができる拡張機能です。
 
-## インストール方法
-[Chromeウェブストア](https://chrome.google.com/webstore/detail/vrcfriendcheck/fkhfmlkfiaafmoaobaofhldnlgapekhl)からこの拡張機能をChromeに追加してください。
+This is a browser extension that allows you to check your friend's online status on VRChat, and notify you when a friend is online.
 
-もしFirefoxをお使いの場合は[Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/vrcfriendcheck/)からこの拡張機能をFirefoxに追加してください。
+## Features
 
-## 主な機能
-- フレンドのオンライン・オフライン確認
-- フレンドがオンラインになった際に通知
-- オンラインフレンドの居るワールド、インスタンス確認
-- そのインスタンスに居る他のユーザの確認
-- そのインスタンスへのジョイン
-- 名前順、インスタンスID順でのソート機能
-- お気に入りフレンドのみ表示する機能
+- Online / offline confirmation of friends
+- Notify me when my friend is online
+- World where online friends exist, instance confirmation
+- Confirmation of other users in the instance
+- Join to that instance
+- Sort by name and instance ID order
+- Function to display only Favorite Friends
+
+## Requirement
+
+- PC version Chrome browser or PC version Firefox browser
+
+## Installation
+### When using Chrome browser
+Add this extension to Chrome from  [Chrome Web Store](https://chrome.google.com/webstore/detail/vrcfriendcheck/fkhfmlkfiaafmoaobaofhldnlgapekhl).
+
+### When using Firefox browser
+Add this extension to Firefox from [Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/vrcfriendcheck/).
 
 
-その他詳細については[ブログ](http://mnao305.hatenablog.com/entry/2018/11/23/121133)を参照。
+When installation is complete, a light blue balloon icon will be displayed in the upper right corner of the browser.
 
-## その他
-この拡張機能を使うにはVRChatアカウントでログインする必要があります。ログインする際、アカウント情報はこの拡張機能やVRChat公式以外のサーバには送信・保存されません。
+## Usage
 
-この拡張機能を利用して発生したいかなる損害も当方は一切の責任を負いかねます。
+### Basic
+1. Click the balloon icon displayed in the upper right corner of the browser.
+2. The login form will be displayed. Log in with a VRChat account.
+3. A list of friends is displayed. By default, all friends are listed in order of instance.
+4. You can also change the order of options.
+5. You can set options to show only your favorite friends.
+
+### notification
+1. You need to turn on from the option to use the notification function.
+2. You can also notify only your favorite friends from the options.
+
+## Anything Else
+
+You need to be logged in as a VRChat account to use this extension.  
+When logging in, account information will not be sent or stored on servers other than this extension or VRChat official.
+
+I am not responsible for any damage that occurs using this extension.
+
+I use Google Translate for translation.
+
+## Author
+
+[mnao305](https://twitter.com/mnao_305)  
+mail to: naomasa305@gmail.com
+
+## License
+
+[GNU GENERAL PUBLIC LICENSE](LICENSE)
