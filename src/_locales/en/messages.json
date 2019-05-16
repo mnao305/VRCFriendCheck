@@ -1,6 +1,6 @@
 {
     "description": {
-        "message": "It is an extended function that can check the friend's online status at VRChat."
+        "message": "Browser extension that allows you to check the online status of friends of VRChat and notify you online."
     },
     "instanceNow": {
         "message": "People in this instance."

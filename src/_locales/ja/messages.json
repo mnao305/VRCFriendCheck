@@ -1,6 +1,6 @@
 {
     "description": {
-        "message": "VRChatにてフレンドのオンライ状況が確認できる拡張機能です"
+        "message": "VRChatのフレンドのオンライン状況の確認、オンライン通知ができるブラウザ拡張機能"
     },
     "instanceNow": {
         "message": "このインスタンスにいる人"
