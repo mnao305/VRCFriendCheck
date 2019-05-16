@@ -9,7 +9,7 @@ global.browser = require('webextension-polyfill')
 
 var badge
 
-chrome.alarms.create('check', { periodInMinutes: 10 })
+chrome.alarms.create('check', { periodInMinutes: 5 })
 chrome.alarms.onAlarm.addListener((alarm) => {
   chrome.browserAction.getBadgeText({}, (res) => {
     badge = res
