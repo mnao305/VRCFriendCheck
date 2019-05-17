@@ -25,7 +25,20 @@ Add this extension to Chrome from  [Chrome Web Store](https://chrome.google.com/
 ### When using Firefox browser
 Add this extension to Firefox from [Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/vrcfriendcheck/).
 
+### If you build by yourself
+node version: 8
 
+Build
+```sh
+npm i
+npm run build:dev   # Developer build
+npm run build       # Production build
+npm run build-zip   # zip file output
+```
+
+Import into browser
+
+---
 When installation is complete, a light blue balloon icon will be displayed in the upper right corner of the browser.
 
 ## Usage

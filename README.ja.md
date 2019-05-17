@@ -25,7 +25,20 @@ VRChatでのフレンドのオンライ状況の確認、フレンドがオン�
 ### Firefoxブラウザを使う場合
 [Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/vrcfriendcheck/)からこの拡張機能をFirefoxに追加してください。
 
+### 自分でビルドする場合
+node version: 8
 
+ビルドする
+```sh
+npm i
+npm run build:dev   # 開発者ビルド
+npm run build       # プロダクションビルド
+npm run build-zip   # zipファイル化
+```
+
+ブラウザにインポートする。
+
+---
 インストールが完了すればブラウザ右上に水色の吹き出しアイコンが表示されます。
 
 ## 使い方
