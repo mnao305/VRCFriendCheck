@@ -51,7 +51,7 @@ When installation is complete, a light blue balloon icon will be displayed in th
 5. You can set options to show only your favorite friends.
 
 ### notification
-1. You need to turn on from the option to use the notification function.
+1. The notification feature can also be turned off from the options..
 2. You can also notify only your favorite friends from the options.
 
 ## Anything Else
