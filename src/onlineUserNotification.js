@@ -110,7 +110,7 @@ function newOnlineFriendCheck () {
 
       if (diff.length > 0) {
         chrome.storage.local.get(
-          { NewOnlineUserNotification: 'off' },
+          { NewOnlineUserNotification: 'on' },
           items => {
             const NewOnlineUserNotification = items.NewOnlineUserNotification
 
