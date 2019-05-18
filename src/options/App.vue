@@ -69,7 +69,7 @@ export default {
   methods: {
     defaultConfig () {
       chrome.storage.local.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'off', favFriendOnlyNotification: 'off' },
+        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'on', favFriendOnlyNotification: 'off' },
         items => {
           this.favFriendOnly = items.favFriendOnly
           this.onlineUsersSort = items.onlineUsersSort
