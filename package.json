@@ -9,7 +9,8 @@
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
-    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
+    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
+    "release": "webstore upload --source=dist-zip/*.zip --auto-publish"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.18",
