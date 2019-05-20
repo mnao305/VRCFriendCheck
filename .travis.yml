@@ -8,3 +8,10 @@ script:
 - npm run build:dev
 - npm run build
 - npm run build-zip
+
+deploy:
+  provider: script
+  script: npm run release
+  on:
+    branch: master
+    tags: true
