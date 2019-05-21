@@ -11,6 +11,7 @@ script:
 
 deploy:
   provider: script
+  skip_cleanup: true
   script: npm run release
   on:
     branch: master
