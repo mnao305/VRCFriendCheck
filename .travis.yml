@@ -1,7 +1,6 @@
 language: node_js
 node_js:
-  - "8"
-
+- '8'
 install:
 - npm install
 script:
@@ -10,9 +9,18 @@ script:
 - npm run build-zip
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: npm run release
-  on:
-    branch: master
-    tags: true
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure: maLmuaS1SULoyqIDgOFbHLoF6U1RbKX1aFwN/IXT3b0I/8313er7BtTMTEQllU/nOuYSvhUjcQ5XX5r3yl+Rj3ND2M8ARDORQdV9xLb+mw6DAe+GrAjvX8XJlaJnK6kIriS4WW+tKh/xDdFJ4WpMdLjnIxZoJLpP0q2JtFDqoJRDusaAYpRt4KuyEL9TQWqCkE3T2H3pnR09+bySYtUdazis/gWW/sXXEAQbFAApdzY+jkrvpr6/+z2ihMBC7jExBvLNwDO1ZJr6wteRHIvfwXJVx5i7ZWHmoOIstla5rFXVtad8m3b6FVjzkv1LgIhwaTKSpK9O1JE88nigj42oaKCgyEqZuc4AtVRPAFkJKTFrWI+NactrKAHhpVHiqGJrSi4poOKvFv1OdMhT9M/tt31b+Qcbc9zEMgFxgpLPHY0X+NukSuCGFCBmUS0pkAo5aEVAXSquNkBnFoCMZ1lVsDKRc6KDPilDSbCSsseo/D3zrDJKttYhYAcutHgpQOhQ6EiIG3CqXr0ufFvauAT4BLQtg0cFaWPwLhGkE00Cu4rH4GPFJXt5ZJnoPQS4Io1HcW5HfjIrZUj0u1cw5GuZHJtzyEfS1Z1iV3l2QOm23d9fQdOCuxupXFGDFdDAOepSGB8m8kd6QfZZK4yo0qpKQozWatSnuI5b4nCgK+rCczI=
+    file_glob: true
+    file: dist-zip/*.zip
+    on:
+      repo: mnao305/VRCFriendCheck
+      tags: true
+  - provider: script
+    skip_cleanup: true
+    script: npm run release
+    on:
+      branch: master
+      tags: true
