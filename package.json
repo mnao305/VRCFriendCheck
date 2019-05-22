@@ -10,7 +10,9 @@
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
-    "release": "cd dist-zip && webstore upload --auto-publish && web-ext-submit"
+    "releaseCWS": "cd dist && webstore upload --auto-publish",
+    "releaseAMO": "cd dist && web-ext-submit",
+    "release": "npm run releaseCWS"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.18",
