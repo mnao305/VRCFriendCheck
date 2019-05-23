@@ -9,6 +9,7 @@ This is a browser extension that allows you to check your friend's online status
 - Online / offline confirmation of friends
 - Notify me when my friend is online
 - World where online friends exist, instance confirmation
+- Review Friend Status and Status Messages
 - Confirmation of other users in the instance
 - Join to that instance
 - Sort by name and instance ID order
