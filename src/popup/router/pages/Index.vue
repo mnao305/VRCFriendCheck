@@ -9,7 +9,7 @@
     <div v-if="switching == ''">{{ msg }}</div>
     <div v-else>
       <div id="online" v-show="switching == 'onlineTab'">
-        <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers">
+        <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers" :key="onlineUser.id">
           <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
           <p class="userInfo">
             <font-awesome-icon class="icon" icon="user"/>
@@ -40,7 +40,7 @@
             </div>
             <div class="instanceUser">
               <div data-i18n-text="instanceNow"></div>
-              <div v-for="user in instancesInfos[i].users" class="userInWorld">
+              <div v-for="user in instancesInfos[i].users" class="userInWorld" :key="user.id">
                 <font-awesome-icon class="icon" icon="user"/>
                 {{ user.displayName }}
               </div>
@@ -50,7 +50,7 @@
         <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
       </div>
       <div id="offline" v-show="switching == 'offlineTab'">
-        <div class="offlineUser user" v-for="offlineUser in offlineUsers">
+        <div class="offlineUser user" v-for="offlineUser in offlineUsers" :key="offlineUser.id">
           <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
           <p class="userInfo">
             <font-awesome-icon class="icon" icon="user"/>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -103,7 +105,7 @@ export default {
           // エラーになる(未ログイン時)ログインページに飛ばす
           chrome.browserAction.setBadgeText({ text: `！` })
           chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
-          router.push('/login')
+          this.$router.push('/login')
           location.reload()
         })
     },
