@@ -15,7 +15,7 @@
             <font-awesome-icon class="icon" icon="user"/>
             {{ onlineUser.displayName }}
             <br>
-            <font-awesome-icon class="icon" icon="globe"/>
+            <font-awesome-icon class="icon" icon="map-marker-alt"/>
             {{ worldInfos[i].name }}
             <br>
             <span :class="onlineUser.status">
