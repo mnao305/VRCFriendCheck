@@ -15,8 +15,12 @@
             <font-awesome-icon class="icon" icon="user"/>
             {{ onlineUser.displayName }}
             <br>
-            <font-awesome-icon class="icon" icon="globe"/>
+            <font-awesome-icon class="icon" icon="map-marker-alt"/>
             {{ worldInfos[i].name }}
+            <br>
+            <span :class="onlineUser.status">
+              <font-awesome-icon class="icon" icon="circle"/>{{onlineUser.statusDescription}}
+            </span>
           </p>
           <div
             v-if="worldInfos[i].name != 'Private'"
@@ -383,6 +387,15 @@ export default {
         width: 300px;
         word-break: break-all;
       }
+    }
+    .join {
+      color: blue;
+    }
+    .active {
+      color: green;
+    }
+    .busy {
+      color: red;
     }
   }
 
