@@ -33,17 +33,24 @@
             <div class="instanceInfo">
               <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
               <p v-if="worldInfos[i].name != 'Private'">
-                {{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}
+                <template v-if="instancesInfos[i] !== 'err'">
+                  {{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}
+                </template>
                 <br>
-                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank">Join!</a>
+                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank" v-if="instancesInfos[i] !== 'err'">Join!</a>
               </p>
             </div>
             <div class="instanceUser">
-              <div data-i18n-text="instanceNow"></div>
-              <div v-for="user in instancesInfos[i].users" class="userInWorld" :key="user.id">
-                <font-awesome-icon class="icon" icon="user"/>
-                {{ user.displayName }}
-              </div>
+              <span v-if="instancesInfos[i] === 'err'" class="error">
+                  Sory! Acquisition error
+              </span>
+              <template v-if="instancesInfos[i] !== 'err'">
+                <div data-i18n-text="instanceNow"></div>
+                <div v-for="user in instancesInfos[i].users" class="userInWorld" :key="user.id">
+                  <font-awesome-icon class="icon" icon="user"/>
+                  {{ user.displayName }}
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -229,6 +236,9 @@ export default {
     getInstances (i, location) {
       axios.get(`/worlds/${location}`).then(world => {
         this.$set(this.instancesInfos, i, world.data)
+      }).catch(err => {
+        this.$set(this.instancesInfos, i, 'err')
+        console.log(err)
       })
     },
     changeFlag (i) {
@@ -388,6 +398,9 @@ export default {
         left: 84px;
         width: 300px;
         word-break: break-all;
+      }
+      .error {
+        color: red;
       }
     }
     .join {
