@@ -144,6 +144,11 @@ export default {
                 )
               }
             }
+            chrome.storage.local.set(
+              {
+                onlineUsers: this.onlineUsers
+              }
+            )
           }
         })
         .catch(err => {
