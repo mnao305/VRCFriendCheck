@@ -146,7 +146,8 @@ export default {
             }
             chrome.storage.local.set(
               {
-                onlineUsers: this.onlineUsers
+                onlineUsers: this.onlineUsers,
+                lastUpdate: Date.now()
               }
             )
           }

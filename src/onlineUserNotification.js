@@ -31,7 +31,8 @@ export function getOnlineUsers (cnt) {
 
         chrome.storage.local.set(
           {
-            onlineUsers: onlineUsers
+            onlineUsers: onlineUsers,
+            lastUpdate: Date.now()
           }
         )
       }
@@ -56,7 +57,8 @@ export function getFavFriend () {
 
       chrome.storage.local.set(
         {
-          onlineUsers: onlineUsers
+          onlineUsers: onlineUsers,
+          lastUpdate: Date.now()
         }
       )
     })
