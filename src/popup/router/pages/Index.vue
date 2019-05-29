@@ -180,6 +180,13 @@ export default {
           cnt += 100
           if (cnt === this.offlineUserNum) {
             this.getOfflineUsers(cnt)
+          } else {
+            chrome.storage.local.set(
+              {
+                offlineUsers: this.offlineUsers,
+                lastUpdate: Date.now()
+              }
+            )
           }
         })
         .catch(err => {
@@ -212,6 +219,13 @@ export default {
               )
             }
           }
+          chrome.storage.local.set(
+            {
+              favOfflineUsers: this.offlineUsers,
+              favOnlineUsers: this.onlineUsers,
+              favLastUpdate: Date.now()
+            }
+          )
         })
         .catch(err => {
           console.log(err)

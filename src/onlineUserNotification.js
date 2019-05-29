@@ -48,17 +48,21 @@ export function getFavFriend () {
     .get('auth/user/friends/favorite')
     .then(frend => {
       let tmpAry = frend.data
+      const favOfflineUsers = []
       tmpAry.forEach(element => {
         if (element.location !== 'offline') {
           onlineUsers.push(element)
+        } else {
+          favOfflineUsers.push(element)
         }
       })
       newOnlineFriendCheck()
 
       chrome.storage.local.set(
         {
-          onlineUsers: onlineUsers,
-          lastUpdate: Date.now()
+          favOfflineUsers: favOfflineUsers,
+          favOnlineUsers: onlineUsers,
+          favLastUpdate: Date.now()
         }
       )
     })
@@ -95,8 +99,10 @@ function newOnlineFriendCheck () {
 
   // 前回取得したオンラインユーザの名前のみ取得
   chrome.storage.local.get(
-    { onlineUsers: [] }, (items) => {
-      const tmp = items.onlineUsers
+    { onlineUsers: [], favOnlineUsers: [], favFriendOnlyNotification: 'off' }, (items) => {
+      const tmp = items.favFriendOnlyNotification === 'off' ? items.onlineUsers : items.favOnlineUsers
+      console.log(items.favFriendOnlyNotification, tmp)
+
       const oldOnlineUsers = []
       for (let i = 0; i < tmp.length; i++) {
         oldOnlineUsers.push(tmp[i].displayName)
