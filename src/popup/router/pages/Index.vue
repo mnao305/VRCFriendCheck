@@ -102,10 +102,52 @@ export default {
           chrome.browserAction.setBadgeText({ text: `` })
           console.log('login')
           if (!this.favFriendOnly) {
-            this.getOnlineUsers(0)
-            this.getOfflineUsers(0)
+            chrome.storage.local.get(
+              { lastUpdate: null, onlineUsers: [], offlineUsers: [] },
+              items => {
+                if (items.lastUpdate == null || ((Date.now() - items.lastUpdate) / 1000) >= 60) {
+                  this.getOnlineUsers(0)
+                  this.getOfflineUsers(0)
+                } else {
+                  this.onlineUsers.push(...items.onlineUsers)
+                  this.onlineUserNum = this.onlineUsers.length
+                  this.offlineUsers.push(...items.offlineUsers)
+                  this.offlineUserNum = this.offlineUsers.length
+
+                  this.getInstanceData()
+
+                  this.msg = 'Complete!'
+                  setTimeout(() => {
+                    this.switching = 'onlineTab'
+                    setTimeout(() => {
+                      this.localizeHtmlPage()
+                    }, 100)
+                  }, 1500)
+                }
+              })
           } else {
-            this.getFavFriend()
+            chrome.storage.local.get(
+              { favLastUpdate: null, favOnlineUsers: [], favOfflineUsers: [] },
+              items => {
+                if (items.favLastUpdate == null || ((Date.now() - items.favLastUpdate) / 1000) >= 60) {
+                  this.getFavFriend()
+                } else {
+                  this.onlineUsers.push(...items.favOnlineUsers)
+                  this.onlineUserNum = this.onlineUsers.length
+                  this.offlineUsers.push(...items.favOfflineUsers)
+                  this.offlineUserNum = this.offlineUsers.length
+
+                  this.getInstanceData()
+
+                  this.msg = 'Complete!'
+                  setTimeout(() => {
+                    this.switching = 'onlineTab'
+                    setTimeout(() => {
+                      this.localizeHtmlPage()
+                    }, 100)
+                  }, 1500)
+                }
+              })
           }
         })
         .catch(() => {
@@ -131,19 +173,7 @@ export default {
           if (cnt === this.onlineUserNum) {
             this.getOnlineUsers(cnt)
           } else {
-            this.onlineUsersSort()
-            for (let i = 0; i < this.onlineUserNum; i++) {
-              if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
-                this.$set(this.worldInfos, i, { name: 'Private' })
-                this.$set(this.instancesInfos, i, 'Private')
-              } else {
-                this.getWorld(i, this.onlineUsers[i].location)
-                this.getInstances(
-                  i,
-                  this.onlineUsers[i].location.replace(':', '/')
-                )
-              }
-            }
+            this.getInstanceData()
             chrome.storage.local.set(
               {
                 onlineUsers: this.onlineUsers,
@@ -207,18 +237,7 @@ export default {
           })
           this.onlineUserNum = this.onlineUsers.length
           this.offlineUserNum = this.offlineUsers.length
-          for (let i = 0; i < this.onlineUserNum; i++) {
-            if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
-              this.$set(this.worldInfos, i, { name: 'Private' })
-              this.$set(this.instancesInfos, i, 'Private')
-            } else {
-              this.getWorld(i, this.onlineUsers[i].location)
-              this.getInstances(
-                i,
-                this.onlineUsers[i].location.replace(':', '/')
-              )
-            }
-          }
+          this.getInstanceData()
           chrome.storage.local.set(
             {
               favOfflineUsers: this.offlineUsers,
@@ -239,27 +258,6 @@ export default {
             }, 100)
           }, 1500)
         })
-    },
-    getWorld (i, location) {
-      let index = location.indexOf(':')
-      let id = location.substring(0, index)
-      axios
-        .get(`/worlds/${id}`)
-        .then(world => {
-          this.$set(this.worldInfos, i, world.data)
-        })
-        .catch(err => {
-          this.$set(this.worldInfos, i, { name: 'Fetch failed' })
-          console.log(err)
-        })
-    },
-    getInstances (i, location) {
-      axios.get(`/worlds/${location}`).then(world => {
-        this.$set(this.instancesInfos, i, world.data)
-      }).catch(err => {
-        this.$set(this.instancesInfos, i, 'err')
-        console.log(err)
-      })
     },
     changeFlag (i) {
       this.localizeHtmlPage()
@@ -304,6 +302,38 @@ export default {
         this.onlineUsers.sort((a, b) => {
           return a.location < b.location ? 1 : -1
         })
+      }
+    },
+    getInstanceData () {
+      this.onlineUsersSort()
+      for (let i = 0; i < this.onlineUserNum; i++) {
+        if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
+          this.$set(this.worldInfos, i, { name: 'Private' })
+          this.$set(this.instancesInfos, i, 'Private')
+        } else {
+          // ワールド情報取得
+          const worldLocation = this.onlineUsers[i].location
+          let index = worldLocation.indexOf(':')
+          let id = worldLocation.substring(0, index)
+          axios
+            .get(`/worlds/${id}`)
+            .then(world => {
+              this.$set(this.worldInfos, i, world.data)
+            })
+            .catch(err => {
+              this.$set(this.worldInfos, i, { name: 'Fetch failed' })
+              console.log(err)
+            })
+
+          // インスタンス詳細取得
+          const instanceLocation = this.onlineUsers[i].location.replace(':', '/')
+          axios.get(`/worlds/${instanceLocation}`).then(world => {
+            this.$set(this.instancesInfos, i, world.data)
+          }).catch(err => {
+            this.$set(this.instancesInfos, i, 'err')
+            console.log(err)
+          })
+        }
       }
     }
   }
