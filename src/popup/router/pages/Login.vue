@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -54,7 +56,7 @@ export default {
             })
             .then(user => {
               console.log(user.data)
-              router.push('/')
+              this.$router.push('/')
               location.reload()
             })
             .catch(err => {
