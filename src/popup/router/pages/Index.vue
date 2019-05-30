@@ -118,7 +118,7 @@ export default {
                   this.onlineUsers.push(...items.onlineUsers)
                   this.onlineUserNum = this.onlineUsers.length
 
-                  this.getInstanceData()
+                  this.getWorldData()
 
                   this.msg = 'Complete!'
                   setTimeout(() => {
@@ -141,7 +141,7 @@ export default {
                   this.offlineUsers.push(...items.favOfflineUsers)
                   this.offlineUserNum = this.offlineUsers.length
 
-                  this.getInstanceData()
+                  this.getWorldData()
 
                   this.msg = 'Complete!'
                   setTimeout(() => {
@@ -177,7 +177,7 @@ export default {
           if (cnt === this.onlineUserNum) {
             this.getOnlineUsers(cnt)
           } else {
-            this.getInstanceData()
+            this.getWorldData()
             chrome.storage.local.set(
               {
                 onlineUsers: this.onlineUsers,
@@ -241,7 +241,7 @@ export default {
           })
           this.onlineUserNum = this.onlineUsers.length
           this.offlineUserNum = this.offlineUsers.length
-          this.getInstanceData()
+          this.getWorldData()
           chrome.storage.local.set(
             {
               favOfflineUsers: this.offlineUsers,
@@ -308,7 +308,7 @@ export default {
         })
       }
     },
-    getInstanceData () {
+    getWorldData () {
       this.onlineUsersSort()
       for (let i = 0; i < this.onlineUserNum; i++) {
         if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
