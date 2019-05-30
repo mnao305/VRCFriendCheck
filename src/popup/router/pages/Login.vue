@@ -14,10 +14,15 @@
         <br>
       </label>
       <button v-on:click="login" id="loginBtn">Login!</button>
-      <div v-if="loginErr" class="loginErr">
+      <div v-if="loginErr" class="loginErr error">
         <span data-i18n-text="loginErrTitle"></span>
         <br>
         <span data-i18n-text="loginErrMsg"></span>
+      </div>
+      <div v-if="unknownErr" class="unknownErr error">
+        <span data-i18n-text="unknownErrTitle">Error!</span>
+        <br>
+        <span data-i18n-text="unknownErrMsg">Unknown error</span>
       </div>
     </div>
   </div>
@@ -31,46 +36,41 @@ export default {
     return {
       username: '',
       passwd: '',
-      loginErr: false
+      loginErr: false,
+      unknownErr: false
     }
   },
   mounted () {
     this.localizeHtmlPage()
   },
   methods: {
-    login () {
-      axios
-        .get('/config')
-        .then(config => {
-          const apiKey = config.data.clientApiKey
+    async login () {
+      let apiKey
+      try {
+        const tmp = await axios.get('/config')
+        apiKey = tmp.data.apiKey
+      } catch (error) {
+        this.unknownErr = true
+        console.log(error)
+        return
+      }
 
-          axios
-            .get('/auth/user', {
-              params: {
-                apiKey
-              },
-              auth: {
-                username: this.username,
-                password: this.passwd
-              }
-            })
-            .then(user => {
-              console.log(user.data)
-              this.$router.push('/')
-              location.reload()
-            })
-            .catch(err => {
-              console.log(err)
-              this.loginErr = true
-              setTimeout(() => {
-                this.localizeHtmlPage()
-              }, 100)
-            })
-        })
-        .catch(err => {
+      try {
+        await axios.get('/auth/user', { params: { apiKey }, auth: { username: this.username, password: this.passwd } })
+        this.$router.push('/')
+        location.reload()
+      } catch (error) {
+        console.log(error)
+        const { status } = error.response
+        if (status === 401) {
           this.loginErr = true
-          console.log(err)
-        })
+          setTimeout(() => {
+            this.localizeHtmlPage()
+          }, 100)
+        } else {
+          this.unknownErr = true
+        }
+      }
     },
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {
@@ -95,7 +95,7 @@ export default {
   input {
     margin-bottom: 10px;
   }
-  .loginErr {
+  .error {
     color: red;
     margin-top: 8px;
   }
