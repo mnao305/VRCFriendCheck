@@ -103,16 +103,20 @@ export default {
           console.log('login')
           if (!this.favFriendOnly) {
             chrome.storage.local.get(
-              { lastUpdate: null, onlineUsers: [], offlineUsers: [] },
+              { lastUpdate: null, lastOfflineUsersUpdate: null, onlineUsers: [], offlineUsers: [] },
               items => {
+                if (items.lastOfflineUsersUpdate == null || ((Date.now() - items.lastOfflineUsersUpdate) / 1000) >= 60) {
+                  this.getOfflineUsers(0)
+                } else {
+                  this.offlineUsers.push(...items.offlineUsers)
+                  this.offlineUserNum = this.offlineUsers.length
+                }
+
                 if (items.lastUpdate == null || ((Date.now() - items.lastUpdate) / 1000) >= 60) {
                   this.getOnlineUsers(0)
-                  this.getOfflineUsers(0)
                 } else {
                   this.onlineUsers.push(...items.onlineUsers)
                   this.onlineUserNum = this.onlineUsers.length
-                  this.offlineUsers.push(...items.offlineUsers)
-                  this.offlineUserNum = this.offlineUsers.length
 
                   this.getInstanceData()
 
@@ -214,7 +218,7 @@ export default {
             chrome.storage.local.set(
               {
                 offlineUsers: this.offlineUsers,
-                lastUpdate: Date.now()
+                lastOfflineUsersUpdate: Date.now()
               }
             )
           }
