@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-Browser.alarms.create('check', { periodInMinutes: 1 })
+Browser.alarms.create('check', { periodInMinutes: 5 })
 Browser.alarms.onAlarm.addListener(async (alarm) => {
   const badge = await Browser.browserAction.getBadgeText({})
 
