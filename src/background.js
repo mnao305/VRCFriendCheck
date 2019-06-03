@@ -1,41 +1,31 @@
 import axios from 'axios'
 import { getOnlineUsers, getFavFriend } from './onlineUserNotification'
+import Browser from 'webextension-polyfill'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
 axios.defaults.withCredentials = true
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-global.browser = require('webextension-polyfill')
+Browser.alarms.create('check', { periodInMinutes: 1 })
+Browser.alarms.onAlarm.addListener(async (alarm) => {
+  const badge = await Browser.browserAction.getBadgeText({})
 
-var badge
-
-chrome.alarms.create('check', { periodInMinutes: 5 })
-chrome.alarms.onAlarm.addListener((alarm) => {
-  chrome.browserAction.getBadgeText({}, (res) => {
-    badge = res
-  })
   if (alarm.name === 'check' && badge !== '！') {
-    axios
-      .get('/auth/user')
-      .then(() => {
-        chrome.browserAction.setBadgeText({ text: `` })
+    try {
+      await axios.get('/auth/user')
 
-        chrome.storage.local.get(
-          { favFriendOnlyNotification: 'off' },
-          items => {
-            const favFriendOnlyNotification = items.favFriendOnlyNotification
+      Browser.browserAction.setBadgeText({ text: `` })
 
-            if (favFriendOnlyNotification === 'on') {
-              getFavFriend()
-            } else {
-              getOnlineUsers(0)
-            }
-          }
-        )
-      })
-      .catch(() => {
-        chrome.browserAction.setBadgeText({ text: `！` })
-        chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
-      })
+      const { favFriendOnlyNotification } = await Browser.storage.local.get({ favFriendOnlyNotification: 'off' })
+
+      if (favFriendOnlyNotification === 'on') {
+        getFavFriend()
+      } else {
+        getOnlineUsers(0)
+      }
+    } catch (error) {
+      Browser.browserAction.setBadgeText({ text: '！' })
+      Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+    }
   }
 })
