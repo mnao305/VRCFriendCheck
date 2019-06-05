@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Browser from 'webextension-polyfill'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
 axios.defaults.withCredentials = true
@@ -7,68 +8,71 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 let onlineUsers = []
 let onlineUserNum = 0
 
-export function getOnlineUsers (cnt) {
+export async function getOnlineUsers (cnt) {
   if (cnt === 0) {
     onlineUsers = []
     onlineUserNum = 0
   }
 
-  axios
-    .get('auth/user/friends', {
+  let frend
+  try {
+    const tmp = await axios.get('auth/user/friends', {
       params: {
         n: 100,
         offset: cnt
       }
     })
-    .then(frend => {
-      onlineUsers.push(...frend.data)
-      onlineUserNum = onlineUsers.length
-      cnt += 100
-      if (cnt === onlineUserNum) {
-        getOnlineUsers(cnt)
-      } else {
-        newOnlineFriendCheck()
+    frend = tmp.data
+  } catch (error) {
+    console.log(error)
+    return
+  }
 
-        chrome.storage.local.set(
-          {
-            onlineUsers: onlineUsers,
-            lastUpdate: Date.now()
-          }
-        )
+  onlineUsers.push(...frend)
+  onlineUserNum = onlineUsers.length
+  cnt += 100
+  if (cnt === onlineUserNum) {
+    getOnlineUsers(cnt)
+  } else {
+    newOnlineFriendCheck()
+
+    Browser.storage.local.set(
+      {
+        onlineUsers: onlineUsers,
+        lastUpdate: Date.now()
       }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    )
+  }
 }
 
-export function getFavFriend () {
+export async function getFavFriend () {
   onlineUsers = []
-  axios
-    .get('auth/user/friends/favorite')
-    .then(frend => {
-      let tmpAry = frend.data
-      const favOfflineUsers = []
-      tmpAry.forEach(element => {
-        if (element.location !== 'offline') {
-          onlineUsers.push(element)
-        } else {
-          favOfflineUsers.push(element)
-        }
-      })
-      newOnlineFriendCheck()
+  let frend
+  try {
+    const tmp = await axios.get('auth/user/friends/favorite')
+    frend = tmp.data
+  } catch (error) {
+    console.log(error)
+    return
+  }
 
-      chrome.storage.local.set(
-        {
-          favOfflineUsers: favOfflineUsers,
-          favOnlineUsers: onlineUsers,
-          favLastUpdate: Date.now()
-        }
-      )
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  const favOfflineUsers = []
+  frend.forEach(element => {
+    if (element.location !== 'offline') {
+      onlineUsers.push(element)
+    } else {
+      favOfflineUsers.push(element)
+    }
+  })
+  newOnlineFriendCheck()
+
+  Browser.storage.local.set(
+    {
+      favOfflineUsers: favOfflineUsers,
+      favOnlineUsers: onlineUsers,
+      favLastUpdate: Date.now()
+    }
+  )
 }
 
 function notification (nweOnlineUsers) {
@@ -76,7 +80,7 @@ function notification (nweOnlineUsers) {
 
   let message = nweOnlineUsers[0]
   for (let i = 1; i < len; i++) {
-    message += `, ${nweOnlineUsers[i]}${chrome.i18n.getMessage('nameSan')}`
+    message += `, ${nweOnlineUsers[i]}${Browser.i18n.getMessage('nameSan')}`
   }
   if (nweOnlineUsers.length > 10) {
     message += `, Another ${nweOnlineUsers.length - 10} users.`
@@ -87,10 +91,10 @@ function notification (nweOnlineUsers) {
     title: 'New online users',
     message: message
   }
-  chrome.notifications.create('onlineUserNotification', options)
+  Browser.notifications.create('onlineUserNotification', options)
 }
 
-function newOnlineFriendCheck () {
+async function newOnlineFriendCheck () {
   // 新しく取得したオンラインユーザの名前のみ抽出
   const newOnlineUsers = []
   for (let i = 0; i < onlineUsers.length; i++) {
@@ -98,36 +102,27 @@ function newOnlineFriendCheck () {
   }
 
   // 前回取得したオンラインユーザの名前のみ取得
-  chrome.storage.local.get(
-    { onlineUsers: [], favOnlineUsers: [], favFriendOnlyNotification: 'off' }, (items) => {
-      const tmp = items.favFriendOnlyNotification === 'off' ? items.onlineUsers : items.favOnlineUsers
-      console.log(items.favFriendOnlyNotification, tmp)
+  const data = await Browser.storage.local.get({ onlineUsers: [], favOnlineUsers: [], favFriendOnlyNotification: 'off' })
 
-      const oldOnlineUsers = []
-      for (let i = 0; i < tmp.length; i++) {
-        oldOnlineUsers.push(tmp[i].displayName)
-      }
+  const tmp = data.favFriendOnlyNotification === 'off' ? data.onlineUsers : data.favOnlineUsers
 
-      // ２つを比較してnewOnlineUsersにいる人のみを抽出
-      const diff = []
-      for (let i = 0; i < newOnlineUsers.length; i++) {
-        if (oldOnlineUsers.indexOf(newOnlineUsers[i]) === -1) {
-          diff.push(newOnlineUsers[i])
-        }
-      }
+  const oldOnlineUsers = []
+  for (let i = 0; i < tmp.length; i++) {
+    oldOnlineUsers.push(tmp[i].displayName)
+  }
 
-      if (diff.length > 0) {
-        chrome.storage.local.get(
-          { NewOnlineUserNotification: 'on' },
-          items => {
-            const NewOnlineUserNotification = items.NewOnlineUserNotification
-
-            if (NewOnlineUserNotification === 'on') {
-              notification(diff)
-            }
-          }
-        )
-      }
+  // ２つを比較してnewOnlineUsersにいる人のみを抽出
+  const diff = []
+  for (let i = 0; i < newOnlineUsers.length; i++) {
+    if (oldOnlineUsers.indexOf(newOnlineUsers[i]) === -1) {
+      diff.push(newOnlineUsers[i])
     }
-  )
+  }
+
+  if (diff.length > 0) {
+    const { NewOnlineUserNotification } = await Browser.storage.local.get({ NewOnlineUserNotification: 'on' })
+    if (NewOnlineUserNotification === 'on') {
+      notification(diff)
+    }
+  }
 }

@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios'
+import Browser from 'webextension-polyfill'
 
 export default {
   data () {
@@ -75,12 +76,12 @@ export default {
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
-        element.textContent = chrome.i18n.getMessage(key)
+        element.textContent = Browser.i18n.getMessage(key)
       })
 
       document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
-        element.value = chrome.i18n.getMessage(key)
+        element.value = Browser.i18n.getMessage(key)
       })
     }
   }

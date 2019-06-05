@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import Browser from 'webextension-polyfill'
 export default {
   name: 'App',
   data () {
@@ -67,45 +68,41 @@ export default {
     this.defaultConfig()
   },
   methods: {
-    defaultConfig () {
-      chrome.storage.local.get(
-        { favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'on', favFriendOnlyNotification: 'off' },
-        items => {
-          this.favFriendOnly = items.favFriendOnly
-          this.onlineUsersSort = items.onlineUsersSort
-          this.NewOnlineUserNotification = items.NewOnlineUserNotification
-          this.favFriendOnlyNotification = items.favFriendOnlyNotification
-        }
-      )
+    async defaultConfig () {
+      const data = await Browser.storage.local.get({
+        favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'on', favFriendOnlyNotification: 'off'
+      })
+      this.favFriendOnly = data.favFriendOnly
+      this.onlineUsersSort = data.onlineUsersSort
+      this.NewOnlineUserNotification = data.NewOnlineUserNotification
+      this.favFriendOnlyNotification = data.favFriendOnlyNotification
       setTimeout(() => {
         this.localizeHtmlPage()
       }, 100)
     },
     configSave () {
-      chrome.storage.local.set(
+      Browser.storage.local.set(
         {
           favFriendOnly: this.favFriendOnly,
           onlineUsersSort: this.onlineUsersSort,
           NewOnlineUserNotification: this.NewOnlineUserNotification,
           favFriendOnlyNotification: this.favFriendOnlyNotification
-        },
-        () => {
-          this.savedMessage = true
-          setTimeout(() => {
-            this.savedMessage = false
-          }, 1000)
         }
       )
+      this.savedMessage = true
+      setTimeout(() => {
+        this.savedMessage = false
+      }, 1000)
     },
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
-        element.textContent = chrome.i18n.getMessage(key)
+        element.textContent = Browser.i18n.getMessage(key)
       })
 
       document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
-        element.value = chrome.i18n.getMessage(key)
+        element.value = Browser.i18n.getMessage(key)
       })
     }
   }

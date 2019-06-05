@@ -97,11 +97,11 @@ export default {
   methods: {
     async loginCheck () {
       try {
-        axios.get('/auth/user')
+        await axios.get('/auth/user')
       } catch (error) {
         // エラーになる(未ログイン時)ログインページに飛ばす
-        chrome.browserAction.setBadgeText({ text: '！' })
-        chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+        Browser.browserAction.setBadgeText({ text: '！' })
+        Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
         this.$router.push('/login')
         location.reload()
         return
@@ -109,7 +109,7 @@ export default {
 
       await this.setingLoad()
 
-      chrome.browserAction.setBadgeText({ text: '' })
+      Browser.browserAction.setBadgeText({ text: '' })
 
       if (!this.favFriendOnly) {
         const storage = await Browser.storage.local.get({ lastUpdate: null, lastOfflineUsersUpdate: null, onlineUsers: [], offlineUsers: [] })
@@ -232,7 +232,7 @@ export default {
       this.onlineUserNum = this.onlineUsers.length
       this.offlineUserNum = this.offlineUsers.length
       this.getWorldData()
-      chrome.storage.local.set(
+      Browser.storage.local.set(
         {
           favOfflineUsers: this.offlineUsers,
           favOnlineUsers: this.onlineUsers,
@@ -265,12 +265,12 @@ export default {
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
-        element.textContent = chrome.i18n.getMessage(key)
+        element.textContent = Browser.i18n.getMessage(key)
       })
 
       document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
-        element.value = chrome.i18n.getMessage(key)
+        element.value = Browser.i18n.getMessage(key)
       })
     },
     onlineUsersSort () {
