@@ -33,14 +33,14 @@
             <div class="instanceInfo">
               <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
               <p v-if="worldInfos[i].name != 'Private'">
-                <template v-if="instancesInfos[i] !== 'err'">
+                <!-- <template v-if="instancesInfos[i] !== 'err'">
                   {{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}
                 </template>
-                <br>
-                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank" v-if="instancesInfos[i] !== 'err'">Join!</a>
+                <br> -->
+                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank">Join!</a>
               </p>
             </div>
-            <div class="instanceUser">
+            <!-- <div class="instanceUser">
               <span v-if="instancesInfos[i] === 'err'" class="error">
                   Sory! Acquisition error
               </span>
@@ -51,7 +51,7 @@
                   {{ user.displayName }}
                 </div>
               </template>
-            </div>
+            </div> -->
           </div>
         </div>
         <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
@@ -306,15 +306,16 @@ export default {
           }
 
           // インスタンス詳細取得
-          const instanceLocation = this.onlineUsers[i].location.replace(':', '/')
-          try {
-            const tmp = await axios.get(`/worlds/${instanceLocation}`)
-            const world = tmp.data
-            this.$set(this.instancesInfos, i, world)
-          } catch (error) {
-            this.$set(this.instancesInfos, i, 'err')
-            console.log(error)
-          }
+          // インスタンス詳細取得APIが使用不能なため一時的に無効化
+          // const instanceLocation = this.onlineUsers[i].location.replace(':', '/')
+          // try {
+          //   const tmp = await axios.get(`/worlds/${instanceLocation}`)
+          //   const world = tmp.data
+          //   this.$set(this.instancesInfos, i, world)
+          // } catch (error) {
+          //   this.$set(this.instancesInfos, i, 'err')
+          //   console.log(error)
+          // }
         }
       }
     }
