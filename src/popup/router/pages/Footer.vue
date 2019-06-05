@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import Browser from 'webextension-polyfill'
 export default {
   data () {
     return {
@@ -13,11 +14,9 @@ export default {
     this.checkMode()
   },
   methods: {
-    checkMode () {
-      chrome.storage.local.get({ favFriendOnly: 'off' }, items => {
-        this.mode =
-          items.favFriendOnly === 'on' ? 'favoriteOnlyMode' : 'normalMode'
-      })
+    async checkMode () {
+      const { favFriendOnly } = await Browser.storage.local.get({ favFriendOnly: 'off' })
+      this.mode = favFriendOnly === 'on' ? 'favoriteOnlyMode' : 'normalMode'
     }
   }
 }

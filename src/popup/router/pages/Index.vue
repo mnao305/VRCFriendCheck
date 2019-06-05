@@ -33,14 +33,14 @@
             <div class="instanceInfo">
               <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
               <p v-if="worldInfos[i].name != 'Private'">
-                <template v-if="instancesInfos[i] !== 'err'">
+                <!-- <template v-if="instancesInfos[i] !== 'err'">
                   {{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}
                 </template>
-                <br>
-                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank" v-if="instancesInfos[i] !== 'err'">Join!</a>
+                <br> -->
+                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank">Join!</a>
               </p>
             </div>
-            <div class="instanceUser">
+            <!-- <div class="instanceUser">
               <span v-if="instancesInfos[i] === 'err'" class="error">
                   Sory! Acquisition error
               </span>
@@ -51,7 +51,7 @@
                   {{ user.displayName }}
                 </div>
               </template>
-            </div>
+            </div> -->
           </div>
         </div>
         <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
@@ -72,6 +72,7 @@
 
 <script>
 import axios from 'axios'
+import Browser from 'webextension-polyfill'
 
 export default {
   data () {
@@ -90,66 +91,44 @@ export default {
     }
   },
   mounted () {
-    this.setingLoad()
     this.loginCheck()
     this.localizeHtmlPage()
   },
   methods: {
-    loginCheck () {
-      axios
-        .get('/auth/user')
-        .then(() => {
-          chrome.browserAction.setBadgeText({ text: `` })
-          console.log('login')
-          if (!this.favFriendOnly) {
-            this.getOnlineUsers(0)
-            this.getOfflineUsers(0)
-          } else {
-            this.getFavFriend()
-          }
-        })
-        .catch(() => {
-          // エラーになる(未ログイン時)ログインページに飛ばす
-          chrome.browserAction.setBadgeText({ text: `！` })
-          chrome.browserAction.setBadgeBackgroundColor({ color: '#F00' })
-          this.$router.push('/login')
-          location.reload()
-        })
-    },
-    getOnlineUsers (cnt) {
-      axios
-        .get('auth/user/friends', {
-          params: {
-            n: 100,
-            offset: cnt
-          }
-        })
-        .then(frend => {
-          this.onlineUsers.push(...frend.data)
+    async loginCheck () {
+      try {
+        await axios.get('/auth/user')
+      } catch (error) {
+        // エラーになる(未ログイン時)ログインページに飛ばす
+        Browser.browserAction.setBadgeText({ text: '！' })
+        Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+        this.$router.push('/login')
+        location.reload()
+        return
+      }
+
+      await this.setingLoad()
+
+      Browser.browserAction.setBadgeText({ text: '' })
+
+      if (!this.favFriendOnly) {
+        const storage = await Browser.storage.local.get({ lastUpdate: null, lastOfflineUsersUpdate: null, onlineUsers: [], offlineUsers: [] })
+
+        if (storage.lastOfflineUsersUpdate == null || ((Date.now() - storage.lastOfflineUsersUpdate) / 1000) >= 60) {
+          this.getOfflineUsers(0)
+        } else {
+          this.offlineUsers.push(...storage.offlineUsers)
+          this.offlineUserNum = this.offlineUsers.length
+        }
+
+        if (storage.lastUpdate == null || ((Date.now() - storage.lastUpdate) / 1000) >= 60) {
+          this.getOnlineUsers(0)
+        } else {
+          this.onlineUsers.push(...storage.onlineUsers)
           this.onlineUserNum = this.onlineUsers.length
-          cnt += 100
-          if (cnt === this.onlineUserNum) {
-            this.getOnlineUsers(cnt)
-          } else {
-            this.onlineUsersSort()
-            for (let i = 0; i < this.onlineUserNum; i++) {
-              if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
-                this.$set(this.worldInfos, i, { name: 'Private' })
-                this.$set(this.instancesInfos, i, 'Private')
-              } else {
-                this.getWorld(i, this.onlineUsers[i].location)
-                this.getInstances(
-                  i,
-                  this.onlineUsers[i].location.replace(':', '/')
-                )
-              }
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .then(() => {
+
+          this.getWorldData()
+
           this.msg = 'Complete!'
           setTimeout(() => {
             this.switching = 'onlineTab'
@@ -157,60 +136,19 @@ export default {
               this.localizeHtmlPage()
             }, 100)
           }, 1500)
-        })
-    },
-    getOfflineUsers (cnt) {
-      axios
-        .get('auth/user/friends', {
-          params: {
-            offline: true,
-            n: 100,
-            offset: cnt
-          }
-        })
-        .then(frend => {
-          this.offlineUsers.push(...frend.data)
-          this.offlineUserNum = this.offlineUsers.length
-          cnt += 100
-          if (cnt === this.offlineUserNum) {
-            this.getOfflineUsers(cnt)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    getFavFriend () {
-      axios
-        .get('auth/user/friends/favorite')
-        .then(frend => {
-          let tmpAry = frend.data
-          tmpAry.forEach(element => {
-            if (element.location === 'offline') {
-              this.offlineUsers.push(element)
-            } else {
-              this.onlineUsers.push(element)
-            }
-          })
+        }
+      } else {
+        const storage = await Browser.storage.local.get({ favLastUpdate: null, favOnlineUsers: [], favOfflineUsers: [] })
+        if (storage.favLastUpdate == null || ((Date.now() - storage.favLastUpdate) / 1000) >= 60) {
+          this.getFavFriend()
+        } else {
+          this.onlineUsers.push(...storage.favOnlineUsers)
           this.onlineUserNum = this.onlineUsers.length
+          this.offlineUsers.push(...storage.favOfflineUsers)
           this.offlineUserNum = this.offlineUsers.length
-          for (let i = 0; i < this.onlineUserNum; i++) {
-            if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
-              this.$set(this.worldInfos, i, { name: 'Private' })
-              this.$set(this.instancesInfos, i, 'Private')
-            } else {
-              this.getWorld(i, this.onlineUsers[i].location)
-              this.getInstances(
-                i,
-                this.onlineUsers[i].location.replace(':', '/')
-              )
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .then(() => {
+
+          this.getWorldData()
+
           this.msg = 'Complete!'
           setTimeout(() => {
             this.switching = 'onlineTab'
@@ -218,28 +156,97 @@ export default {
               this.localizeHtmlPage()
             }, 100)
           }, 1500)
-        })
+        }
+      }
     },
-    getWorld (i, location) {
-      let index = location.indexOf(':')
-      let id = location.substring(0, index)
-      axios
-        .get(`/worlds/${id}`)
-        .then(world => {
-          this.$set(this.worldInfos, i, world.data)
-        })
-        .catch(err => {
-          this.$set(this.worldInfos, i, { name: 'Fetch failed' })
-          console.log(err)
-        })
+    async getOnlineUsers (cnt) {
+      let frend
+      try {
+        const tmp = await axios.get('auth/user/friends', { params: { n: 100, offset: cnt } })
+        frend = tmp.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      this.onlineUsers.push(...frend)
+      this.onlineUserNum = this.onlineUsers.length
+      cnt += 100
+      if (cnt === this.onlineUserNum) {
+        this.getOnlineUsers(cnt)
+      } else {
+        this.getWorldData()
+        Browser.storage.local.set(
+          {
+            onlineUsers: this.onlineUsers,
+            lastUpdate: Date.now()
+          }
+        )
+      }
+
+      this.msg = 'Complete!'
+      setTimeout(() => {
+        this.switching = 'onlineTab'
+        setTimeout(() => {
+          this.localizeHtmlPage()
+        }, 100)
+      }, 1500)
     },
-    getInstances (i, location) {
-      axios.get(`/worlds/${location}`).then(world => {
-        this.$set(this.instancesInfos, i, world.data)
-      }).catch(err => {
-        this.$set(this.instancesInfos, i, 'err')
-        console.log(err)
+    async getOfflineUsers (cnt) {
+      let frend
+      try {
+        const tmp = await axios.get('auth/user/friends', { params: { offline: true, n: 100, offset: cnt } })
+        frend = tmp.data
+      } catch (error) {
+        console.log(error)
+      }
+
+      this.offlineUsers.push(...frend)
+      this.offlineUserNum = this.offlineUsers.length
+      cnt += 100
+      if (cnt === this.offlineUserNum) {
+        this.getOfflineUsers(cnt)
+      } else {
+        Browser.storage.local.set(
+          {
+            offlineUsers: this.offlineUsers,
+            lastOfflineUsersUpdate: Date.now()
+          }
+        )
+      }
+    },
+    async getFavFriend () {
+      let frend
+      try {
+        const tmp = await axios.get('auth/user/friends/favorite')
+        frend = tmp.data
+      } catch (error) {
+        console.log(error)
+      }
+      frend.forEach(element => {
+        if (element.location === 'offline') {
+          this.offlineUsers.push(element)
+        } else {
+          this.onlineUsers.push(element)
+        }
       })
+      this.onlineUserNum = this.onlineUsers.length
+      this.offlineUserNum = this.offlineUsers.length
+      this.getWorldData()
+      Browser.storage.local.set(
+        {
+          favOfflineUsers: this.offlineUsers,
+          favOnlineUsers: this.onlineUsers,
+          favLastUpdate: Date.now()
+        }
+      )
+
+      this.msg = 'Complete!'
+      setTimeout(() => {
+        this.switching = 'onlineTab'
+        setTimeout(() => {
+          this.localizeHtmlPage()
+        }, 100)
+      }, 1500)
     },
     changeFlag (i) {
       this.localizeHtmlPage()
@@ -249,32 +256,24 @@ export default {
         this.$set(this.flag, i, true)
       }
     },
-    setingLoad () {
-      chrome.storage.local.get(
-        {
-          favFriendOnly: 'off',
-          onlineUsersSort: 'instance'
-        },
-        items => {
-          this.favFriendOnly = items.favFriendOnly === 'on'
-          this.instanceSort = items.onlineUsersSort === 'instance'
-        }
-      )
+    async setingLoad () {
+      const storage = await Browser.storage.local.get({ favFriendOnly: 'off', onlineUsersSort: 'instance' })
+
+      this.favFriendOnly = storage.favFriendOnly === 'on'
+      this.instanceSort = storage.onlineUsersSort === 'instance'
     },
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {
         const key = element.getAttribute('data-i18n-text')
-        element.textContent = chrome.i18n.getMessage(key)
+        element.textContent = Browser.i18n.getMessage(key)
       })
 
       document.querySelectorAll('[data-i18n-value]').forEach(element => {
         const key = element.getAttribute('data-i18n-value')
-        element.value = chrome.i18n.getMessage(key)
+        element.value = Browser.i18n.getMessage(key)
       })
     },
     onlineUsersSort () {
-      console.log(this.instancesInfos)
-      console.log(this.worldInfos)
       this.onlineUsers.sort((a, b) => {
         return a.displayName.toLowerCase() < b.displayName.toLowerCase()
           ? -1
@@ -284,6 +283,40 @@ export default {
         this.onlineUsers.sort((a, b) => {
           return a.location < b.location ? 1 : -1
         })
+      }
+    },
+    async getWorldData () {
+      this.onlineUsersSort()
+      for (let i = 0; i < this.onlineUserNum; i++) {
+        if (this.onlineUsers[i].location === 'private' || this.onlineUsers[i].location === 'offline') {
+          this.$set(this.worldInfos, i, { name: 'Private' })
+          this.$set(this.instancesInfos, i, 'Private')
+        } else {
+          // ワールド情報取得
+          const worldLocation = this.onlineUsers[i].location
+          let index = worldLocation.indexOf(':')
+          let id = worldLocation.substring(0, index)
+          try {
+            const tmp = await axios.get(`/worlds/${id}`)
+            const world = tmp.data
+            this.$set(this.worldInfos, i, world)
+          } catch (error) {
+            this.$set(this.worldInfos, i, { name: 'Fetch failed' })
+            console.log(error)
+          }
+
+          // インスタンス詳細取得
+          // インスタンス詳細取得APIが使用不能なため一時的に無効化
+          // const instanceLocation = this.onlineUsers[i].location.replace(':', '/')
+          // try {
+          //   const tmp = await axios.get(`/worlds/${instanceLocation}`)
+          //   const world = tmp.data
+          //   this.$set(this.instancesInfos, i, world)
+          // } catch (error) {
+          //   this.$set(this.instancesInfos, i, 'err')
+          //   console.log(error)
+          // }
+        }
       }
     }
   }
