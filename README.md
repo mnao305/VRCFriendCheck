@@ -10,7 +10,7 @@ This is a browser extension that allows you to check your friend's online status
 - Notify me when my friend is online
 - World where online friends exist, instance confirmation
 - Review Friend Status and Status Messages
-- Confirmation of other users in the instance
+- ~~Confirmation of other users in the instance~~(This currently can not be used)
 - Join to that instance
 - Sort by name and instance ID order
 - Function to display only Favorite Friends
@@ -63,6 +63,9 @@ When logging in, account information will not be sent or stored on servers other
 I am not responsible for any damage that occurs using this extension.
 
 I use Google Translate for translation.
+
+## About questions, requests, bug reports, etc.
+Please feel free to report any issues, requests, or questions from [Issues] (https://github.com/mnao305/VRCFriendCheck/issues).
 
 ## Author
 
