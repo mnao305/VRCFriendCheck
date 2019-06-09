@@ -12,14 +12,19 @@
         <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers" :key="onlineUser.id">
           <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
           <p class="userInfo">
-            <font-awesome-icon class="icon" icon="user"/>
-            {{ onlineUser.displayName }}
+            <span :title="onlineUser.displayName">
+              <font-awesome-icon class="icon" icon="user"/>
+              {{ onlineUser.displayName }}
+            </span>
             <br>
-            <font-awesome-icon class="icon" icon="map-marker-alt"/>
-            {{ worldInfos[i].name }}
+            <span :title="worldInfos[i].name">
+              <font-awesome-icon class="icon" icon="map-marker-alt"/>
+              {{ worldInfos[i].name }}
+            </span>
             <br>
-            <span :class="onlineUser.status">
-              <font-awesome-icon class="icon" icon="circle"/>{{onlineUser.statusDescription}}
+            <span :class="onlineUser.status" :title="onlineUser.statusDescription">
+              <font-awesome-icon class="icon" icon="circle"/>
+              {{onlineUser.statusDescription}}
             </span>
           </p>
           <div
@@ -391,7 +396,13 @@ export default {
       margin: 0;
       margin-left: 5px;
       max-width: 260px;
-      word-break: break-all;
+      span {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 250px;
+        text-overflow: ellipsis;
+      }
     }
     .icon {
       margin-right: 5px;
