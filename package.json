@@ -28,7 +28,7 @@
     "@babel/plugin-proposal-optional-chaining": "7.2.0",
     "@babel/preset-env": "7.4.5",
     "archiver": "3.0.0",
-    "babel-eslint": "10.0.1",
+    "babel-eslint": "10.0.2",
     "babel-loader": "8.0.6",
     "chrome-webstore-upload-cli": "1.2.0",
     "copy-webpack-plugin": "5.0.3",
