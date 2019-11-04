@@ -15,9 +15,9 @@
     "release": "npm run releaseCWS"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.19",
-    "@fortawesome/free-solid-svg-icons": "5.9.0",
-    "@fortawesome/vue-fontawesome": "0.1.6",
+    "@fortawesome/fontawesome-svg-core": "1.2.25",
+    "@fortawesome/free-solid-svg-icons": "5.11.2",
+    "@fortawesome/vue-fontawesome": "0.1.8",
     "axios": "0.19.0",
     "vue": "2.6.10",
     "vue-router": "3.1.3",
