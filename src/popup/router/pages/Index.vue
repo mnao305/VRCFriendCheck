@@ -299,8 +299,8 @@ export default {
         } else {
           // ワールド情報取得
           const worldLocation = this.onlineUsers[i].location
-          let index = worldLocation.indexOf(':')
-          let id = worldLocation.substring(0, index)
+          const index = worldLocation.indexOf(':')
+          const id = worldLocation.substring(0, index)
           try {
             const tmp = await axios.get(`/worlds/${id}`)
             const world = tmp.data
