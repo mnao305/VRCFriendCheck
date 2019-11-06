@@ -14,7 +14,7 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
     try {
       await axios.get('/auth/user')
 
-      Browser.browserAction.setBadgeText({ text: `` })
+      Browser.browserAction.setBadgeText({ text: '' })
 
       const { favFriendOnlyNotification } = await Browser.storage.local.get({ favFriendOnlyNotification: 'off' })
 
