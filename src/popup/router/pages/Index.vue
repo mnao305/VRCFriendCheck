@@ -102,7 +102,14 @@ export default {
   methods: {
     async loginCheck () {
       try {
-        await axios.get('/auth/user')
+        const tmp = await axios.get('/config')
+        const apiKey = tmp.data.apiKey
+        const { data } = await axios.get('/auth/user', { params: { apiKey } })
+
+        if (data.requiresTwoFactorAuth) {
+          this.$router.push('/twoFactor')
+          return
+        }
       } catch (error) {
         // エラーになる(未ログイン時)ログインページに飛ばす
         Browser.browserAction.setBadgeText({ text: '！' })
@@ -299,8 +306,8 @@ export default {
         } else {
           // ワールド情報取得
           const worldLocation = this.onlineUsers[i].location
-          let index = worldLocation.indexOf(':')
-          let id = worldLocation.substring(0, index)
+          const index = worldLocation.indexOf(':')
+          const id = worldLocation.substring(0, index)
           try {
             const tmp = await axios.get(`/worlds/${id}`)
             const world = tmp.data
