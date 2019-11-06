@@ -102,7 +102,14 @@ export default {
   methods: {
     async loginCheck () {
       try {
-        await axios.get('/auth/user')
+        const tmp = await axios.get('/config')
+        const apiKey = tmp.data.apiKey
+        const { data } = await axios.get('/auth/user', { params: { apiKey } })
+
+        if (data.requiresTwoFactorAuth) {
+          this.$router.push('/twoFactor')
+          return
+        }
       } catch (error) {
         // エラーになる(未ログイン時)ログインページに飛ばす
         Browser.browserAction.setBadgeText({ text: '！' })
