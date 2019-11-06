@@ -65,7 +65,7 @@ I am not responsible for any damage that occurs using this extension.
 I use Google Translate for translation.
 
 ## About questions, requests, bug reports, etc.
-Please feel free to report any issues, requests, or questions from [Issues] (https://github.com/mnao305/VRCFriendCheck/issues).
+Please feel free to report any issues, requests, or questions from [Issues](https://github.com/mnao305/VRCFriendCheck/issues).
 
 ## Author
 
