@@ -4,7 +4,7 @@
     <div id="twoFactorForm">
       <label>numeric code:
         <br>
-        <input @keyup.enter="twoFactorAuth" type="text" v-model="twoFACode" id="twoFACode">
+        <input @input="validate" @keyup.enter="twoFactorAuth" type="text" v-model="twoFACode" id="twoFACode" maxlength="6" pattern="[0-9]{6}">
         <br>
       </label>
 
@@ -28,6 +28,9 @@ export default {
     }
   },
   methods: {
+    validate () {
+      this.twoFACode = this.twoFACode.replace(/\D/g, '')
+    },
     async twoFactorAuth () {
       const code = this.twoFACode
       try {
