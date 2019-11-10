@@ -3,5 +3,9 @@
     "config:base"
   ],
   "baseBranches": ["develop"],
-  "assignees": ["mnao305"]
+  "assignees": ["mnao305"],
+  "reviewers": ["mnao305"],
+  "minor": {
+    "groupName": "all dependencies"
+  }
 }
