@@ -48,7 +48,7 @@
     "file-loader": "5.1.0",
     "mini-css-extract-plugin": "0.9.0",
     "node-sass": "4.14.1",
-    "sass-loader": "8.0.2",
+    "sass-loader": "9.0.2",
     "vue-loader": "15.9.2",
     "vue-template-compiler": "2.6.11",
     "web-ext-submit": "3.2.1",
