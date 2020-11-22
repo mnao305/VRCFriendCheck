@@ -14,6 +14,7 @@ This is a browser extension that allows you to check your friend's online status
 - Join to that instance
 - Sort by name and instance ID order
 - Function to display only Favorite Friends
+- Show number of friends online over extension icon
 
 ## Requirement
 
