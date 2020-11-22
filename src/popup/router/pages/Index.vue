@@ -78,6 +78,7 @@
 <script>
 import axios from 'axios'
 import Browser from 'webextension-polyfill'
+import { setOnlineUserNumOverIcon } from '../../../onlineUserNotification'
 
 export default {
   data () {
@@ -93,6 +94,11 @@ export default {
       msg: 'Loading...',
       favFriendOnly: false,
       instanceSort: false
+    }
+  },
+  watch: {
+    onlineUserNum: function (val) {
+      setOnlineUserNumOverIcon(val)
     }
   },
   mounted () {
@@ -121,7 +127,10 @@ export default {
 
       await this.setingLoad()
 
-      Browser.browserAction.setBadgeText({ text: '' })
+      const badge = await Browser.browserAction.getBadgeText({})
+      if (badge === '！') {
+        Browser.browserAction.setBadgeText({ text: '' })
+      }
 
       if (!this.favFriendOnly) {
         const storage = await Browser.storage.local.get({ lastUpdate: null, lastOfflineUsersUpdate: null, onlineUsers: [], offlineUsers: [] })
