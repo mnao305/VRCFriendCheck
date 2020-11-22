@@ -8,6 +8,12 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 let onlineUsers = []
 let onlineUserNum = 0
 
+export function setOnlineUserNumOverIcon (num) {
+  const text = num >= 100 ? '99+' : String(num)
+  Browser.browserAction.setBadgeText({ text: text })
+  Browser.browserAction.setBadgeBackgroundColor({ color: '#888' })
+}
+
 export async function getOnlineUsers (cnt) {
   if (cnt === 0) {
     onlineUsers = []
@@ -35,6 +41,7 @@ export async function getOnlineUsers (cnt) {
     getOnlineUsers(cnt)
   } else {
     newOnlineFriendCheck()
+    setOnlineUserNumOverIcon(onlineUsers.length)
 
     Browser.storage.local.set(
       {
@@ -65,6 +72,7 @@ export async function getFavFriend () {
     }
   })
   newOnlineFriendCheck()
+  setOnlineUserNumOverIcon(onlineUsers.length)
 
   Browser.storage.local.set(
     {
