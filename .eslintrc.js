@@ -3,8 +3,11 @@
 
 module.exports = {
   root: true,
+  parser: "vue-eslint-parser",
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@typescript-eslint/parser',
+    project: "./tsconfig.json",
+    extraFileExtensions: ['.vue']
   },
   env: {
     browser: true,
@@ -15,10 +18,12 @@ module.exports = {
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/essential',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
-    'standard'  ],
+    'standard-with-typescript'
+  ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    "@typescript-eslint"
   ],
   // add your custom rules here
   rules: {
