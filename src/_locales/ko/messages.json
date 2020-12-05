@@ -49,5 +49,11 @@
     },
     "optionFavFriendOnlyNotification": {
         "message": "통지하는 것은 좋아 친구 만한다"
+    },
+    "optionIsOnlineFriendBadgeDisplay": {
+        "message": "온라인 친구 수 배지 표시"
+    },
+    "optionFavFriendOnlyBadgeDisplay": {
+        "message": "좋아하는 친구는 배지만 표시합니다."
     }
 }

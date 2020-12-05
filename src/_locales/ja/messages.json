@@ -49,5 +49,11 @@
     },
     "optionFavFriendOnlyNotification": {
         "message": "通知するのはお気に入りフレンドのみにする"
+    },
+    "optionIsOnlineFriendBadgeDisplay": {
+        "message": "オンラインフレンド数のバッジ表示"
+    },
+    "optionFavFriendOnlyBadgeDisplay": {
+        "message": "お気に入りフレンドのみバッジ表示する"
     }
 }

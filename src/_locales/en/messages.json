@@ -49,5 +49,11 @@
     },
     "optionFavFriendOnlyNotification": {
         "message": "Notify only my favorite friends"
+    },
+    "optionIsOnlineFriendBadgeDisplay": {
+        "message": "Online friend count badge display"
+    },
+    "optionFavFriendOnlyBadgeDisplay": {
+        "message": "Favorite friends only show badges"
     }
 }

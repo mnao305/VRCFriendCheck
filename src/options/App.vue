@@ -41,6 +41,24 @@
             <input type="radio" v-model="favFriendOnlyNotification" value="off">OFF
           </label>
         </li>
+        <li>
+          <span data-i18n-text="optionIsOnlineFriendBadgeDisplay"></span>：<br>
+          <label class="optionMarginLeft">
+            <input type="radio" v-model="showNumberIcon" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="showNumberIcon" value="off">OFF
+          </label>
+        </li>
+        <li>
+          <span data-i18n-text="optionFavFriendOnlyBadgeDisplay"></span>：<br>
+          <label class="optionMarginLeft">
+            <input type="radio" v-model="showNumberIconIsFavFriend" value="on">ON
+          </label>
+          <label>
+            <input type="radio" v-model="showNumberIconIsFavFriend" value="off">OFF
+          </label>
+        </li>
       </ul>
       <button v-on:click="configSave" data-i18n-text="optionSaveButton"></button>
       <transition name="msg">
@@ -60,8 +78,9 @@ export default {
       onlineUsersSort: '',
       savedMessage: false,
       NewOnlineUserNotification: '',
-      favFriendOnlyNotification: ''
-
+      favFriendOnlyNotification: '',
+      showNumberIcon: '',
+      showNumberIconIsFavFriend: ''
     }
   },
   mounted () {
@@ -70,12 +89,19 @@ export default {
   methods: {
     async defaultConfig () {
       const data = await Browser.storage.local.get({
-        favFriendOnly: 'off', onlineUsersSort: 'instance', NewOnlineUserNotification: 'on', favFriendOnlyNotification: 'off'
+        favFriendOnly: 'off',
+        onlineUsersSort: 'instance',
+        NewOnlineUserNotification: 'on',
+        favFriendOnlyNotification: 'off',
+        showNumberIcon: 'on',
+        showNumberIconIsFavFriend: 'off'
       })
       this.favFriendOnly = data.favFriendOnly
       this.onlineUsersSort = data.onlineUsersSort
       this.NewOnlineUserNotification = data.NewOnlineUserNotification
       this.favFriendOnlyNotification = data.favFriendOnlyNotification
+      this.showNumberIcon = data.showNumberIcon
+      this.showNumberIconIsFavFriend = data.showNumberIconIsFavFriend
       setTimeout(() => {
         this.localizeHtmlPage()
       }, 100)
@@ -86,7 +112,9 @@ export default {
           favFriendOnly: this.favFriendOnly,
           onlineUsersSort: this.onlineUsersSort,
           NewOnlineUserNotification: this.NewOnlineUserNotification,
-          favFriendOnlyNotification: this.favFriendOnlyNotification
+          favFriendOnlyNotification: this.favFriendOnlyNotification,
+          showNumberIcon: this.showNumberIcon,
+          showNumberIconIsFavFriend: this.showNumberIconIsFavFriend
         }
       )
       this.savedMessage = true
