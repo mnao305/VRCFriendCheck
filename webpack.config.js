@@ -21,7 +21,7 @@ const config = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.ts', '.vue']
   },
   module: {
     rules: [
@@ -33,6 +33,10 @@ const config = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
       },
       {
         test: /\.css$/,
