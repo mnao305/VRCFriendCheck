@@ -68,7 +68,8 @@ When installation is complete, a light blue balloon icon will be displayed in th
 You need to be logged in as a VRChat account to use this extension.  
 When logging in, account information will not be sent or stored on servers other than this extension or VRChat official.
 
-I am not responsible for any damage that occurs using this extension.
+Since the VRChat API used in this extension is based on [unofficial documentation](https://vrchatapi.github.io/) and it is unclear whether access to this API is officially granted, you use this app at your own risk.  
+The developer is not responsible for any damage caused by the use of this extension.
 
 I use Google Translate for translation.
 
