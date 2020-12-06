@@ -78,7 +78,7 @@
 <script>
 import axios from 'axios'
 import Browser from 'webextension-polyfill'
-import { setOnlineUserNumOverIcon } from '../../../onlineUserNotification'
+import { setOnlineUserNumOverIcon } from '../../../onlineUserNumBadge'
 
 export default {
   data () {
@@ -93,12 +93,9 @@ export default {
       flag: [],
       msg: 'Loading...',
       favFriendOnly: false,
-      instanceSort: false
-    }
-  },
-  watch: {
-    onlineUserNum: function (val) {
-      setOnlineUserNumOverIcon(val)
+      instanceSort: false,
+      showNumberIcon: true,
+      showNumberIconIsFavFriend: false
     }
   },
   mounted () {
@@ -148,6 +145,10 @@ export default {
           this.onlineUsers.push(...storage.onlineUsers)
           this.onlineUserNum = this.onlineUsers.length
 
+          if (this.showNumberIcon && !this.showNumberIconIsFavFriend) {
+            setOnlineUserNumOverIcon(this.onlineUsers.length)
+          }
+
           this.getWorldData()
 
           this.msg = 'Complete!'
@@ -167,6 +168,10 @@ export default {
           this.onlineUserNum = this.onlineUsers.length
           this.offlineUsers.push(...storage.favOfflineUsers)
           this.offlineUserNum = this.offlineUsers.length
+
+          if (this.showNumberIcon && this.showNumberIconIsFavFriend) {
+            setOnlineUserNumOverIcon(this.onlineUsers.length)
+          }
 
           this.getWorldData()
 
@@ -278,10 +283,17 @@ export default {
       }
     },
     async setingLoad () {
-      const storage = await Browser.storage.local.get({ favFriendOnly: 'off', onlineUsersSort: 'instance' })
+      const storage = await Browser.storage.local.get({
+        favFriendOnly: 'off',
+        onlineUsersSort: 'instance',
+        showNumberIcon: 'on',
+        showNumberIconIsFavFriend: 'off'
+      })
 
       this.favFriendOnly = storage.favFriendOnly === 'on'
       this.instanceSort = storage.onlineUsersSort === 'instance'
+      this.showNumberIcon = storage.showNumberIcon === 'on'
+      this.showNumberIconIsFavFriend = storage.showNumberIconIsFavFriend === 'on'
     },
     localizeHtmlPage () {
       document.querySelectorAll('[data-i18n-text]').forEach(element => {

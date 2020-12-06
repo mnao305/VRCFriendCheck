@@ -1,10 +1,8 @@
-import axios from 'axios'
-import { getOnlineUsers, getFavFriend } from './onlineUserNotification'
 import Browser from 'webextension-polyfill'
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.baseURL = 'https://api.vrchat.cloud/api/1'
-axios.defaults.withCredentials = true
-axios.defaults.headers.common['Content-Type'] = 'application/json'
+import { newOnlineFriendCheck } from './onlineUserNotification'
+import { VRC_API } from './api'
+import { getOnlineFriends, getFavFriend } from './userList'
+import { setOnlineUserNumOverIcon } from './onlineUserNumBadge'
 
 Browser.alarms.create('check', { periodInMinutes: 5 })
 Browser.alarms.onAlarm.addListener(async (alarm) => {
@@ -12,18 +10,59 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
 
   if (alarm.name === 'check' && badge !== '！') {
     try {
-      await axios.get('/auth/user')
+      const {
+        favFriendOnlyNotification,
+        showNumberIconIsFavFriend,
+        NewOnlineUserNotification,
+        showNumberIcon
+      } = await Browser.storage.local.get({
+        favFriendOnlyNotification: 'off',
+        showNumberIconIsFavFriend: 'off',
+        NewOnlineUserNotification: 'on',
+        showNumberIcon: 'on'
+      })
+
+      // 通知もバッジ表示もOFFだったら取得などはしない
+      if (NewOnlineUserNotification === 'off' && showNumberIcon === 'off') {
+        return
+      }
+
+      await VRC_API.get('/auth/user')
 
       Browser.browserAction.setBadgeText({ text: '' })
 
-      const { favFriendOnlyNotification } = await Browser.storage.local.get({ favFriendOnlyNotification: 'off' })
+      // リスト取得
+      let favOnlineUsers, onlineFriends
+      if (
+        favFriendOnlyNotification === 'on' ||
+        showNumberIconIsFavFriend === 'on'
+      ) {
+        const tmp = await getFavFriend()
+        favOnlineUsers = tmp.favOnlineUsers
+      }
+      if (
+        favFriendOnlyNotification === 'off' ||
+        showNumberIconIsFavFriend === 'off'
+      ) {
+        onlineFriends = await getOnlineFriends()
+      }
 
+      // 通知
       if (favFriendOnlyNotification === 'on') {
-        getFavFriend()
+        newOnlineFriendCheck(favOnlineUsers)
       } else {
-        getOnlineUsers(0)
+        newOnlineFriendCheck(onlineFriends)
+      }
+      // バッジ表示
+      if (showNumberIcon === 'on') {
+        if (showNumberIconIsFavFriend === 'on') {
+          setOnlineUserNumOverIcon(favOnlineUsers.length)
+        } else {
+          setOnlineUserNumOverIcon(onlineFriends.length)
+        }
       }
     } catch (error) {
+      console.error(error)
       Browser.browserAction.setBadgeText({ text: '！' })
       Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
     }
