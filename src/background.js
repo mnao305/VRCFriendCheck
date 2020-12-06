@@ -4,7 +4,7 @@ import { VRC_API } from './api'
 import { getOnlineFriends, getFavFriend } from './userList'
 import { setOnlineUserNumOverIcon } from './onlineUserNumBadge'
 
-Browser.alarms.create('check', { periodInMinutes: 1 })
+Browser.alarms.create('check', { periodInMinutes: 5 })
 Browser.alarms.onAlarm.addListener(async (alarm) => {
   const badge = await Browser.browserAction.getBadgeText({})
 
