@@ -39,12 +39,25 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
       ) {
         const tmp = await getFavFriend()
         favOnlineUsers = tmp.favOnlineUsers
+        Browser.storage.local.set(
+          {
+            favOfflineUsers: tmp.favOfflineUsers,
+            favOnlineUsers: favOnlineUsers,
+            favLastUpdate: Date.now()
+          }
+        )
       }
       if (
         favFriendOnlyNotification === 'off' ||
         showNumberIconIsFavFriend === 'off'
       ) {
         onlineFriends = await getOnlineFriends()
+        Browser.storage.local.set(
+          {
+            onlineUsers: onlineFriends,
+            lastUpdate: Date.now()
+          }
+        )
       }
 
       // 通知
