@@ -32,17 +32,44 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
       Browser.browserAction.setBadgeText({ text: '' })
 
       // リスト取得
-      let favOnlineUsers, onlineFriends
+      let favUsers, onlineFriends
       if (
         favFriendOnlyNotification === 'on' ||
         showNumberIconIsFavFriend === 'on'
       ) {
-        const tmp = await getFavFriend()
-        favOnlineUsers = tmp.favOnlineUsers
+        favUsers = await getFavFriend()
+      }
+      if (
+        favFriendOnlyNotification === 'off' ||
+        showNumberIconIsFavFriend === 'off'
+      ) {
+        onlineFriends = await getOnlineFriends()
+      }
+
+      // 通知
+      if (favFriendOnlyNotification === 'on') {
+        newOnlineFriendCheck(favUsers.favOnlineUsers)
+      } else {
+        newOnlineFriendCheck(onlineFriends)
+      }
+      // バッジ表示
+      if (showNumberIcon === 'on') {
+        if (showNumberIconIsFavFriend === 'on') {
+          setOnlineUserNumOverIcon(favUsers.favOnlineUsers.length)
+        } else {
+          setOnlineUserNumOverIcon(onlineFriends.length)
+        }
+      }
+
+      // リスト保存
+      if (
+        favFriendOnlyNotification === 'on' ||
+        showNumberIconIsFavFriend === 'on'
+      ) {
         Browser.storage.local.set(
           {
-            favOfflineUsers: tmp.favOfflineUsers,
-            favOnlineUsers: favOnlineUsers,
+            favOfflineUsers: favUsers.favOfflineUsers,
+            favOnlineUsers: favUsers.favOnlineUsers,
             favLastUpdate: Date.now()
           }
         )
@@ -51,28 +78,12 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
         favFriendOnlyNotification === 'off' ||
         showNumberIconIsFavFriend === 'off'
       ) {
-        onlineFriends = await getOnlineFriends()
         Browser.storage.local.set(
           {
             onlineUsers: onlineFriends,
             lastUpdate: Date.now()
           }
         )
-      }
-
-      // 通知
-      if (favFriendOnlyNotification === 'on') {
-        newOnlineFriendCheck(favOnlineUsers)
-      } else {
-        newOnlineFriendCheck(onlineFriends)
-      }
-      // バッジ表示
-      if (showNumberIcon === 'on') {
-        if (showNumberIconIsFavFriend === 'on') {
-          setOnlineUserNumOverIcon(favOnlineUsers.length)
-        } else {
-          setOnlineUserNumOverIcon(onlineFriends.length)
-        }
       }
     } catch (error) {
       console.error(error)
