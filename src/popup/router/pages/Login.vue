@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Browser from 'webextension-polyfill'
+import * as vrc from 'vrcapi-client'
 
 export default {
   data () {
@@ -46,18 +46,18 @@ export default {
   },
   methods: {
     async login () {
-      let apiKey
-      try {
-        const tmp = await axios.get('/config')
-        apiKey = tmp.data.apiKey
-      } catch (error) {
-        this.unknownErr = true
-        console.log(error)
-        return
-      }
+      // let apiKey
+      // try {
+      //   const tmp = await vrc.system.config()
+      //   apiKey = tmp.apiKey
+      // } catch (error) {
+      //   this.unknownErr = true
+      //   console.log(error)
+      //   return
+      // }
 
       try {
-        await axios.get('/auth/user', { params: { apiKey }, auth: { username: this.username, password: this.passwd } })
+        await vrc.user.login(this.username, this.passwd)
         this.$router.push('/')
         location.reload()
       } catch (error) {

@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Browser from 'webextension-polyfill'
 import { setOnlineUserNumOverIcon } from '../../../onlineUserNumBadge'
+import * as vrc from 'vrcapi-client'
 
 export default {
   data () {
@@ -105,9 +105,9 @@ export default {
   methods: {
     async loginCheck () {
       try {
-        const tmp = await axios.get('/config')
-        const apiKey = tmp.data.apiKey
-        const { data } = await axios.get('/auth/user', { params: { apiKey } })
+        // const tmp = await vrc.system.config()
+        // const apiKey = tmp.data.apiKey
+        const data = await vrc.user.getUserInfo()
 
         if (data.requiresTwoFactorAuth) {
           this.$router.push('/twoFactor')
@@ -188,8 +188,7 @@ export default {
     async getOnlineUsers (cnt) {
       let frend
       try {
-        const tmp = await axios.get('auth/user/friends', { params: { n: 100, offset: cnt } })
-        frend = tmp.data
+        frend = await vrc.user.getFriends({ n: 100, offset: cnt })
       } catch (error) {
         console.log(error)
       }
@@ -220,8 +219,7 @@ export default {
     async getOfflineUsers (cnt) {
       let frend
       try {
-        const tmp = await axios.get('auth/user/friends', { params: { offline: true, n: 100, offset: cnt } })
-        frend = tmp.data
+        frend = await vrc.user.getFriends({ offline: true, n: 100, offset: cnt })
       } catch (error) {
         console.log(error)
       }
@@ -243,8 +241,7 @@ export default {
     async getFavFriend () {
       let frend
       try {
-        const tmp = await axios.get('auth/user/friends/favorite')
-        frend = tmp.data
+        frend = await vrc.user.getFavFriends()
       } catch (error) {
         console.log(error)
       }
@@ -330,8 +327,7 @@ export default {
           const index = worldLocation.indexOf(':')
           const id = worldLocation.substring(0, index)
           try {
-            const tmp = await axios.get(`/worlds/${id}`)
-            const world = tmp.data
+            const world = await vrc.world.getWorld(id)
             this.$set(this.worldInfos, i, world)
           } catch (error) {
             this.$set(this.worldInfos, i, { name: 'Fetch failed' })
