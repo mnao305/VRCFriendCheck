@@ -1,6 +1,6 @@
 import Browser from 'webextension-polyfill'
+import * as vrc from 'vrcapi-client'
 import { newOnlineFriendCheck } from './onlineUserNotification'
-import { VRC_API } from './api'
 import { getOnlineFriends, getFavFriend } from './userList'
 import { setOnlineUserNumOverIcon } from './onlineUserNumBadge'
 
@@ -27,7 +27,7 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
         return
       }
 
-      await VRC_API.get('/auth/user')
+      await vrc.user.getUserInfo()
 
       Browser.browserAction.setBadgeText({ text: '' })
 

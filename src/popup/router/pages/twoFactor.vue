@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import * as vrc from 'vrcapi-client'
+
 export default {
   data () {
     return {
@@ -34,9 +35,7 @@ export default {
     async twoFactorAuth () {
       const code = this.twoFACode
       try {
-        const { data } = await axios.post('/auth/twofactorauth/totp/verify', {
-          code
-        })
+        const data = await vrc.user.verify(code)
         console.log(data)
         if (data.verified) {
           this.$router.push('/')

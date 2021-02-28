@@ -1,5 +1,6 @@
-import { VRC_API } from './api'
-import { UserList } from './types/UserList'
+import * as vrc from 'vrcapi-client'
+import { LimitedUserObject } from 'vrcapi-client/dist/types/User'
+// import { UserList } from './types/UserList'
 
 /**
  * オンラインフレンドリストの取得関数
@@ -8,20 +9,18 @@ import { UserList } from './types/UserList'
  * @param {Array} onlineUsers - オンラインユーザリスト。再帰呼び出し時にセットする。
  * @return {Array} 取得できたオンラインフレンドのリスト
  */
-export async function getOnlineFriends (cnt: number, onlineUsers: UserList = []): Promise<UserList> {
+export async function getOnlineFriends (cnt: number, onlineUsers: LimitedUserObject[] = []): Promise<LimitedUserObject[]> {
   if (cnt === 0) {
     onlineUsers = []
   }
 
-  let friends: UserList
+  let friends: LimitedUserObject[]
   try {
-    const { data } = await VRC_API.get<UserList>('/auth/user/friends', {
-      params: {
-        n: 100,
-        offset: cnt
-      }
-    })
-    friends = data
+    friends = await vrc.user.getFriends({
+      n: 100,
+      offset: cnt
+    }
+    )
   } catch (error) {
     console.log(error)
     return onlineUsers
@@ -40,13 +39,12 @@ export async function getOnlineFriends (cnt: number, onlineUsers: UserList = [])
  * お気に入りフレンドユーザリストの取得関数
  * @return {Object} 取得できたお気に入りフレンドのオブジェクト
  */
-export async function getFavFriend (): Promise<{favOnlineUsers: UserList, favOfflineUsers: UserList}> {
-  const favOnlineUsers: UserList = []
-  const favOfflineUsers: UserList = []
-  let friends: UserList
+export async function getFavFriend (): Promise<{favOnlineUsers: LimitedUserObject[], favOfflineUsers: LimitedUserObject[]}> {
+  const favOnlineUsers: LimitedUserObject[] = []
+  const favOfflineUsers: LimitedUserObject[] = []
+  let friends: LimitedUserObject[]
   try {
-    const { data } = await VRC_API.get<UserList>('/auth/user/friends/favorite')
-    friends = data
+    friends = await vrc.user.getFavFriends()
   } catch (error) {
     console.log(error)
     return { favOnlineUsers, favOfflineUsers }
