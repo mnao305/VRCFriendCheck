@@ -15,9 +15,9 @@
     "release": "npm run releaseCWS"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.28",
-    "@fortawesome/free-solid-svg-icons": "5.13.0",
-    "@fortawesome/vue-fontawesome": "0.1.9",
+    "@fortawesome/fontawesome-svg-core": "1.2.34",
+    "@fortawesome/free-solid-svg-icons": "5.15.2",
+    "@fortawesome/vue-fontawesome": "0.1.10",
     "vrcapi-client": "0.2.0",
     "vue": "2.6.11",
     "vue-router": "3.1.6",
