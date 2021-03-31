@@ -191,6 +191,7 @@ export default {
         frend = await vrc.user.getFriends({ n: 100, offset: cnt })
       } catch (error) {
         console.log(error)
+        this.msg = 'Error.'
       }
 
       this.onlineUsers.push(...frend)
@@ -244,6 +245,7 @@ export default {
         frend = await vrc.user.getFavFriends()
       } catch (error) {
         console.log(error)
+        this.msg = 'Error.'
       }
       frend.forEach(element => {
         if (element.location === 'offline') {
