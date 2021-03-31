@@ -107,7 +107,7 @@ export default {
       try {
         // const tmp = await vrc.system.config()
         // const apiKey = tmp.data.apiKey
-        const data = await vrc.user.getUserInfo()
+        const data = await vrc.user.getCurrentUser()
 
         if (data.requiresTwoFactorAuth) {
           this.$router.push('/twoFactor')
