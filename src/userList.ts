@@ -1,5 +1,5 @@
 import * as vrc from 'vrcapi-client'
-import { LimitedUserObject } from 'vrcapi-client/dist/types/User'
+import { LimitedUserObject } from 'vrcapi-client/types/User'
 // import { UserList } from './types/UserList'
 
 /**
