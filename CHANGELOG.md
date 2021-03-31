@@ -1,5 +1,18 @@
 # Changelog
 
+### [1.5.4](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.3...v1.5.4) (2021-03-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency vrcapi-client ([4c66c0a](https://www.github.com/mnao305/VRCFriendCheck/commit/4c66c0a4f3a139fff40f3fbb1ae40a285a862790))
+* **deps:** update font awesome ([474ae64](https://www.github.com/mnao305/VRCFriendCheck/commit/474ae64b73344083c23e769da0fe039d73b03e65))
+* **deps:** update font awesome ([d227a76](https://www.github.com/mnao305/VRCFriendCheck/commit/d227a7649f38e722285d21ad39f338dd57a44ec3))
+* **deps:** update vue monorepo ([6ec6310](https://www.github.com/mnao305/VRCFriendCheck/commit/6ec63107986a995dde5b635aa2b96f042dd9474e))
+* function name ([b6da800](https://www.github.com/mnao305/VRCFriendCheck/commit/b6da8006c5d8881e25920c14689c57e975291919))
+* function name ([d6f3820](https://www.github.com/mnao305/VRCFriendCheck/commit/d6f3820a389a1fd3b6a98e086d6b852dac32e50b))
+* エラー発生時にはメッセージを出す ([8bc34ce](https://www.github.com/mnao305/VRCFriendCheck/commit/8bc34ce42e6511324bd4b9aa1d79f7f6249eab13))
+
 ### [1.5.3](https://www.github.com/mnao305/VRCFriendCheck/compare/1.5.2...v1.5.3) (2021-03-02)
 
 
