@@ -27,7 +27,7 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
         return
       }
 
-      await vrc.user.getUserInfo()
+      await vrc.user.getCurrentUser()
 
       Browser.browserAction.setBadgeText({ text: '' })
 
