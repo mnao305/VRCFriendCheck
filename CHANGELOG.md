@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.5.5](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.4...v1.5.5) (2021-04-03)
+
+
+### Bug Fixes
+
+* ワールドデータ取得ができなくなっていたのを修正しました ([#204](https://www.github.com/mnao305/VRCFriendCheck/issues/204)) ([2a3c79e](https://www.github.com/mnao305/VRCFriendCheck/commit/2a3c79eae304a01c3d4b543585368b204d43140e)), closes [#203](https://www.github.com/mnao305/VRCFriendCheck/issues/203)
+
 ### [1.5.4](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.3...v1.5.4) (2021-03-31)
 
 
