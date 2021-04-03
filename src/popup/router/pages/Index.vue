@@ -329,7 +329,7 @@ export default {
           const index = worldLocation.indexOf(':')
           const id = worldLocation.substring(0, index)
           try {
-            const world = await vrc.world.getWorld(id)
+            const world = await vrc.world.getById(id)
             this.$set(this.worldInfos, i, world)
           } catch (error) {
             this.$set(this.worldInfos, i, { name: 'Fetch failed' })
