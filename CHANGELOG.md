@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.5.6](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.5...v1.5.6) (2021-04-16)
+
+
+### Bug Fixes
+
+* 2段階認証が正しく機能していませんでした ([64925a5](https://www.github.com/mnao305/VRCFriendCheck/commit/64925a564ff8cee353d5edfe47981496ebb854b4))
+
 ### [1.5.5](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.4...v1.5.5) (2021-04-03)
 
 
