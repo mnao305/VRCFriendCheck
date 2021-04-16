@@ -35,7 +35,7 @@ export default {
     async twoFactorAuth () {
       const code = this.twoFACode
       try {
-        const data = await vrc.user.verify(code)
+        const data = await vrc.user.verify2FactorAuth(code)
         console.log(data)
         if (data.verified) {
           this.$router.push('/')
