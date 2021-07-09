@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.5.7](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.6...v1.5.7) (2021-07-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency webextension-polyfill to v0.8.0 ([bafd6fb](https://www.github.com/mnao305/VRCFriendCheck/commit/bafd6fb58e33be38a34afe6a7acf8b9b6660acbf))
+* **deps:** update dependency webextension-polyfill-ts to v0.26.0 ([15e71af](https://www.github.com/mnao305/VRCFriendCheck/commit/15e71af459fc0482c4928859e5d4a501495061d4))
+
 ### [1.5.6](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.5...v1.5.6) (2021-04-16)
 
 
