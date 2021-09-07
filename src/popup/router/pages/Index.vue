@@ -9,56 +9,9 @@
     <div v-if="switching == ''">{{ msg }}</div>
     <div v-else>
       <div id="online" v-show="switching == 'onlineTab'">
-        <div class="onlineUser user" v-for="(onlineUser, i) in onlineUsers" :key="onlineUser.id">
-          <img :src="onlineUser.currentAvatarThumbnailImageUrl" alt="icon">
-          <p class="userInfo">
-            <span :title="onlineUser.displayName">
-              <font-awesome-icon class="icon" icon="user"/>
-              {{ onlineUser.displayName }}
-            </span>
-            <br>
-            <span :title="worldInfos[i].name">
-              <font-awesome-icon class="icon" icon="map-marker-alt"/>
-              {{ worldInfos[i].name }}
-            </span>
-            <br>
-            <span :class="onlineUser.status" :title="onlineUser.statusDescription">
-              <font-awesome-icon class="icon" icon="circle"/>
-              {{onlineUser.statusDescription}}
-            </span>
-          </p>
-          <div
-            v-if="worldInfos[i].name != 'Private'"
-            class="moreWorldInfo"
-            v-on:click="changeFlag(i)"
-          >
-            <font-awesome-icon class="icon" icon="angle-down"/>
-          </div>
-          <div v-show="flag[i]" class="worldInfo">
-            <div class="instanceInfo">
-              <img :src="worldInfos[i].thumbnailImageUrl" alt="worldThumbnail">
-              <p v-if="worldInfos[i].name != 'Private'">
-                <!-- <template v-if="instancesInfos[i] !== 'err'">
-                  {{ instancesInfos[i].users.length }}/{{ worldInfos[i].capacity }}
-                </template>
-                <br> -->
-                <a :href="'vrchat://launch?id=' + onlineUsers[i].location" target="_blank">Join!</a>
-              </p>
-            </div>
-            <!-- <div class="instanceUser">
-              <span v-if="instancesInfos[i] === 'err'" class="error">
-                  Sory! Acquisition error
-              </span>
-              <template v-if="instancesInfos[i] !== 'err'">
-                <div data-i18n-text="instanceNow"></div>
-                <div v-for="user in instancesInfos[i].users" class="userInWorld" :key="user.id">
-                  <font-awesome-icon class="icon" icon="user"/>
-                  {{ user.displayName }}
-                </div>
-              </template>
-            </div> -->
-          </div>
-        </div>
+        <template v-for="(onlineUser, i) in onlineUsers" >
+          <user-item :key="onlineUser.id" :online-user="onlineUser" :world-info="worldInfos[i]"></user-item>
+        </template>
         <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
       </div>
       <div id="offline" v-show="switching == 'offlineTab'">
@@ -78,6 +31,7 @@
 <script>
 import Browser from 'webextension-polyfill'
 import { setOnlineUserNumOverIcon } from '../../../onlineUserNumBadge'
+import UserItem from '../components/UserItem.vue'
 import * as vrc from 'vrcapi-client'
 
 export default {
@@ -97,6 +51,9 @@ export default {
       showNumberIcon: true,
       showNumberIconIsFavFriend: false
     }
+  },
+  components: {
+    'user-item': UserItem
   },
   mounted () {
     this.loginCheck()
@@ -432,55 +389,6 @@ export default {
     }
     .icon {
       margin-right: 5px;
-    }
-    .moreWorldInfo {
-      height: 60px;
-      width: 40px;
-      text-align: center;
-      line-height: 60px;
-      font-size: 16px;
-      transition: 0.5s;
-      -webkit-transition: 0.5s;
-      position: absolute;
-      right: 5px;
-      cursor: pointer;
-      .icon {
-        margin: 0;
-      }
-    }
-    .moreWorldInfo:hover {
-      transform: scale(1.5);
-    }
-    .worldInfo {
-      clear: both;
-      padding-top: 5px;
-      min-height: 100px;
-      border-top: dashed 1px #bbb;
-      .instanceInfo {
-        position: absolute;
-        p {
-          text-align: center;
-          word-break: normal;
-        }
-      }
-      .instanceUser {
-        position: relative;
-        left: 84px;
-        width: 300px;
-        word-break: break-all;
-      }
-      .error {
-        color: red;
-      }
-    }
-    .join {
-      color: blue;
-    }
-    .active {
-      color: green;
-    }
-    .busy {
-      color: red;
     }
   }
 
