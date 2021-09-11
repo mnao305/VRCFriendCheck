@@ -10,18 +10,14 @@
     <div v-else>
       <div id="online" v-show="switching == 'onlineTab'">
         <template v-for="(onlineUser, i) in onlineUsers" >
-          <user-item :key="onlineUser.id" :online-user="onlineUser" :world-info="worldInfos[i]"></user-item>
+          <online-user-item :key="onlineUser.id" :online-user="onlineUser" :world-info="worldInfos[i]"></online-user-item>
         </template>
         <div v-if="onlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOnlineUser"></div>
       </div>
       <div id="offline" v-show="switching == 'offlineTab'">
-        <div class="offlineUser user" v-for="offlineUser in offlineUsers" :key="offlineUser.id">
-          <img :src="offlineUser.currentAvatarThumbnailImageUrl" alt="icon">
-          <p class="userInfo">
-            <font-awesome-icon class="icon" icon="user"/>
-            {{ offlineUser.displayName }}
-          </p>
-        </div>
+        <template class="offlineUser user" v-for="offlineUser in offlineUsers" >
+          <offline-user-item :key="offlineUser.id" :offline-user="offlineUser"></offline-user-item>
+        </template>
         <div v-if="offlineUserNum == 0" class="zeroUser" data-i18n-text="zeroOfflineUser"></div>
       </div>
     </div>
@@ -31,7 +27,8 @@
 <script>
 import Browser from 'webextension-polyfill'
 import { setOnlineUserNumOverIcon } from '../../../onlineUserNumBadge'
-import UserItem from '../components/UserItem.vue'
+import OnlineUserItem from '../components/OnlineUserItem.vue'
+import OfflineUserItem from '../components/OfflineUserItem.vue'
 import * as vrc from 'vrcapi-client'
 
 export default {
@@ -53,7 +50,8 @@ export default {
     }
   },
   components: {
-    'user-item': UserItem
+    'online-user-item': OnlineUserItem,
+    'offline-user-item': OfflineUserItem
   },
   mounted () {
     this.loginCheck()
@@ -359,37 +357,6 @@ export default {
 
   #online {
     overflow: hidden;
-  }
-
-  .user {
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: solid 1px;
-    min-height: 60px;
-    clear: both;
-    position: relative;
-    word-break: break-all;
-    img {
-      height: 60px;
-      float: left;
-      margin-bottom: 5px;
-    }
-    .userInfo {
-      float: left;
-      margin: 0;
-      margin-left: 5px;
-      max-width: 260px;
-      span {
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        width: 250px;
-        text-overflow: ellipsis;
-      }
-    }
-    .icon {
-      margin-right: 5px;
-    }
   }
 
   .zeroUser {
