@@ -5,8 +5,8 @@
   "author": "mnao305 <naomasa305@gmail.com>",
   "scripts": {
     "lint": "eslint --ext .js,.vue,.ts src",
-    "build": "cross-env NODE_ENV=production webpack",
-    "build:dev": "cross-env NODE_ENV=development webpack",
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development",
     "build-zip": "node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",

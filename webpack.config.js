@@ -8,7 +8,6 @@ const { VueLoaderPlugin } = require('vue-loader')
 const { version } = require('./package.json')
 
 const config = {
-  mode: process.env.NODE_ENV,
   context: path.join(__dirname, '/src'),
   entry: {
     background: './background.js',
