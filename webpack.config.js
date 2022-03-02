@@ -25,16 +25,16 @@ const config = {
     rules: [
       {
         test: /\.vue$/,
-        loaders: 'vue-loader'
+        use: 'vue-loader'
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.ts$/,
-        loader: 'ts-loader'
+        use: 'ts-loader'
       },
       {
         test: /\.css$/,
