@@ -15,7 +15,7 @@
     "release": "npm run releaseCWS"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.35",
+    "@fortawesome/fontawesome-svg-core": "1.3.0",
     "@fortawesome/free-solid-svg-icons": "6.0.0",
     "@fortawesome/vue-fontawesome": "2.0.6",
     "vrcapi-client": "0.4.0",
