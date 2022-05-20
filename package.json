@@ -32,7 +32,7 @@
     "archiver": "5.3.1",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.2.5",
-    "chrome-webstore-upload-cli": "2.0.1",
+    "chrome-webstore-upload-cli": "2.1.0",
     "copy-webpack-plugin": "5.1.2",
     "core-js": "3.21.1",
     "cross-env": "7.0.3",
