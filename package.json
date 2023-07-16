@@ -30,7 +30,7 @@
     "@babel/preset-env": "7.18.2",
     "@typescript-eslint/eslint-plugin": "4.33.0",
     "archiver": "5.3.1",
-    "babel-eslint": "10.1.0",
+    "@babel/eslint-parser": "7.11.0",
     "babel-loader": "8.2.5",
     "chrome-webstore-upload-cli": "2.1.0",
     "copy-webpack-plugin": "5.1.2",
