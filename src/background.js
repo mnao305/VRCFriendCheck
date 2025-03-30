@@ -6,7 +6,7 @@ import { setOnlineUserNumOverIcon } from './onlineUserNumBadge'
 
 Browser.alarms.create('check', { periodInMinutes: 5 })
 Browser.alarms.onAlarm.addListener(async (alarm) => {
-  const badge = await Browser.browserAction.getBadgeText({})
+  const badge = await Browser.action.getBadgeText({})
 
   if (alarm.name === 'check' && badge !== '！') {
     try {
@@ -29,7 +29,7 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
 
       await vrc.user.getCurrentUser()
 
-      Browser.browserAction.setBadgeText({ text: '' })
+      Browser.action.setBadgeText({ text: '' })
 
       // リスト取得
       let favUsers, onlineFriends
@@ -87,8 +87,8 @@ Browser.alarms.onAlarm.addListener(async (alarm) => {
       }
     } catch (error) {
       console.error(error)
-      Browser.browserAction.setBadgeText({ text: '！' })
-      Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+      Browser.action.setBadgeText({ text: '！' })
+      Browser.action.setBadgeBackgroundColor({ color: '#F00' })
     }
   }
 })
