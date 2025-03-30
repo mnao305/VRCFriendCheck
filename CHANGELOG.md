@@ -1,5 +1,29 @@
 # Changelog
 
+## [2.0.0](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.6...v2.0.0) (2025-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* manifest v3に変更
+
+### Bug Fixes
+
+* **deps:** update dependency @fortawesome/fontawesome-svg-core to v1.3.0 ([c36e97a](https://www.github.com/mnao305/VRCFriendCheck/commit/c36e97abbb7e31dee20604dcb8af50207824027d))
+* **deps:** update dependency @fortawesome/free-solid-svg-icons to v6.1.1 ([b31d09e](https://www.github.com/mnao305/VRCFriendCheck/commit/b31d09e0a259fa5c9b6f279a5d12e6464a6e6614))
+* **deps:** update dependency vue-router to v3.5.4 ([8b2d430](https://www.github.com/mnao305/VRCFriendCheck/commit/8b2d430c5808fdf034571758658db03a946fca0b))
+* **deps:** update dependency webextension-polyfill to v0.8.0 ([bafd6fb](https://www.github.com/mnao305/VRCFriendCheck/commit/bafd6fb58e33be38a34afe6a7acf8b9b6660acbf))
+* **deps:** update dependency webextension-polyfill to v0.9.0 ([33da16d](https://www.github.com/mnao305/VRCFriendCheck/commit/33da16da58ddc80b76999355fe031508de0da731))
+* **deps:** update dependency webextension-polyfill-ts to v0.26.0 ([15e71af](https://www.github.com/mnao305/VRCFriendCheck/commit/15e71af459fc0482c4928859e5d4a501495061d4))
+* **deps:** update font awesome ([#156](https://www.github.com/mnao305/VRCFriendCheck/issues/156)) ([cc99a56](https://www.github.com/mnao305/VRCFriendCheck/commit/cc99a567be98461ec5093a30798a602e82f922da))
+* **deps:** update patch dependencies ([e5c29bf](https://www.github.com/mnao305/VRCFriendCheck/commit/e5c29bfe1a0524f412aaff7dbc913eea1347c9d8))
+* もろもろアプデ ([89711dc](https://www.github.com/mnao305/VRCFriendCheck/commit/89711dc86aa8193901abc6df5d56e93f4c7add92))
+
+
+### Miscellaneous Chores
+
+* manifest v3対応 ([#360](https://www.github.com/mnao305/VRCFriendCheck/issues/360)) ([4ae0a02](https://www.github.com/mnao305/VRCFriendCheck/commit/4ae0a0202bbf7a2cd9d77655ebf739acc11f15c8))
+
 ### [1.5.6](https://www.github.com/mnao305/VRCFriendCheck/compare/v1.5.5...v1.5.6) (2021-04-16)
 
 
