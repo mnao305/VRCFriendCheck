@@ -70,8 +70,8 @@ export default {
         }
       } catch (error) {
         // エラーになる(未ログイン時)ログインページに飛ばす
-        Browser.browserAction.setBadgeText({ text: '！' })
-        Browser.browserAction.setBadgeBackgroundColor({ color: '#F00' })
+        Browser.action.setBadgeText({ text: '！' })
+        Browser.action.setBadgeBackgroundColor({ color: '#F00' })
         this.$router.push('/login')
         location.reload()
         return
@@ -79,9 +79,9 @@ export default {
 
       await this.setingLoad()
 
-      const badge = await Browser.browserAction.getBadgeText({})
+      const badge = await Browser.action.getBadgeText({})
       if (badge === '！') {
-        Browser.browserAction.setBadgeText({ text: '' })
+        Browser.action.setBadgeText({ text: '' })
       }
 
       if (!this.favFriendOnly) {

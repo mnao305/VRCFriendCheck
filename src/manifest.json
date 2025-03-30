@@ -1,14 +1,14 @@
 {
   "name": "VRCFriendCheck",
   "description": "__MSG_description__",
-  "version": null,
-  "manifest_version": 2,
+  "version": "1.0.0",
+  "manifest_version": 3,
   "default_locale": "en",
   "icons": {
     "16": "icons/icon-16.png",
     "128": "icons/icon-128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "19": "icons/icon-19.png",
       "38": "icons/icon-38.png"
@@ -17,18 +17,17 @@
     "default_popup": "popup/popup.html"
   },
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "service_worker": "background.js"
   },
   "options_ui": {
-    "page": "options/options.html",
-    "chrome_style": true
+    "page": "options/options.html"
   },
   "permissions": [
-    "https://api.vrchat.cloud/*",
     "alarms",
     "storage",
     "notifications"
+  ],
+  "host_permissions": [
+    "https://api.vrchat.cloud/*"
   ]
 }
